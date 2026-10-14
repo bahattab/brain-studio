@@ -82,6 +82,7 @@ jobs:
         env:
           CSC_IDENTITY_AUTO_DISCOVERY: 'false'
         run: npx electron-builder --config electron-builder.yml --${{ matrix.os }} --${{ matrix.arch }} --publish never
+      - run: node scripts/platform/normalize-assets.cjs
       - run: node scripts/platform/audit-package.cjs
       - run: node scripts/platform/native-smoke.cjs
       - name: Install, run and uninstall Windows setup

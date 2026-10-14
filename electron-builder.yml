@@ -39,9 +39,7 @@ mac:
   identity: null
   target:
     - target: dmg
-      arch: [x64, arm64]
     - target: zip
-      arch: [x64, arm64]
 linux:
   icon: installer/assets/icon.png
   category: Education
@@ -50,6 +48,4 @@ linux:
   synopsis: Offline personal reflection
   target:
     - target: AppImage
-      arch: [x64, arm64]
     - target: deb
-      arch: [x64, arm64]

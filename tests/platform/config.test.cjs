@@ -26,8 +26,8 @@ test('native delivery requires assisted per-user NSIS and retains data',()=>{
   assert.match(hooks,/GetOptions.*"\/allusers"/);
   assert.deepEqual(config.files.filter(x=>!x.startsWith('!')),['app/**/*','package.json']);
   assert.equal(config.publish,null);assert.equal(config.asar,true);
-  for(const target of config.mac.target)assert.deepEqual(target.arch,['x64','arm64']);
-  for(const target of config.linux.target)assert.deepEqual(target.arch,['x64','arm64']);
+  // The matching host CLI chooses architecture; target arrays override that choice.
+  for(const target of [...config.mac.target,...config.linux.target])assert.equal(target.arch,undefined);
   assert.deepEqual(config.mac.target.map(t=>t.target),['dmg','zip']);
   assert.deepEqual(config.linux.target.map(t=>t.target),['AppImage','deb']);
 });
@@ -62,4 +62,17 @@ test('release stage permits precisely the complete target set and checksums',()=
   assert.equal(fs.readdirSync(output).length,11);
   for(const asset of assets)assert.match(asset.sha256,/^[a-f0-9]{64}$/);
   assert.equal(fs.readFileSync(path.join(output,'SHA256SUMS.txt'),'utf8').trim().split('\n').length,10);
+});
+test('actual Linux target aliases become strict release names without changing bytes or overwriting',()=>{
+  const {normalize}=require('../../scripts/platform/normalize-assets.cjs');
+  const directory=fs.mkdtempSync(path.join(os.tmpdir(),'brain-native-names-'));
+  const pairs=[['amd64.deb','x64.deb'],['x86_64.AppImage','x64.AppImage'],['aarch64.AppImage','arm64.AppImage']];
+  for(const [from] of pairs)fs.writeFileSync(path.join(directory,'Brain-Studio-2.0.0-linux-'+from),'native fixture '+from);
+  fs.writeFileSync(path.join(directory,'unrelated.deb'),'untouched');
+  assert.equal(normalize(directory).length,3);
+  for(const [from,to] of pairs)assert.equal(fs.readFileSync(path.join(directory,'Brain-Studio-2.0.0-linux-'+to),'utf8'),'native fixture '+from);
+  assert.equal(fs.readFileSync(path.join(directory,'unrelated.deb'),'utf8'),'untouched');
+  fs.writeFileSync(path.join(directory,'Brain-Studio-2.0.0-linux-amd64.deb'),'collision');
+  assert.throws(()=>normalize(directory),/already exists/);
+  assert.equal(fs.readFileSync(path.join(directory,'Brain-Studio-2.0.0-linux-x64.deb'),'utf8'),'native fixture amd64.deb');
 });

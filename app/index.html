@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <title>Brain Studio</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <aside class="sidebar">
+    <a class="brand" href="#home"><span class="brand-icon">b.</span><span>brain<span class="brand-light">studio</span></span></a>
+    <div class="workspace-label">YOUR PERSONAL SPACE</div>
+    <nav aria-label="Overview">
+      <button data-route="library"><span class="nav-symbol">◉</span> Assessment library</button>
+      <button data-route="portfolio"><span class="nav-symbol">▥</span> Individual report</button>
+      <button data-route="roles"><span class="nav-symbol">◇</span> Role scenarios</button>
+      <button data-route="coaching"><span class="nav-symbol">◌</span> Coaching and interview</button>
+      <button data-route="development"><span class="nav-symbol">✓</span> Development plan</button>
+      <button data-route="team"><span class="nav-symbol">⋈</span> Team comparison</button>
+      <button data-route="feedback"><span class="nav-symbol">◐</span> Multi-rater feedback</button>
+      <button data-route="skills"><span class="nav-symbol">▧</span> Skills and topics</button>
+      <button data-route="workspace"><span class="nav-symbol">▤</span> Report collection</button>
+      <button data-route="home"><span class="nav-symbol">◈</span> Overview</button>
+      <button data-route="assessment"><span class="nav-symbol">◎</span> Your assessment</button>
+      <button data-route="history"><span class="nav-symbol">▤</span> Saved profiles <span id="history-count" class="count">0</span></button>
+      <button data-route="about"><span class="nav-symbol">ⓘ</span> How it works</button>
+    </nav>
+    <div class="sidebar-bottom"><span class="status-dot"></span> Offline & private<p>Your answers stay on this device.</p><small>Brain Studio · 2.0</small></div>
+  </aside>
+  <div class="main-shell">
+    <header><div><span class="breadcrumb">PERSONAL INSIGHTS</span><span id="page-label"> / Overview</span></div><div class="header-end"><label class="language-control"><span id="language-label">Language</span><select id="language" aria-labelledby="language-label"></select></label><span class="offline-pill">● On your device</span><span class="avatar">YOU</span></div></header>
+    <main id="content" tabindex="-1"></main>
+    <footer><span>A little curiosity. A clearer picture.</span><span>Self-reflection, at your own pace.</span></footer>
+  </div>
+  <div id="toast" role="status" aria-live="polite"></div>
+  <script src="core.js"></script>
+  <script src="translations.js"></script>
+  <script src="i18n.js"></script>
+  <script src="research-core.js"></script>
+  <script src="workspace-core.js"></script>
+  <script src="ui.js"></script>
+  <script src="professional-ui.js"></script>
+</body>
+</html>

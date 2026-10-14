@@ -1,0 +1,55 @@
+appId: org.brainstudio.desktop
+productName: Brain Studio
+asar: true
+directories:
+  output: dist/native
+  buildResources: installer/assets
+# Explicit application-only payload. Development, reports and evidence stay outside.
+files:
+  - app/**/*
+  - package.json
+  - '!app/**/*.map'
+  - '!app/**/*.log'
+  - '!app/**/.DS_Store'
+  - '!app/**/private/**'
+  - '!app/**/evidence/**'
+  - '!app/**/node_modules/**'
+artifactName: Brain-Studio-${version}-${os}-${arch}.${ext}
+publish: null
+win:
+  icon: installer/assets/icon.ico
+  target:
+    - target: nsis
+      arch: [x64]
+nsis:
+  include: installer/per-user.nsh
+  oneClick: false
+  perMachine: false
+  allowElevation: false
+  allowToChangeInstallationDirectory: true
+  createDesktopShortcut: true
+  createStartMenuShortcut: true
+  shortcutName: Brain Studio
+  uninstallDisplayName: Brain Studio
+  deleteAppDataOnUninstall: false
+  runAfterFinish: false
+mac:
+  icon: installer/assets/icon.icns
+  category: public.app-category.education
+  identity: null
+  target:
+    - target: dmg
+      arch: [x64, arm64]
+    - target: zip
+      arch: [x64, arm64]
+linux:
+  icon: installer/assets/icon.png
+  category: Education
+  executableName: brain-studio
+  maintainer: Brain Studio maintainers
+  synopsis: Offline personal reflection
+  target:
+    - target: AppImage
+      arch: [x64, arm64]
+    - target: deb
+      arch: [x64, arm64]

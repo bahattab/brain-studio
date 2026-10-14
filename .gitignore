@@ -1,0 +1,9 @@
+node_modules/
+dist/
+evidence/
+.private/
+.unlazy/
+*.log
+*.backup
+*.recovery
+.env*

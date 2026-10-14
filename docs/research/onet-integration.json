@@ -1,0 +1,63 @@
+{
+  "id": "onet-interest-profiler-integration",
+  "status": "implemented-original-english-paper-short-form",
+  "sourceURLs": [
+    "https://www.onetcenter.org/IP.html",
+    "https://www.onetcenter.org/dl_tools/ipsf/Interest_Profiler.pdf",
+    "https://www.onetcenter.org/license_tools.html",
+    "https://www.onetcenter.org/license_toolsdev.html"
+  ],
+  "formats": [
+    {
+      "id": "onet-paper-short-form-60",
+      "itemCount": 60,
+      "sourceAccessible": true,
+      "responseContract": "Binary checked activity / unchecked activity; each area counts ten checks.",
+      "scales": [
+        "Realistic",
+        "Investigative",
+        "Artistic",
+        "Social",
+        "Enterprising",
+        "Conventional"
+      ],
+      "rangePerScale": [
+        0,
+        10
+      ],
+      "tieHandling": "Respondent selects the interest whose activities fit best; preserve ties until that selection.",
+      "remainingRequirements": [],
+      "status": "implemented",
+      "instrumentId": "onet-short-form-60",
+      "itemIds": "onet01 through onet60",
+      "sourceFixture": "onet-60-source-fixture.json",
+      "responseValues": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "onet-mini-ip-30",
+      "itemCount": 30,
+      "status": "official-web-format-identified-exact-local-item-and-scoring-spec-not-yet-retrieved",
+      "remainingRequirements": [
+        "Retrieve official Mini-IP items, anchors, scale key and scoring specification or use official widget/API",
+        "Confirm applicable attribution/license and translations before redistribution"
+      ]
+    }
+  ],
+  "licensing": {
+    "verbatim": "CC BY-ND 4.0 with source attribution and license link",
+    "modified": "O*NET Tools Developer License; purpose/content changes require validation study before introduction, software-only integration exempt from content-modification condition",
+    "trademark": "O*NET is a USDOL/ETA trademark; follow official attribution and trademark instructions"
+  },
+  "validationStatus": "Original English paper instrument faithfully integrated; computational fidelity verified, no independent app psychometric study or official endorsement.",
+  "limitations": [
+    "Interest exploration is distinct from aptitude, intelligence or employment suitability",
+    "Do not apply IPIP 1–5 scoring to the official paper-form binary questions",
+    "Translated or shortened derivative items cannot be presented as the unchanged official instrument"
+  ],
+  "selectedLicense": "CC BY-ND 4.0 original English content only",
+  "attribution": "This application includes information from the O*NET Career Exploration Tools by the U.S. Department of Labor, Employment and Training Administration (USDOL/ETA). Used under the CC BY-ND 4.0 license. O*NET® is a trademark of USDOL/ETA.",
+  "licenseURL": "https://creativecommons.org/licenses/by-nd/4.0/"
+}

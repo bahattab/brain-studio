@@ -1,0 +1,374 @@
+{
+  "sourceURL": "https://www.onetcenter.org/dl_tools/ipsf/Interest_Profiler.pdf",
+  "sourceSha256": "843c7d9959de58dc177435e7e3af4dbc99a9f48f98d6b4fdcc2aee762a63e721",
+  "sourcePDF": "onet-interest-profiler-original.pdf",
+  "retrievedAtUTC": "2026-10-14T08:39:50.678543+00:00",
+  "license": "CC BY-ND 4.0",
+  "licenseURL": "https://creativecommons.org/licenses/by-nd/4.0/",
+  "attribution": "This application includes information from the O*NET Career Exploration Tools by the U.S. Department of Labor, Employment and Training Administration (USDOL/ETA). Used under the CC BY-ND 4.0 license. O*NET® is a trademark of USDOL/ETA.",
+  "normalization": "PDF checkbox glyphs removed; whitespace normalized; row-major order in each unnumbered two-column RIASEC section. Stable software item IDs added; English wording unchanged.",
+  "instructions": "Read the 60 work activities below. Place a check in the box by the activities you would like to do. Do not think about how much education/training is needed or how much money you will make! Count the number of checks for each shaded section and write that total in the box to the right of each section. These are your scores for each interest area.",
+  "interpretationInstructions": "In the boxes below, write the names of the interest areas with the three highest scores. The first box is your highest or primary interest. If there are ties, choose the interest with activities that you think are the best fit for you.",
+  "items": [
+    {
+      "id": "onet01",
+      "prompt": "Build kitchen cabinets",
+      "scaleId": "realistic",
+      "key": "positive"
+    },
+    {
+      "id": "onet02",
+      "prompt": "Drive a truck to deliver packages to offices and homes",
+      "scaleId": "realistic",
+      "key": "positive"
+    },
+    {
+      "id": "onet03",
+      "prompt": "Lay brick or tile",
+      "scaleId": "realistic",
+      "key": "positive"
+    },
+    {
+      "id": "onet04",
+      "prompt": "Test the quality of parts before shipment",
+      "scaleId": "realistic",
+      "key": "positive"
+    },
+    {
+      "id": "onet05",
+      "prompt": "Repair household appliances",
+      "scaleId": "realistic",
+      "key": "positive"
+    },
+    {
+      "id": "onet06",
+      "prompt": "Repair and install locks",
+      "scaleId": "realistic",
+      "key": "positive"
+    },
+    {
+      "id": "onet07",
+      "prompt": "Raise fish in a fish hatchery",
+      "scaleId": "realistic",
+      "key": "positive"
+    },
+    {
+      "id": "onet08",
+      "prompt": "Set up and operate machines to make products",
+      "scaleId": "realistic",
+      "key": "positive"
+    },
+    {
+      "id": "onet09",
+      "prompt": "Assemble electronic parts",
+      "scaleId": "realistic",
+      "key": "positive"
+    },
+    {
+      "id": "onet10",
+      "prompt": "Put out forest fires",
+      "scaleId": "realistic",
+      "key": "positive"
+    },
+    {
+      "id": "onet11",
+      "prompt": "Develop a new medicine",
+      "scaleId": "investigative",
+      "key": "positive"
+    },
+    {
+      "id": "onet12",
+      "prompt": "Investigate the cause of a fire",
+      "scaleId": "investigative",
+      "key": "positive"
+    },
+    {
+      "id": "onet13",
+      "prompt": "Study ways to reduce water pollution",
+      "scaleId": "investigative",
+      "key": "positive"
+    },
+    {
+      "id": "onet14",
+      "prompt": "Develop a way to better predict the weather",
+      "scaleId": "investigative",
+      "key": "positive"
+    },
+    {
+      "id": "onet15",
+      "prompt": "Conduct chemical experiments",
+      "scaleId": "investigative",
+      "key": "positive"
+    },
+    {
+      "id": "onet16",
+      "prompt": "Work in a biology lab",
+      "scaleId": "investigative",
+      "key": "positive"
+    },
+    {
+      "id": "onet17",
+      "prompt": "Study the movement of planets",
+      "scaleId": "investigative",
+      "key": "positive"
+    },
+    {
+      "id": "onet18",
+      "prompt": "Invent a replacement for sugar",
+      "scaleId": "investigative",
+      "key": "positive"
+    },
+    {
+      "id": "onet19",
+      "prompt": "Examine blood samples using a microscope",
+      "scaleId": "investigative",
+      "key": "positive"
+    },
+    {
+      "id": "onet20",
+      "prompt": "Do laboratory tests to identify diseases",
+      "scaleId": "investigative",
+      "key": "positive"
+    },
+    {
+      "id": "onet21",
+      "prompt": "Write books or plays",
+      "scaleId": "artistic",
+      "key": "positive"
+    },
+    {
+      "id": "onet22",
+      "prompt": "Paint sets for plays",
+      "scaleId": "artistic",
+      "key": "positive"
+    },
+    {
+      "id": "onet23",
+      "prompt": "Play a musical instrument",
+      "scaleId": "artistic",
+      "key": "positive"
+    },
+    {
+      "id": "onet24",
+      "prompt": "Write scripts for movies or television shows",
+      "scaleId": "artistic",
+      "key": "positive"
+    },
+    {
+      "id": "onet25",
+      "prompt": "Compose or arrange music",
+      "scaleId": "artistic",
+      "key": "positive"
+    },
+    {
+      "id": "onet26",
+      "prompt": "Perform jazz or tap dance",
+      "scaleId": "artistic",
+      "key": "positive"
+    },
+    {
+      "id": "onet27",
+      "prompt": "Draw pictures",
+      "scaleId": "artistic",
+      "key": "positive"
+    },
+    {
+      "id": "onet28",
+      "prompt": "Sing in a band",
+      "scaleId": "artistic",
+      "key": "positive"
+    },
+    {
+      "id": "onet29",
+      "prompt": "Create special effects for movies",
+      "scaleId": "artistic",
+      "key": "positive"
+    },
+    {
+      "id": "onet30",
+      "prompt": "Edit movies",
+      "scaleId": "artistic",
+      "key": "positive"
+    },
+    {
+      "id": "onet31",
+      "prompt": "Teach an individual an exercise routine",
+      "scaleId": "social",
+      "key": "positive"
+    },
+    {
+      "id": "onet32",
+      "prompt": "Teach children how to play sports",
+      "scaleId": "social",
+      "key": "positive"
+    },
+    {
+      "id": "onet33",
+      "prompt": "Help people with personal or emotional problems",
+      "scaleId": "social",
+      "key": "positive"
+    },
+    {
+      "id": "onet34",
+      "prompt": "Teach sign language to people who are deaf or hard of hearing",
+      "scaleId": "social",
+      "key": "positive"
+    },
+    {
+      "id": "onet35",
+      "prompt": "Give career guidance to people",
+      "scaleId": "social",
+      "key": "positive"
+    },
+    {
+      "id": "onet36",
+      "prompt": "Help conduct a group therapy session",
+      "scaleId": "social",
+      "key": "positive"
+    },
+    {
+      "id": "onet37",
+      "prompt": "Perform rehabilitation therapy",
+      "scaleId": "social",
+      "key": "positive"
+    },
+    {
+      "id": "onet38",
+      "prompt": "Take care of children at a day-care center",
+      "scaleId": "social",
+      "key": "positive"
+    },
+    {
+      "id": "onet39",
+      "prompt": "Do volunteer work at a non-profit organization",
+      "scaleId": "social",
+      "key": "positive"
+    },
+    {
+      "id": "onet40",
+      "prompt": "Teach a high-school class",
+      "scaleId": "social",
+      "key": "positive"
+    },
+    {
+      "id": "onet41",
+      "prompt": "Buy and sell stocks and bonds",
+      "scaleId": "enterprising",
+      "key": "positive"
+    },
+    {
+      "id": "onet42",
+      "prompt": "Negotiate business contracts",
+      "scaleId": "enterprising",
+      "key": "positive"
+    },
+    {
+      "id": "onet43",
+      "prompt": "Manage a retail store",
+      "scaleId": "enterprising",
+      "key": "positive"
+    },
+    {
+      "id": "onet44",
+      "prompt": "Represent a client in a lawsuit",
+      "scaleId": "enterprising",
+      "key": "positive"
+    },
+    {
+      "id": "onet45",
+      "prompt": "Operate a beauty salon or barber shop",
+      "scaleId": "enterprising",
+      "key": "positive"
+    },
+    {
+      "id": "onet46",
+      "prompt": "Market a new line of clothing",
+      "scaleId": "enterprising",
+      "key": "positive"
+    },
+    {
+      "id": "onet47",
+      "prompt": "Manage a department within a large company",
+      "scaleId": "enterprising",
+      "key": "positive"
+    },
+    {
+      "id": "onet48",
+      "prompt": "Sell merchandise at a department store",
+      "scaleId": "enterprising",
+      "key": "positive"
+    },
+    {
+      "id": "onet49",
+      "prompt": "Start your own business",
+      "scaleId": "enterprising",
+      "key": "positive"
+    },
+    {
+      "id": "onet50",
+      "prompt": "Manage a clothing store",
+      "scaleId": "enterprising",
+      "key": "positive"
+    },
+    {
+      "id": "onet51",
+      "prompt": "Develop a spreadsheet using computer software",
+      "scaleId": "conventional",
+      "key": "positive"
+    },
+    {
+      "id": "onet52",
+      "prompt": "Calculate the wages of employees",
+      "scaleId": "conventional",
+      "key": "positive"
+    },
+    {
+      "id": "onet53",
+      "prompt": "Proofread records or forms",
+      "scaleId": "conventional",
+      "key": "positive"
+    },
+    {
+      "id": "onet54",
+      "prompt": "Inventory supplies using a hand-held computer",
+      "scaleId": "conventional",
+      "key": "positive"
+    },
+    {
+      "id": "onet55",
+      "prompt": "Install software across computers on a large network",
+      "scaleId": "conventional",
+      "key": "positive"
+    },
+    {
+      "id": "onet56",
+      "prompt": "Record rent payments",
+      "scaleId": "conventional",
+      "key": "positive"
+    },
+    {
+      "id": "onet57",
+      "prompt": "Operate a calculator",
+      "scaleId": "conventional",
+      "key": "positive"
+    },
+    {
+      "id": "onet58",
+      "prompt": "Keep inventory records",
+      "scaleId": "conventional",
+      "key": "positive"
+    },
+    {
+      "id": "onet59",
+      "prompt": "Keep shipping and receiving records",
+      "scaleId": "conventional",
+      "key": "positive"
+    },
+    {
+      "id": "onet60",
+      "prompt": "Stamp, sort, and distribute mail for an organization",
+      "scaleId": "conventional",
+      "key": "positive"
+    }
+  ]
+}

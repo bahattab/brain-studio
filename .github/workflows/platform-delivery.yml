@@ -1,0 +1,134 @@
+name: Platform delivery
+on:
+  pull_request:
+  push:
+    branches: [main]
+    tags: ['v2.0.0']
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: platform-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ !startsWith(github.ref, 'refs/tags/') }}
+jobs:
+  web:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: node scripts/build-locales.cjs
+      - run: npx playwright install --with-deps chromium
+      - name: Isolated PDF verification dependency
+        run: |
+          python3 -m venv /tmp/brain-pdf-verification
+          /tmp/brain-pdf-verification/bin/pip install PyMuPDF==1.27.2.3
+          echo '/tmp/brain-pdf-verification/bin' >> "$GITHUB_PATH"
+      - run: node --test tests/*.test.js tests/platform/*.test.cjs
+      - run: node scripts/platform/build-web.cjs
+      - run: zip -r ../Brain-Studio-2.0.0-web.zip .
+        working-directory: dist/web
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: release-web
+          path: dist/Brain-Studio-2.0.0-web.zip
+          if-no-files-found: error
+          retention-days: 14
+  native:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - runner: windows-2022
+            os: win
+            arch: x64
+          - runner: macos-15-intel
+            os: mac
+            arch: x64
+          - runner: macos-15
+            os: mac
+            arch: arm64
+          - runner: ubuntu-24.04
+            os: linux
+            arch: x64
+          - runner: ubuntu-24.04-arm
+            os: linux
+            arch: arm64
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - name: Verify release identity and pinned builder
+        shell: bash
+        run: |
+          node -e "const p=require('./package.json'); if(p.version!=='2.0.0') throw Error('Expected v2.0.0'); if(require('electron-builder/package.json').version!=='26.15.3') throw Error('Builder version mismatch')"
+      - run: node scripts/build-locales.cjs
+      - run: node scripts/platform/build-icons.cjs
+      - run: node --test tests/*.test.js tests/platform/config.test.cjs
+      - name: Linux runtime dependencies
+        if: matrix.os == 'linux'
+        run: sudo apt-get update && sudo apt-get install -y xvfb libgtk-3-0 libnss3 libasound2t64 libgbm1 libfuse2
+      - name: Build host architecture
+        shell: bash
+        env:
+          CSC_IDENTITY_AUTO_DISCOVERY: 'false'
+        run: npx electron-builder --config electron-builder.yml --${{ matrix.os }} --${{ matrix.arch }} --publish never
+      - run: node scripts/platform/audit-package.cjs
+      - run: node scripts/platform/native-smoke.cjs
+      - name: Install, run and uninstall Windows setup
+        if: matrix.os == 'win'
+        shell: pwsh
+        run: ./scripts/platform/test-installer.ps1
+      - name: Run native distributions
+        if: matrix.os != 'win'
+        run: node scripts/platform/test-native-assets.cjs
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: success()
+        with:
+          name: release-${{ matrix.os }}-${{ matrix.arch }}
+          path: |
+            dist/native/Brain-Studio-*-win-x64.exe
+            dist/native/Brain-Studio-*-mac-*.dmg
+            dist/native/Brain-Studio-*-mac-*.zip
+            dist/native/Brain-Studio-*-linux-*.AppImage
+            dist/native/Brain-Studio-*-linux-*.deb
+          if-no-files-found: error
+          retention-days: 14
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: platform-evidence-${{ matrix.os }}-${{ matrix.arch }}
+          path: dist/platform-evidence
+          if-no-files-found: warn
+          retention-days: 14
+  release:
+    needs: [web, native]
+    if: github.event_name == 'push' && github.ref == 'refs/tags/v2.0.0'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    environment: release
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '22'
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          pattern: release-*
+          path: release-input
+      - run: node scripts/platform/stage-release.cjs
+      - name: Create reviewable release with approved assets only
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create v2.0.0 release-assets/* --draft --verify-tag --title 'Brain Studio 2.0.0' --notes-file docs/platform-delivery.md

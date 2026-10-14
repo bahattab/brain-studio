@@ -1,0 +1,140 @@
+{
+  "instrumentId": "ipip-50",
+  "implementationVersion": "ipip-50-english-source-1.0.0",
+  "sourceFidelity": {
+    "verified": true,
+    "method": "Independent live official HTML download parsed into retained source fixture and compared to runtime descriptors",
+    "itemsMatched": 50,
+    "matchedFields": [
+      "id",
+      "prompt",
+      "scaleId",
+      "key"
+    ],
+    "sourceSha256": "489d66de7a643d13e620ad2907285639f12e0bc083fbb4e68dc54128373e6f5a",
+    "fixture": "ipip-50-source-fixture.json"
+  },
+  "tests": {
+    "command": "node --test tests/research-core.test.js",
+    "passed": 15,
+    "failed": 0,
+    "coverage": [
+      "all source prompts/order/keys/factors",
+      "independently enumerated factor memberships",
+      "constant response 1/3/5 patterns",
+      "keyed maximum/minimum patterns",
+      "mixed intermediate sums and means",
+      "every reversed response value",
+      "incomplete/malformed/unknown instrument",
+      "prototype/accessor safety",
+      "immutability and browser UMD API",
+      "official O*NET full60 source prompts/instructions/sections",
+      "binary endpoints0/1",
+      "six manually enumerated theme counts",
+      "mixed binary reference vector",
+      "primary/cutoff/allzero ties retained",
+      "complete explicit unchecked responses and malformed input"
+    ]
+  },
+  "referenceScaleOrder": [
+    "extraversion",
+    "agreeableness",
+    "conscientiousness",
+    "emotional-stability",
+    "intellect-imagination"
+  ],
+  "referenceSums": {
+    "allResponse1": [
+      30,
+      26,
+      26,
+      42,
+      22
+    ],
+    "allResponse3": [
+      30,
+      30,
+      30,
+      30,
+      30
+    ],
+    "allResponse5": [
+      30,
+      34,
+      34,
+      18,
+      38
+    ],
+    "keyedMaximum": [
+      50,
+      50,
+      50,
+      50,
+      50
+    ],
+    "keyedMinimum": [
+      10,
+      10,
+      10,
+      10,
+      10
+    ],
+    "repeatingResponse1to5": [
+      30,
+      28,
+      30,
+      24,
+      38
+    ]
+  },
+  "scientificLimits": {
+    "computationalFidelityVerified": true,
+    "appPsychometricStudy": false,
+    "validatedMultilingualAdaptation": false,
+    "normsOrPercentiles": false,
+    "IQOrDiagnosticOrHiringAssessment": false
+  },
+  "onet": {
+    "instrumentId": "onet-short-form-60",
+    "sourceFixture": "onet-60-source-fixture.json",
+    "sourcePDF": "onet-interest-profiler-original.pdf",
+    "sourceSha256": "843c7d9959de58dc177435e7e3af4dbc99a9f48f98d6b4fdcc2aee762a63e721",
+    "exactSourceItemsMatched": 60,
+    "sourceInstructionsMatched": true,
+    "sourceInterpretationInstructionsMatched": true,
+    "allUncheckedSums": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "allCheckedSums": [
+      10,
+      10,
+      10,
+      10,
+      10,
+      10
+    ],
+    "mixedReferenceSums": [
+      9,
+      8,
+      7,
+      6,
+      5,
+      4
+    ],
+    "cutoffTieSums": [
+      9,
+      8,
+      7,
+      7,
+      3,
+      1
+    ],
+    "tieBreak": "respondent choice required; no automatic winner or Holland code",
+    "license": "CC BY-ND 4.0 original English content only"
+  }
+}

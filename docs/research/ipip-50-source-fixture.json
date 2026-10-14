@@ -1,0 +1,309 @@
+{
+  "sourceURL": "https://ipip.ori.org/new_ipip-50-item-scale.htm",
+  "sourceSha256": "489d66de7a643d13e620ad2907285639f12e0bc083fbb4e68dc54128373e6f5a",
+  "retrievedAtUTC": "2026-10-14T08:33:22.910267+00:00",
+  "license": "Public domain per https://ipip.ori.org/newPermission.htm",
+  "normalization": "HTML tags/entities and whitespace only; item text punctuation preserved.",
+  "items": [
+    {
+      "id": "ipip01",
+      "prompt": "Am the life of the party.",
+      "scaleId": "extraversion",
+      "key": "positive"
+    },
+    {
+      "id": "ipip02",
+      "prompt": "Feel little concern for others.",
+      "scaleId": "agreeableness",
+      "key": "negative"
+    },
+    {
+      "id": "ipip03",
+      "prompt": "Am always prepared.",
+      "scaleId": "conscientiousness",
+      "key": "positive"
+    },
+    {
+      "id": "ipip04",
+      "prompt": "Get stressed out easily.",
+      "scaleId": "emotional-stability",
+      "key": "negative"
+    },
+    {
+      "id": "ipip05",
+      "prompt": "Have a rich vocabulary.",
+      "scaleId": "intellect-imagination",
+      "key": "positive"
+    },
+    {
+      "id": "ipip06",
+      "prompt": "Don't talk a lot.",
+      "scaleId": "extraversion",
+      "key": "negative"
+    },
+    {
+      "id": "ipip07",
+      "prompt": "Am interested in people.",
+      "scaleId": "agreeableness",
+      "key": "positive"
+    },
+    {
+      "id": "ipip08",
+      "prompt": "Leave my belongings around.",
+      "scaleId": "conscientiousness",
+      "key": "negative"
+    },
+    {
+      "id": "ipip09",
+      "prompt": "Am relaxed most of the time.",
+      "scaleId": "emotional-stability",
+      "key": "positive"
+    },
+    {
+      "id": "ipip10",
+      "prompt": "Have difficulty understanding abstract ideas.",
+      "scaleId": "intellect-imagination",
+      "key": "negative"
+    },
+    {
+      "id": "ipip11",
+      "prompt": "Feel comfortable around people.",
+      "scaleId": "extraversion",
+      "key": "positive"
+    },
+    {
+      "id": "ipip12",
+      "prompt": "Insult people.",
+      "scaleId": "agreeableness",
+      "key": "negative"
+    },
+    {
+      "id": "ipip13",
+      "prompt": "Pay attention to details.",
+      "scaleId": "conscientiousness",
+      "key": "positive"
+    },
+    {
+      "id": "ipip14",
+      "prompt": "Worry about things.",
+      "scaleId": "emotional-stability",
+      "key": "negative"
+    },
+    {
+      "id": "ipip15",
+      "prompt": "Have a vivid imagination.",
+      "scaleId": "intellect-imagination",
+      "key": "positive"
+    },
+    {
+      "id": "ipip16",
+      "prompt": "Keep in the background.",
+      "scaleId": "extraversion",
+      "key": "negative"
+    },
+    {
+      "id": "ipip17",
+      "prompt": "Sympathize with others' feelings.",
+      "scaleId": "agreeableness",
+      "key": "positive"
+    },
+    {
+      "id": "ipip18",
+      "prompt": "Make a mess of things.",
+      "scaleId": "conscientiousness",
+      "key": "negative"
+    },
+    {
+      "id": "ipip19",
+      "prompt": "Seldom feel blue.",
+      "scaleId": "emotional-stability",
+      "key": "positive"
+    },
+    {
+      "id": "ipip20",
+      "prompt": "Am not interested in abstract ideas.",
+      "scaleId": "intellect-imagination",
+      "key": "negative"
+    },
+    {
+      "id": "ipip21",
+      "prompt": "Start conversations.",
+      "scaleId": "extraversion",
+      "key": "positive"
+    },
+    {
+      "id": "ipip22",
+      "prompt": "Am not interested in other people's problems.",
+      "scaleId": "agreeableness",
+      "key": "negative"
+    },
+    {
+      "id": "ipip23",
+      "prompt": "Get chores done right away.",
+      "scaleId": "conscientiousness",
+      "key": "positive"
+    },
+    {
+      "id": "ipip24",
+      "prompt": "Am easily disturbed.",
+      "scaleId": "emotional-stability",
+      "key": "negative"
+    },
+    {
+      "id": "ipip25",
+      "prompt": "Have excellent ideas.",
+      "scaleId": "intellect-imagination",
+      "key": "positive"
+    },
+    {
+      "id": "ipip26",
+      "prompt": "Have little to say.",
+      "scaleId": "extraversion",
+      "key": "negative"
+    },
+    {
+      "id": "ipip27",
+      "prompt": "Have a soft heart.",
+      "scaleId": "agreeableness",
+      "key": "positive"
+    },
+    {
+      "id": "ipip28",
+      "prompt": "Often forget to put things back in their proper place.",
+      "scaleId": "conscientiousness",
+      "key": "negative"
+    },
+    {
+      "id": "ipip29",
+      "prompt": "Get upset easily.",
+      "scaleId": "emotional-stability",
+      "key": "negative"
+    },
+    {
+      "id": "ipip30",
+      "prompt": "Do not have a good imagination.",
+      "scaleId": "intellect-imagination",
+      "key": "negative"
+    },
+    {
+      "id": "ipip31",
+      "prompt": "Talk to a lot of different people at parties.",
+      "scaleId": "extraversion",
+      "key": "positive"
+    },
+    {
+      "id": "ipip32",
+      "prompt": "Am not really interested in others.",
+      "scaleId": "agreeableness",
+      "key": "negative"
+    },
+    {
+      "id": "ipip33",
+      "prompt": "Like order.",
+      "scaleId": "conscientiousness",
+      "key": "positive"
+    },
+    {
+      "id": "ipip34",
+      "prompt": "Change my mood a lot.",
+      "scaleId": "emotional-stability",
+      "key": "negative"
+    },
+    {
+      "id": "ipip35",
+      "prompt": "Am quick to understand things.",
+      "scaleId": "intellect-imagination",
+      "key": "positive"
+    },
+    {
+      "id": "ipip36",
+      "prompt": "Don't like to draw attention to myself.",
+      "scaleId": "extraversion",
+      "key": "negative"
+    },
+    {
+      "id": "ipip37",
+      "prompt": "Take time out for others.",
+      "scaleId": "agreeableness",
+      "key": "positive"
+    },
+    {
+      "id": "ipip38",
+      "prompt": "Shirk my duties.",
+      "scaleId": "conscientiousness",
+      "key": "negative"
+    },
+    {
+      "id": "ipip39",
+      "prompt": "Have frequent mood swings.",
+      "scaleId": "emotional-stability",
+      "key": "negative"
+    },
+    {
+      "id": "ipip40",
+      "prompt": "Use difficult words.",
+      "scaleId": "intellect-imagination",
+      "key": "positive"
+    },
+    {
+      "id": "ipip41",
+      "prompt": "Don't mind being the center of attention.",
+      "scaleId": "extraversion",
+      "key": "positive"
+    },
+    {
+      "id": "ipip42",
+      "prompt": "Feel others' emotions.",
+      "scaleId": "agreeableness",
+      "key": "positive"
+    },
+    {
+      "id": "ipip43",
+      "prompt": "Follow a schedule.",
+      "scaleId": "conscientiousness",
+      "key": "positive"
+    },
+    {
+      "id": "ipip44",
+      "prompt": "Get irritated easily.",
+      "scaleId": "emotional-stability",
+      "key": "negative"
+    },
+    {
+      "id": "ipip45",
+      "prompt": "Spend time reflecting on things.",
+      "scaleId": "intellect-imagination",
+      "key": "positive"
+    },
+    {
+      "id": "ipip46",
+      "prompt": "Am quiet around strangers.",
+      "scaleId": "extraversion",
+      "key": "negative"
+    },
+    {
+      "id": "ipip47",
+      "prompt": "Make people feel at ease.",
+      "scaleId": "agreeableness",
+      "key": "positive"
+    },
+    {
+      "id": "ipip48",
+      "prompt": "Am exacting in my work.",
+      "scaleId": "conscientiousness",
+      "key": "positive"
+    },
+    {
+      "id": "ipip49",
+      "prompt": "Often feel blue.",
+      "scaleId": "emotional-stability",
+      "key": "negative"
+    },
+    {
+      "id": "ipip50",
+      "prompt": "Am full of ideas.",
+      "scaleId": "intellect-imagination",
+      "key": "positive"
+    }
+  ]
+}

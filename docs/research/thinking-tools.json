@@ -1,0 +1,295 @@
+{
+  "ohbds": {
+    "status": "implemented-verified-v1-20-noncommercial",
+    "instrumentId": "ohbds-20-v1",
+    "version": "ohbds-1.0-2015-english-20-software-1.0.0",
+    "license": "CC BY-NC-SA 4.0; noncommercial questionnaire content only; separate software license",
+    "licenseURL": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+    "attribution": "Open Hemispheric Brain Dominance Scale 1.0 by Eric Jorgenson, 29 April 2015. Used under CC BY-NC-SA 4.0. Software presentation, stable item IDs, validation and scientific-context notices added; original English item wording and published scoring retained. No endorsement is implied.",
+    "sourceFixture": {
+      "sourceURL": "https://openpsychometrics.org/tests/OHBDS/development/OHBDS1.0.pdf",
+      "sourcePDF": "ohbds-1.0-original.pdf",
+      "sourceSha256": "a9058e1c4e89fe176c72c553dee55be8f9e134687a49242428217d5e4bc1fe98",
+      "currentFormURL": "https://openpsychometrics.org/tests/OHBDS/1.php",
+      "currentFormSha256": "6a908396049225baf007e6f2e221416479977ab53b06107c5d308fb249c91b0e",
+      "method": "Independent GET only; no POST, questionnaire submission, registration or vendor contact. PDF whitespace normalized, exact statements and source order preserved; twenty live form prompts independently matched.",
+      "retrievedAtUTC": "2026-10-14T10:46:42.769575+00:00",
+      "instructions": "For each question 1-20, in the blank provided rate the item on a scale from 1 to 5 on how much you agree with the statement. For example, if you agree completely with question one put down a five in the empty space, if you entirely disagree with it put down 1, if you are neutral or unsure put down a 3.",
+      "items": [
+        {
+          "id": "ohbds01",
+          "prompt": "I do not need others praise.",
+          "scaleId": "ohbds-style",
+          "key": "negative"
+        },
+        {
+          "id": "ohbds02",
+          "prompt": "I would prefer a class in mathematics to a class in pottery.",
+          "scaleId": "ohbds-style",
+          "key": "negative"
+        },
+        {
+          "id": "ohbds03",
+          "prompt": "I never show up late.",
+          "scaleId": "ohbds-style",
+          "key": "negative"
+        },
+        {
+          "id": "ohbds04",
+          "prompt": "I don't bother to the read instructions before I start putting something together.",
+          "scaleId": "ohbds-style",
+          "key": "positive"
+        },
+        {
+          "id": "ohbds05",
+          "prompt": "I could not live in a mess.",
+          "scaleId": "ohbds-style",
+          "key": "negative"
+        },
+        {
+          "id": "ohbds06",
+          "prompt": "I am totally random.",
+          "scaleId": "ohbds-style",
+          "key": "positive"
+        },
+        {
+          "id": "ohbds07",
+          "prompt": "I like working with words.",
+          "scaleId": "ohbds-style",
+          "key": "positive"
+        },
+        {
+          "id": "ohbds08",
+          "prompt": "I behave in a businesslike manner.",
+          "scaleId": "ohbds-style",
+          "key": "negative"
+        },
+        {
+          "id": "ohbds09",
+          "prompt": "I come up with something new.",
+          "scaleId": "ohbds-style",
+          "key": "positive"
+        },
+        {
+          "id": "ohbds10",
+          "prompt": "I am not easily disturbed by events.",
+          "scaleId": "ohbds-style",
+          "key": "negative"
+        },
+        {
+          "id": "ohbds11",
+          "prompt": "I rarely cry during sad movies.",
+          "scaleId": "ohbds-style",
+          "key": "negative"
+        },
+        {
+          "id": "ohbds12",
+          "prompt": "I plan my life logically.",
+          "scaleId": "ohbds-style",
+          "key": "negative"
+        },
+        {
+          "id": "ohbds13",
+          "prompt": "I need a creative outlet.",
+          "scaleId": "ohbds-style",
+          "key": "positive"
+        },
+        {
+          "id": "ohbds14",
+          "prompt": "I make decisions based on facts, not feelings.",
+          "scaleId": "ohbds-style",
+          "key": "negative"
+        },
+        {
+          "id": "ohbds15",
+          "prompt": "I make a mess of things.",
+          "scaleId": "ohbds-style",
+          "key": "positive"
+        },
+        {
+          "id": "ohbds16",
+          "prompt": "I get stressed out easily.",
+          "scaleId": "ohbds-style",
+          "key": "positive"
+        },
+        {
+          "id": "ohbds17",
+          "prompt": "I am romantic.",
+          "scaleId": "ohbds-style",
+          "key": "positive"
+        },
+        {
+          "id": "ohbds18",
+          "prompt": "I prize logic above all else.",
+          "scaleId": "ohbds-style",
+          "key": "negative"
+        },
+        {
+          "id": "ohbds19",
+          "prompt": "I often forget to put things back in their proper place.",
+          "scaleId": "ohbds-style",
+          "key": "positive"
+        },
+        {
+          "id": "ohbds20",
+          "prompt": "I am calm even in tense situations.",
+          "scaleId": "ohbds-style",
+          "key": "negative"
+        }
+      ]
+    },
+    "scoring": {
+      "A": [
+        1,
+        2,
+        3,
+        5,
+        8,
+        10,
+        11,
+        12,
+        14,
+        18,
+        20
+      ],
+      "B": [
+        4,
+        6,
+        7,
+        9,
+        13,
+        15,
+        16,
+        17,
+        19
+      ],
+      "formula": "X=66-A+B",
+      "range": [
+        20,
+        100
+      ],
+      "sourceBands": [
+        {
+          "min": 20,
+          "max": 55,
+          "label": "Left-brained"
+        },
+        {
+          "min": 56,
+          "max": 64,
+          "label": "No clear preference"
+        },
+        {
+          "min": 65,
+          "max": 100,
+          "label": "Right-brained"
+        }
+      ],
+      "labelBoundary": "Historical source-style labels only, never a neural diagnosis",
+      "all1": 64,
+      "all3": 60,
+      "all5": 56,
+      "keyedMinimum": 20,
+      "keyedMaximum": 100,
+      "repeating1to5": {
+        "A": 34,
+        "B": 26,
+        "X": 58
+      }
+    },
+    "itemCountDiscrepancy": {
+      "landingClaims": 24,
+      "licensedPdfDefines": 20,
+      "liveReadOnlyFormContains": 20,
+      "candidatePool": 80,
+      "manualSelectedItems": 20
+    },
+    "commercialUseAllowed": false
+  },
+  "externalTools": [
+    {
+      "id": "hbdi-official",
+      "title": "HBDI® · Official Herrmann assessment",
+      "url": "https://herrmann.com.au/faq/",
+      "description": "Vendor-administered thinking-preference assessment; use the official service. No proprietary questions, scoring or profile code are reproduced here.",
+      "metadata": {
+        "sourceURLs": [
+          "https://herrmann.com.au/faq/",
+          "https://herrmann.com.au/terms/"
+        ],
+        "license": "Proprietary; no local redistribution or scoring permission established",
+        "sourceItemCount": 116,
+        "validationStatus": "Vendor instrument; no local HBDI administration, scoring or equivalent validation is provided.",
+        "privacyBoundary": "Opens an external provider; its access requirements and data handling apply.",
+        "limitations": [
+          "Thinking preferences are not neural-activity measurements, competency or a medical diagnosis.",
+          "HBDI and Whole Brain are vendor trademarks; no affiliation or endorsement is claimed."
+        ]
+      }
+    },
+    {
+      "id": "personalitytest-binary-official",
+      "title": "Personality Test Center · External binary style quiz",
+      "url": "https://www.personalitytest.net/questionnaires/braindominance/index.html",
+      "description": "External 20-item binary quiz. Its redistribution license and official item-level scoring have not been established; no local clone is included.",
+      "metadata": {
+        "sourceURLs": [
+          "https://www.personalitytest.net/questionnaires/braindominance/index.html"
+        ],
+        "license": "Redistribution permission not established",
+        "sourceItemCount": 20,
+        "validationStatus": "External entertainment/self-reflection quiz; no scientifically validated hemisphere classification established.",
+        "privacyBoundary": "Provider receives any answers submitted on its website. Brain Studio does not submit answers or copy provider results.",
+        "limitations": [
+          "Do not infer a neurological diagnosis from the provider’s left/right labels.",
+          "Public accessibility and aggregate statistics do not establish permission or validation."
+        ]
+      }
+    },
+    {
+      "id": "freudly-binary-official",
+      "title": "Freudly · External thinking-style quiz",
+      "url": "https://freudly.ai/tests/is-your-brain-left-or-right/",
+      "description": "External 20-item questionnaire attributed by the provider to Jonni Kincher. No local item reproduction, scoring or AI interpretation is included.",
+      "metadata": {
+        "sourceURLs": [
+          "https://freudly.ai/tests/is-your-brain-left-or-right/",
+          "https://freudly.ai/terms-of-use/"
+        ],
+        "license": "Provider reserves rights; no questionnaire redistribution permission established",
+        "sourceItemCount": 20,
+        "validationStatus": "Provider claims are not independent proof of neuroscience validity or an equivalent local instrument.",
+        "privacyBoundary": "Opens an external provider with its own terms and data handling; no automatic answer submission.",
+        "limitations": [
+          "Historical left/right thinking-style scores are not a neural diagnosis.",
+          "Displayed examples/cutoffs do not supply a verified complete local scoring key."
+        ]
+      }
+    }
+  ],
+  "scienceSources": [
+    "https://openpsychometrics.org/tests/OHBDS/",
+    "https://openpsychometrics.org/tests/OHBDS/development/",
+    "https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0071275"
+  ],
+  "integrationRequirements": [
+    "Keep original English wording and source instructions visibly labelled",
+    "Display scientific non-neural limitation and noncommercial license attribution with source/license links in UI and reports",
+    "Use ThinkingCore for this instrument; numeric values1..5 not zero-based indexes",
+    "Keep HBDI and binary provider cards external-only; never submit local answers",
+    "If adding translations, retain CC BY-NC-SA terms/change notice and mark adaptations psychometrically unvalidated",
+    "Maintain public creator credit separately; do not copy private report participant data"
+  ],
+  "verification": {
+    "command": "node --test tests/thinking-core.test.js",
+    "passed": 7,
+    "failed": 0,
+    "sourcePdfPromptsMatched": 20,
+    "liveReadOnlyFormPromptsMatched": 20,
+    "sourceInstructionsMatched": true,
+    "sourceEquation": "66-A+B",
+    "psychometricValidationClaimed": false,
+    "externalQuestionnaireSubmissions": 0,
+    "vendorContacts": 0
+  }
+}

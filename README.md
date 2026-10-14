@@ -1,11 +1,15 @@
 # Brain Studio 2.0.0
 
-An offline assessment, reflection, and development workspace with a modern multilingual interface. This independent application does not reproduce proprietary questions, commercial scoring, or personal reference reports.
+An assessment, reflection, and development workspace that works offline by default, with a modern multilingual interface. This independent application does not reproduce proprietary questions, commercial scoring, or personal reference reports. Optional desktop bring-your-own-provider AI is implemented; its current verification status is recorded below and in `VERIFICATION.md`.
+
+**License boundary:** application code is MIT-licensed, but this full edition includes OHBDS questionnaire content under CC BY-NC-SA 4.0. The full bundled edition is for noncommercial use. The MIT code grant does not relicense included assessment content. See `docs/content-licenses.md` and the packaged `THIRD-PARTY-NOTICES.txt`.
 
 ## Features
 
 - Published English IPIP-50 items and keyed raw sums, with optional explicitly unvalidated translations.
 - Original English O*NET® 60-activity Interest Profiler: explicit binary responses, six interest counts, and separate respondent choices for tied themes.
+- OHBDS 1.0's verified 20-item source form, published `X = 66 - A + B` arithmetic, source attribution, noncommercial content license, and an explicit boundary against literal hemisphere diagnosis. Optional translated wording is an unvalidated CC BY-NC-SA adaptation.
+- Official HBDI and other binary-style assessment links remain external-only; no proprietary local clone, vendor scoring key, or automatic answer submission is included.
 - Independently authored working-preference, emotional-reflection, communication-style, and explained skills-practice tools.
 - Individual reports, editable role scenarios, coaching/interview notes, development plans, compatible individual/team comparisons, and leadership/sales/service observer feedback.
 - Explicit not-observed responses, valid counts, descriptive dispersion, small-group suppression, saved feedback, and weighted partial-credit grading.
@@ -20,11 +24,13 @@ Arabic, Persian, Urdu, and Hebrew use RTL; other interfaces use LTR. The header 
 
 Translations are machine-assisted linguistic drafts checked for coverage, placeholders, encoding, and runtime behavior. They have not received professional native-speaker or psychometric validation. Each answered item records its presentation language. Mixed or unknown administrations are explicitly retained and excluded from pooled comparisons; identical translated-language profiles remain descriptive and do not establish equivalence.
 
-IPIP defaults to published English wording; translated mode displays a visible adaptation limitation. O*NET source activities/instructions remain English under their content license. Verbal skills practice also retains authored English. A translated interface does not imply that every instrument has a validated translation.
+IPIP and OHBDS default to published English wording; optional translated modes display adaptation limitations. Translated OHBDS passages retain CC BY-NC-SA conditions. O*NET source activities/instructions remain English under their content license. Verbal skills practice also retains authored English. A translated interface does not imply that every instrument has a validated translation.
 
 ## Scoring and limits
 
 IPIP positive items contribute their response and negative items contribute `6 - response`; ten items per factor yield 10–50. O*NET counts ten binary checks per theme, yielding 0–10. Missing responses block completion. No norms, diagnoses, IQ, population percentiles, predictive job suitability, or certification are invented. Larger scores are not automatically better.
+
+OHBDS uses the source's 20 statements and A/B membership, with score `X = 66 - A + B` in 20–100. Its optional `X / 20` display is a keyed arithmetic index, not an average of the original responses. The source's historical left/right-style vocabulary does not establish neurological dominance, measured intelligence, or validated learning-style prescriptions. The source PDF and current source form contain 20 items despite an introductory webpage describing 24; the app follows the verified 20-item form.
 
 Custom tools, role target ranges, observer prompts, practice task categories, and development suggestions are authored tools with transparent formulas. Correct arithmetic and source fidelity are separate from psychometric validity. See `docs/research/README.md`, `docs/research/v2-integration-review.md`, and `docs/reference-feature-map.md`.
 
@@ -36,9 +42,17 @@ The Windows installer permits a chosen destination and creates desktop/Start Men
 
 ## Privacy
 
-Data remains in local application/browser storage and is not encrypted by the app. Native storage belongs to the current user's Electron application-data directory; browser storage belongs to its origin. Clearing local records leaves previously exported files untouched. The legacy reflection history and professional workspace have separate deliberate clearing controls.
+Assessment storage is local and is not encrypted by the app. Native storage belongs to the current user's Electron application-data directory; browser storage belongs to its origin. Clearing local records leaves previously exported files untouched. The legacy reflection history and professional workspace have separate deliberate clearing controls.
 
-The native renderer is sandboxed, isolated from Node.js, and denies network requests, navigation, popups, and permissions. Explicit fixed-allowlist research links can open the system browser. Assessment answers and private reference data are not transmitted by the application. Public delivery excludes private documents, extracted text, identities, private paths, local audits, and credentials. Small-group suppression does not guarantee anonymity.
+The native renderer is sandboxed and isolated from Node.js; ordinary assessment pages do not send data automatically. Fixed-allowlist research links can deliberately open the system browser. Optional desktop AI sends only an approved score summary and the user's prompt to their selected public provider, after an explicit action; participant names, record IDs, and raw answers are excluded by the summary allowlist. Provider handling and any text the user deliberately types into a prompt remain the user's responsibility. Provider keys remain in session memory rather than application storage or exports. Core and browser UI controls passed synthetic/mock tests; packaged integration and real-provider success remain separate pending gates.
+
+Public delivery excludes private documents, extracted text, participant identities, private paths, local audits, and credentials. Small-group suppression does not guarantee anonymity. The deliberately requested creator credit is the sole explicit public identity exception.
+
+## Optional AI — integration status
+
+Bring your own supported provider, model, and API key. Assessment and reporting functions remain usable without AI or a network connection. No default credentials, embedded provider account, automatic background analysis, or inference of a clinical diagnosis is supplied. Provider billing and network availability apply to deliberately requested analysis.
+
+The integration contract limits requests to a chosen public provider and an explicit summary/prompt. Mock transport checks and a real provider request are different gates: real-provider verification remains pending, and this review makes no external API calls. Desktop supports OpenAI and public HTTPS OpenAI-compatible Chat Completions endpoints with a user-supplied model and bearer API key. Preview shows the exact request and destination before a one-use explicit Send action. Keys remain in main-process session memory. Browser/PWA displays a desktop-only notice and does not implement AI transport. See [AI implementation and verification](docs/research/ai-byop.md).
 
 ## Development and checks
 
@@ -61,11 +75,22 @@ Browser tests use Playwright Chromium by default; set `PLATFORM_BROWSER_CHANNEL=
 
 Application code uses the MIT license in `LICENSE`. IPIP items/scales are public domain under the [IPIP permission statement](https://ipip.ori.org/newPermission.htm).
 
+Open Hemispheric Brain Dominance Scale 1.0 by Eric Jorgenson, 29 April 2015, is included under [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/). [Original source PDF](https://openpsychometrics.org/tests/OHBDS/development/OHBDS1.0.pdf). Software presentation, stable IDs, validation, scientific notices, and optional unvalidated translations were added; no author endorsement is implied. Noncommercial and ShareAlike conditions remain attached to that questionnaire content and its adaptations. Approved source PDF SHA-256: `a9058e1c4e89fe176c72c553dee55be8f9e134687a49242428217d5e4bc1fe98`.
+
 This application includes information from the O*NET Career Exploration Tools by the U.S. Department of Labor, Employment and Training Administration (USDOL/ETA). Used under the [CC BY-ND 4.0 license](https://creativecommons.org/licenses/by-nd/4.0/). O*NET® is a trademark of USDOL/ETA. The unchanged original PDF and source fixtures are in `docs/research/`. This application is not endorsed by USDOL/ETA. [Source/content license](https://www.onetcenter.org/license_tools.html).
 
 ## تشغيل البرنامج
 
 Brain Studio برنامج مستقل للتأمل الشخصي والتطوير، بواجهة عربية واتجاه من اليمين إلى اليسار، ويدعم 30 لغة. اختر اللغة من أعلى الشاشة ثم افتح مكتبة التقييمات أو التقارير أو خطة التطوير. تبقى بياناتك على جهازك؛ ويمكنك تصدير التقرير المختار أو حذف البيانات المحلية.
 
-الترجمة لا تعني اعتماد المقياس علميًا بالعربية. يحتفظ O*NET بالنص الإنجليزي الأصلي، ويتيح IPIP النص الإنجليزي افتراضيًا وترجمة غير معتمدة اختياريًا. النتائج الخام ليست تشخيصًا أو قياسًا للذكاء أو نسبة ملاءمة وظيفية معتمدة. أدوات التطوير مؤلفة لهذا البرنامج وليست نسخة من المقاييس التجارية.
+الترجمة لا تعني اعتماد المقياس علميًا بالعربية. يحتفظ O*NET بالنص الإنجليزي الأصلي، ويتيح IPIP وOHBDS النص الإنجليزي افتراضيًا وترجمة غير معتمدة اختياريًا. النتائج الخام ليست تشخيصًا أو قياسًا للذكاء أو نسبة ملاءمة وظيفية معتمدة. أدوات التطوير مؤلفة لهذا البرنامج وليست نسخة من المقاييس التجارية.
 
+كود التطبيق مرخص بـMIT، لكن النسخة الكاملة تحتوي على أسئلة OHBDS بترخيص CC BY-NC-SA، ولذلك لا تمنح رخصة الكود إذنًا للاستخدام التجاري لهذا المحتوى. التحليل الاختياري بالذكاء الاصطناعي يتطلب مزودًا ومفتاحًا من المستخدم، وإرسالًا صريحًا لملخص محدد؛ وهو لا يعمل تلقائيًا. التحقق من مزود فعلي ما زال غير منجز.
+
+
+
+## Creator credit
+
+Created by Brain Studio, Emad Bahattab, Email: bahattab@yahoo.com
+
+This explicitly requested credit appears in the app footer and the printable PDF footer. The creator contact is intentionally public; private reference reports and participant records remain excluded.

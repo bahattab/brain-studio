@@ -31,11 +31,13 @@ CONTEXT = {
     'manager':'team manager', 'Manager':'Team manager', 'Peer':'Colleague at the same level',
     'Foundation':'Basic practice tasks', 'Applied':'Applied practice tasks',
     'Attempted':'Attempted tasks',
+    '3 · Neutral':'3 · Neither agree nor disagree',
+    'OpenAI API':'API interface from OpenAI',
 }
 
 def protect(text):
     tokens = {}
-    pattern = r'\{\w+\}|Brain Studio|Brain Works|O\*NET(?:®)?|IPIP(?:-50)?|\bPDF\b|\bJSON\b|\bIQ\b'
+    pattern = r'\{\w+\}|Brain Studio|Brain Works|O\*NET(?:®)?|IPIP(?:-50)?|\bOHBDS\b|\bHBDI(?:®)?|\bHerrmann\b|\bFreudly\b|Personality Test Center|\bOpenAI\b|\bAPI\b|\bHTTPS\b|66\s*−\s*A\s*\+\s*B|\bPDF\b|\bJSON\b|\bIQ\b'
     def replace(match):
         token = 'BSTOKEN' + str(len(tokens)) + 'X'
         tokens[token] = match[0]
@@ -56,6 +58,12 @@ def request(text, language):
             if attempt==3: raise
             time.sleep(2**attempt)
 
+def restore_tokens(translated, tokens):
+    for token, original in tokens.items():
+        pattern=r'\s*'.join(re.escape(char) for char in token)
+        translated=re.sub(pattern,lambda _:original,translated,flags=re.IGNORECASE)
+    return translated.strip()
+
 def translate_batch(keys, language):
     prepared=[protect(IPIP_FIRST_PERSON.get(key,key)) for key in keys]
     result=request('\n'.join(pair[0] for pair in prepared),language).splitlines()
@@ -65,18 +73,15 @@ def translate_batch(keys, language):
         return translate_batch(keys[:midpoint],language)+translate_batch(keys[midpoint:],language)
     final=[]
     for key, translated, (_,tokens) in zip(keys,result,prepared):
-        for token, original in tokens.items():
-            # Some scripts insert spaces around Latin token boundaries.
-            pattern=r'\s*'.join(re.escape(char) for char in token)
-            translated=re.sub(pattern,lambda _:original,translated,flags=re.IGNORECASE)
-        translated=translated.strip()
+        translated=restore_tokens(translated,tokens)
         if not translated or '\ufffd' in translated: raise ValueError('Empty or invalid translation')
         if sorted(re.findall(r'\{\w+\}',key))!=sorted(re.findall(r'\{\w+\}',translated)):
             raise ValueError('Translated placeholders changed')
         if re.search(r'BSTOKEN\d+X',translated,re.I): raise ValueError('Unrestored token')
         if translated==key and re.search(r'[A-Za-z]{4}',key):
             if key in CONTEXT:
-                translated=request(CONTEXT[key],language).strip()
+                contextual,contextTokens=protect(CONTEXT[key])
+                translated=restore_tokens(request(contextual,language),contextTokens)
             if translated==key:raise ValueError('Translation remained English: '+key)
         final.append(translated)
     return final

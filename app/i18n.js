@@ -2,7 +2,7 @@
 (() => {
   const languages=[['en','English','ltr'],['ar','العربية','rtl'],['zh','简体中文','ltr'],['es','Español','ltr'],['hi','हिन्दी','ltr'],['fr','Français','ltr'],['pt','Português','ltr'],['ru','Русский','ltr'],['bn','বাংলা','ltr'],['ja','日本語','ltr'],['de','Deutsch','ltr'],['ur','اردو','rtl'],['id','Bahasa Indonesia','ltr'],['ko','한국어','ltr'],['tr','Türkçe','ltr'],['it','Italiano','ltr'],['fa','فارسی','rtl'],['he','עברית','rtl'],['sw','Kiswahili','ltr'],['vi','Tiếng Việt','ltr'],['pa','ਪੰਜਾਬੀ','ltr'],['mr','मराठी','ltr'],['te','తెలుగు','ltr'],['ta','தமிழ்','ltr'],['th','ไทย','ltr'],['gu','ગુજરાતી','ltr'],['pl','Polski','ltr'],['uk','Українська','ltr'],['ms','Bahasa Melayu','ltr'],['ha','Hausa','ltr']].map(([code,name,dir])=>({code,name,dir}));
   const data=window.BRAIN_TRANSLATIONS;
-  let language='en';try{const saved=localStorage.getItem('brain-studio-language');if(data[saved])language=saved;}catch{}
+  let language='en';try{const saved=localStorage.getItem('brain-studio-language');if(Object.hasOwn(data,saved)&&languages.some(item=>item.code===saved))language=saved;}catch{}
   const missing=new Set(),canonical=new WeakMap();let localizedValues=new Set();
   const mirrored=text=>['ar','ur','fa','he'].includes(language)?text.replace(/[←→↗]/g,char=>({'←':'→','→':'←','↗':'↖'}[char])):text;
   const number=value=>new Intl.NumberFormat(language,{useGrouping:false}).format(Number(value));
@@ -34,7 +34,7 @@
     const elements=[...(root.querySelectorAll?.('[placeholder],[aria-label],[title]')||[])];
     for(const element of elements)for(const attr of ['placeholder','aria-label','title'])if(element.hasAttribute(attr)){const name='data-i18n-'+attr;if(!element.hasAttribute(name))element.setAttribute(name,element.getAttribute(attr));element.setAttribute(attr,translate(element.getAttribute(name)));}
   }
-  function setLanguage(code){if(!data[code])code='en';language=code;localizedValues=new Set(Object.values(data[code]).map(mirrored));const meta=languages.find(x=>x.code===code);document.documentElement.lang=code;document.documentElement.dir=meta?.dir||'ltr';try{localStorage.setItem('brain-studio-language',code);}catch{}missing.clear();}
+  function setLanguage(code){if(!Object.hasOwn(data,code)||!languages.some(item=>item.code===code))code='en';language=code;localizedValues=new Set(Object.values(data[code]).map(mirrored));const meta=languages.find(x=>x.code===code);document.documentElement.lang=code;document.documentElement.dir=meta?.dir||'ltr';try{localStorage.setItem('brain-studio-language',code);}catch{}missing.clear();}
   const core=window.BrainCore;
   window.BrainCoreLocalized={get questions(){return core.questions.map(q=>({...q,prompt:t(q.prompt),options:q.options.map(o=>({...o,label:t(o.label)}))}));},score:core.score,validateAnswers:core.validateAnswers,profile(result){const p=core.profile(result);return {...p,title:p.title.split(' · ').map(t).join(' · '),thinkingText:t(p.thinkingText),perceptionText:t(p.perceptionText),tips:p.tips.map(text=>t(text))};}};
   window.I18n={languages,t,translate,translateDOM,setLanguage,number,missing,get language(){return language;},get direction(){return document.documentElement.dir;}};

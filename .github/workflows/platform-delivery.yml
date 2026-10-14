@@ -22,6 +22,7 @@ jobs:
           cache: npm
       - run: npm ci
       - run: node scripts/build-locales.cjs
+      - run: node scripts/platform/audit-source.cjs
       - run: npx playwright install --with-deps chromium
       - name: Isolated PDF verification dependency
         run: |

@@ -1,6 +1,6 @@
 # Brain Studio 2.0 platform delivery
 
-Brain Studio runs locally without accounts, telemetry, uploads or external runtime services. Desktop distributions contain only the application and its package metadata. The browser distribution contains portable application scripts, styles, language data and local assets. Build tools may download dependencies; the delivered app does not need them online.
+Brain Studio assessments run locally by default without accounts or telemetry. Optional AI analysis sends a user-approved score summary and prompt to the chosen public HTTPS provider using a user-supplied API key; it is not required for assessment scoring or offline use. Desktop distributions contain only the application and its package metadata. The browser distribution contains portable application scripts, styles, language data and local assets. Build tools may download dependencies; the delivered app does not need them online.
 
 ## Desktop targets and installer behavior
 
@@ -42,7 +42,7 @@ Supported browsers may offer installation from their own menu. Actual installati
 
 The generated page inserts `web-adapter.js` before application scripts. Its `window.desktop` interface exposes `platform: 'web'`, `canPrint: true` and `canConfirmSave: false`. `exportPDF(language)` opens the browser print dialog and returns `{saved:false, printRequested:true}`; choose the browser's PDF destination if available. A browser cannot confirm whether the user saved or canceled. `exportJSON(report)` requests a Blob download and returns `{saved:false, downloadRequested:true}`; downloaded-file completion is likewise not asserted. The application should show request/print messaging for these fields, never a verified-save message.
 
-Only generated web HTML changes the CSP to permit same-origin worker and cache requests. Electron source retains its restrictive CSP and no external network permission is introduced.
+Only generated web HTML changes the CSP to permit same-origin worker and cache requests. Electron assessment pages retain their restrictive CSP. Optional AI transport runs through the isolated desktop bridge; the browser/PWA displays a desktop-only AI notice and does not provide provider transport.
 
 ## Verification and release controls
 
@@ -61,3 +61,9 @@ Staging permits exactly 10 named version-2.0.0 assets: Windows setup, four macOS
 Evidence status on 2026-10-14: all eight structural/browser tests passed locally using Edge, including offline reload and a real downloaded JSON file; JavaScript and PowerShell syntax checks also passed. Windows installed runtime/uninstall needs the isolated CI host; macOS and Linux build/runtime checks need their matching CI hosts. At initial implementation those host gates are **not run**. Preserve that state until real jobs or recorded manual sessions pass.
 
 Configuration references: [electron-builder NSIS](https://www.electron.build/nsis/), [electron-builder configuration](https://www.electron.build/configuration/), [GitHub runner choices](https://docs.github.com/en/actions/how-tos/write-workflows/choose-where-workflows-run/choose-the-runner-for-a-job).
+
+## Content licenses and printing
+
+The application code is MIT licensed. The complete bundled edition includes OHBDS content and machine-assisted adaptations under CC BY-NC-SA 4.0 and is noncommercial; MIT permission does not override that content license. The installer displays the composite notice before installation. Installed and browser payloads include LICENSE.txt and THIRD-PARTY-NOTICES.txt. O*NET retains its unchanged-English CC BY-ND conditions; IPIP is public domain. See content-licenses.md.
+
+Selected-report PDFs use a reserved creator margin in Chromium 131 and later. Independent LTR/RTL short and multipage geometry checks verify exactly one creator line per page, no overlapping content, and no creator-only pages. Other engines use a repeating table-footer fallback whose physical margin geometry is not verified. Physical Windows desktop capture remains unverified; native automated user journeys are recorded separately.

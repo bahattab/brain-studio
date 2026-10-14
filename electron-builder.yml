@@ -23,6 +23,7 @@ win:
       arch: [x64]
 nsis:
   include: installer/per-user.nsh
+  license: installer/license.txt
   oneClick: false
   perMachine: false
   allowElevation: false

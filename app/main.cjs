@@ -8,7 +8,20 @@ const smokeDir = process.argv.find(x=>x.startsWith('--evidence-dir='))?.slice('-
 if(smoke||userSessionTest) app.setPath('userData', path.join(smokeDir,smoke?'smoke-user-data':'user-session-data'));
 let win;
 function trusted(event) { if (!win || event.sender !== win.webContents || event.senderFrame?.url !== pathToFileURL(path.join(__dirname,'index.html')).href) throw new Error('Untrusted export request'); }
-const permittedSources=new Set(require('./research-core.js').instruments.flatMap(instrument=>[...(instrument.metadata.sourceURLs||[]),instrument.metadata.licenseURL].filter(Boolean)));
+const thinkingSources=require('./thinking-core.js');
+const permittedSources=new Set([
+  ...[...require('./research-core.js').instruments,...thinkingSources.instruments].flatMap(instrument=>[...(instrument.metadata.sourceURLs||[]),...(instrument.metadata.scienceURLs||[]),instrument.metadata.licenseURL].filter(Boolean)),
+  ...thinkingSources.externalTools.flatMap(tool=>[tool.url,...(tool.metadata.sourceURLs||[])]),
+  'https://www.thinkherrmann.com/hbdi','https://herrmann.com.au/hbdi'
+]);
+const aiService=require('./ai-core.js').createService();
+async function aiResult(operation){try{return {ok:true,value:await operation()};}catch(error){const supported=['CONTEXT','SETTINGS','ENDPOINT','MODEL','KEY','PROMPT','PAYLOAD','SECRETS','BUSY','TIMEOUT','CANCELLED','ADDRESS','REDIRECT','PROVIDER','NETWORK','RESPONSE','FORMAT','PREVIEW'];return {ok:false,error:{code:supported.includes(error?.code)?error.code:'AI',message:supported.includes(error?.code)?error.message:'The provider operation could not be completed.'}};}}
+ipcMain.handle('ai-status',event=>{trusted(event);return aiResult(()=>aiService.status());});
+ipcMain.handle('ai-configure',(event,settings)=>{trusted(event);return aiResult(()=>aiService.configure(settings));});
+ipcMain.handle('ai-preview',(event,input)=>{trusted(event);return aiResult(()=>aiService.preview(input));});
+ipcMain.handle('ai-send',(event,input)=>{trusted(event);return aiResult(()=>aiService.send(input));});
+ipcMain.handle('ai-cancel',event=>{trusted(event);return aiResult(()=>aiService.cancel());});
+ipcMain.handle('ai-clear',event=>{trusted(event);return aiResult(()=>aiService.clear());});
 ipcMain.handle('open-source',async(event,url)=>{trusted(event);if(typeof url!=='string'||!permittedSources.has(url)||!url.startsWith('https://'))throw new Error('Unsupported source page');await shell.openExternal(url);return {opened:true};});
 function localeText(language,text){if(!['ar','zh','es','hi','fr','pt','ru','bn','ja','de','ur','id','ko','tr','it','fa','he','sw','vi','pa','mr','te','ta','th','gu','pl','uk','ms','ha'].includes(language))return text;try{return require('./locales/'+language+'.json')[text]||text;}catch{return text;}}
 ipcMain.handle('export-pdf',async(event,language)=>{trusted(event);const result=await dialog.showSaveDialog(win,{title:localeText(language,'Save your profile report'),defaultPath:'Brain Studio Profile.pdf',filters:[{name:localeText(language,'PDF report'),extensions:['pdf']}]});if(result.canceled)return {saved:false};await fs.writeFile(result.filePath,await win.webContents.printToPDF({printBackground:true,pageSize:'A4',preferCSSPageSize:true}));return {saved:true};});
@@ -27,7 +40,7 @@ app.whenReady().then(async()=>{
   if(userSessionTest)win.show();
   if(smoke){try{await runSmoke(errors);app.exit(0);}catch(error){await fs.mkdir(smokeDir,{recursive:true});await fs.writeFile(path.join(smokeDir,'smoke-failure.txt'),error.stack);console.error(error);app.exit(1);}}
 });
-app.on('window-all-closed',()=>app.quit());
+app.on('window-all-closed',()=>{aiService.clear();app.quit();});
 async function runSmoke(errors){
   await fs.mkdir(smokeDir,{recursive:true});
   await fs.rm(path.join(smokeDir,'smoke-failure.txt'),{force:true});
@@ -125,6 +138,17 @@ async function runSmoke(errors){
   await assert(`JSON.parse(localStorage.getItem('brain-studio-workspace-v2')).profiles[0].language==='en'`,'Research administration language must preserve source English');
   await shot('09-published-ipip-report.png');
   const researchPDF=await win.webContents.printToPDF({printBackground:true,pageSize:'A4'});await fs.writeFile(path.join(smokeDir,'published-ipip-report.pdf'),researchPDF);
+  await js(`BrainApp.navigate('library');document.querySelector('[data-instrument="ohbds-20-v1"]').click();`);
+  for(let index=0;index<20;index++){
+    if(index===5){await js(`document.querySelector('#language').value='ar';document.querySelector('#language').dispatchEvent(new Event('change'));`);await assert(`document.querySelector('#professional-question').textContent===ThinkingCore.instruments[0].items[5].prompt`,'OHBDS original English must survive interface-language changes');}
+    await js(`document.querySelector('[data-prof-value="3"]').click();document.querySelector('#prof-next').click();`);
+  }
+  await assert(`document.querySelectorAll('.score-row').length===1&&Number(document.querySelector('.score-row strong').textContent.replace(/[٠-٩]/g,d=>'٠١٢٣٤٥٦٧٨٩'.indexOf(d)))===60`,'OHBDS neutral source equation must yield raw score60');
+  await assert(`(()=>{const p=JSON.parse(localStorage.getItem('brain-studio-workspace-v2')).profiles[0];const r=ThinkingCore.score(p.instrumentId,p.answers);return p.language==='en'&&r.components.A===33&&r.components.B===27&&r.scales[0].sum===60;})()`,'OHBDS neutral components must independently match A33/B27 and original English');
+  await shot('11-ohbds-report.png');
+  const thinkingPDF=await win.webContents.printToPDF({printBackground:true,pageSize:'A4'});if(thinkingPDF.subarray(0,5).toString()!=='%PDF-')throw new Error('OHBDS PDF generation failed');await fs.writeFile(path.join(smokeDir,'ohbds-report.pdf'),thinkingPDF);
+  await fs.writeFile(path.join(smokeDir,'ohbds-smoke-results.json'),JSON.stringify({passed:true,sourceVersion:'OHBDS1.0 verified20',neutralExpected:{A:33,B:27,X:60},sourceEnglishPreserved:true,pdfBytes:thinkingPDF.length},null,2));
+  await js(`document.querySelector('#language').value='en';document.querySelector('#language').dispatchEvent(new Event('change'));`);
   await js(`BrainApp.navigate('library');document.querySelector('[data-instrument="work-style"]').click();`);
   for(let index=0;index<36;index++)await js(`document.querySelector('[data-prof-value="3"]').click();document.querySelector('#prof-next').click();`);
   await assert(`document.querySelectorAll('.score-row').length===9&&Array.from(document.querySelectorAll('.score-row strong')).every(node=>node.textContent==='12')`,'Custom neutral response sums must be12 on all9 scales');
@@ -132,13 +156,15 @@ async function runSmoke(errors){
   for(const language of languageCodes){
     await js(`document.querySelector('#language').value=${JSON.stringify(language)};document.querySelector('#language').dispatchEvent(new Event('change'));`);
     await assert(`document.querySelectorAll('.score-row').length===9&&document.documentElement.scrollWidth<=innerWidth`,'Professional report layout/scoring failed: '+language);
-    for(const route of ['library','portfolio','roles','coaching','development','team','feedback','skills','workspace'])await js(`BrainApp.navigate(${JSON.stringify(route)});`);
+    for(const route of ['library','portfolio','roles','coaching','development','team','feedback','skills','workspace','ai'])await js(`BrainApp.navigate(${JSON.stringify(route)});`);
+    await assert(`document.querySelector('#ai-key')?.type==='password'&&document.querySelector('#ai-key').value===''&&document.querySelector('#ai-send').disabled`,'AI route must show a blank password field and never send automatically');
     await assert(`I18n.missing.size===0`,'Missing professional translations: '+language+' '+await js('JSON.stringify([...I18n.missing])'));
-    professionalLocales.push({language,routes:9,rawScoresPreserved:true});
+    professionalLocales.push({language,routes:10,rawScoresPreserved:true,aiPasswordField:true,aiSendDisabledWithoutPreview:true});
     await js(`BrainApp.navigate('portfolio');`);
     if(language==='ar'){await shot('10-arabic-workspace-report.png');await fs.writeFile(path.join(smokeDir,'arabic-workspace-report.pdf'),await win.webContents.printToPDF({printBackground:true,pageSize:'A4'}));}
   }
   await fs.writeFile(path.join(smokeDir,'professional-smoke-results.json'),JSON.stringify({passed:true,ipipNeutralExpected:[30,30,30,30,30],workingNeutralExpected:Array(9).fill(12),locales:professionalLocales,sourceEnglishPreserved:true},null,2));
+  if(aiService.status().configured)throw new Error('Native smoke must not configure actual provider credentials');
   await fs.writeFile(path.join(smokeDir,'locale-smoke-results.json'),JSON.stringify({passed:true,languages:localeChecks,languagePersistence:true,userNamePreservation:true,arabicNumberShortcut:true},null,2));
   if(errors.length)throw new Error('Renderer errors: '+errors.join('\n'));
   await fs.writeFile(path.join(smokeDir,'smoke-results.json'),JSON.stringify({passed:true,checks:['home','compact layout','answer gate','progression','resume and saved position','20-question completion','matrix marker','name HTML escaping','renderer isolation','save history','PDF generation','reopen report','review answers','snapshot isolation','Enter shortcut','failed persistence handling','restart retains history','delete history','corrupt storage recovery'],electron:process.versions.electron,pdfBytes:pdf.length},null,2));

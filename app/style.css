@@ -9,3 +9,23 @@ main:focus{outline:none}
 .score-meter [data-meter]{display:block;height:100%;background:#65a58c}.score-row .score-meter{grid-column:1/-1}.score-table>.table-head{display:grid;grid-template-columns:1.5fr 1fr 1fr 1.2fr;gap:12px}.sidebar .workspace-label{margin-block-start:28px}
 @media print{.profile-checks,.rater-list,.rater-card,.scenario-list,.saved-professional-profiles,#rubric-form,#plan-form,#model-form,.history-row,#interest-order-form,.privacy-control{display:none!important}body[data-print-scope=report] main>*:not(.print-report):not(.page-heading){display:none!important}input[type=checkbox],input[type=file]{display:none!important}}
 .score-row>span:not(:first-child),.comparison-row:not(.table-head)>span:not(:first-child),.feedback-row:not(.table-head)>span:not(:first-child){direction:ltr;unicode-bidi:isolate}
+footer{flex-wrap:wrap;gap:10px}#creator-credit{flex-basis:100%;text-align:center;direction:ltr;unicode-bidi:isolate;overflow-wrap:anywhere;color:#627989;font-size:10px;line-height:1.7}
+@page{size:A4;margin:16mm 14mm 23mm}
+#pdf-creator-credit{display:none}
+@media print{footer{display:none!important}#pdf-creator-credit{display:block!important;position:fixed;inset:auto 0 0;padding:0;text-align:center;height:10mm;color:#344b58;font:9px/1.6 'Segoe UI',Arial,sans-serif;direction:ltr;unicode-bidi:isolate;white-space:normal}}
+@media print{.result-summary,.portfolio-report,.matrix-panel{break-inside:auto}}
+#print-document{display:none}
+@media print{body[data-print-ready]>:not(#print-document){display:none!important}#print-document{display:table!important;width:100%;border-collapse:collapse;table-layout:fixed}#print-document>tbody{display:table-row-group}#print-document>tfoot{display:table-footer-group;break-inside:avoid}#print-document td{padding:0;border:0;vertical-align:top}#print-document .print-credit{padding-block:6mm 2mm;text-align:center;color:#344b58;font:9px/1.6 'Segoe UI',Arial,sans-serif;direction:ltr;unicode-bidi:isolate}#print-document>.print-credit{break-inside:avoid}#print-document .page-heading{margin-block-end:14px}#print-document .result-summary{border-radius:0}#print-document .score-row,#print-document .comparison-row,#print-document .feedback-row{break-inside:avoid}}
+
+/* Provider settings and generated commentary remain readable in both directions. */
+#ai-output{white-space:pre-wrap;overflow-wrap:anywhere;font-family:inherit;line-height:1.65;max-width:100%;}
+#ai-payload{direction:ltr;text-align:left;font-family:monospace;max-width:100%;}
+#ai-endpoint,#ai-model,#ai-key{direction:ltr;text-align:left;}
+@media print{#ai-key,#ai-configure,#ai-clear,#ai-send,#ai-cancel{display:none!important;}}
+
+@page{@bottom-center{content:"Created by Brain Studio, Emad Bahattab, Email: bahattab@yahoo.com";font:9px/1.6 "Segoe UI",Arial,sans-serif;color:#344b58;direction:ltr;unicode-bidi:isolate;text-align:center;}}
+
+/* Keep every workspace route accessible on shorter desktop windows. */
+.sidebar{height:100dvh;}
+.sidebar nav{flex:1;min-height:0;overflow-y:auto;align-content:start;scrollbar-width:thin;}
+.sidebar .brand,.sidebar .workspace-label,.sidebar .sidebar-bottom{flex-shrink:0;}

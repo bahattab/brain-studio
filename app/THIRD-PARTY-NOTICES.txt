@@ -1,0 +1,42 @@
+Brain Studio: software code and assessment content have separate licenses.
+
+The independently written application code is MIT-licensed; see LICENSE.txt.
+The full bundled edition includes noncommercial OHBDS content. MIT does not
+relicense that content or authorize its commercial use.
+
+OHBDS 1.0
+Open Hemispheric Brain Dominance Scale 1.0, Eric Jorgenson, 29 April 2015.
+Source: https://openpsychometrics.org/tests/OHBDS/development/OHBDS1.0.pdf
+License: Creative Commons Attribution-NonCommercial-ShareAlike 4.0.
+https://creativecommons.org/licenses/by-nc-sa/4.0/
+Retain attribution, source/license links, and change notices. Use the included
+questionnaire only noncommercially. Questionnaire translations/adaptations
+retain the required CC BY-NC-SA conditions when distributed.
+Changes: software presentation, stable item IDs, input validation, scientific
+context notices, and optional machine-assisted, unvalidated translations.
+Original English statements and published scoring are retained. No source
+author endorsement is implied. Historical left/right-style labels are not a
+neural diagnosis, IQ test, population percentile, or hiring recommendation.
+Source context: https://openpsychometrics.org/tests/OHBDS/development/
+Science context: https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0071275
+
+O*NET Career Exploration Tools
+This application includes information from the O*NET Career Exploration Tools
+by the U.S. Department of Labor, Employment and Training Administration
+(USDOL/ETA). Used under CC BY-ND 4.0. O*NET is a registered trademark of
+USDOL/ETA. This application is not endorsed by USDOL/ETA.
+https://www.onetcenter.org/license_tools.html
+https://creativecommons.org/licenses/by-nd/4.0/
+The original English Interest Profiler activities and instructions are kept
+unchanged. No translated or modified version of that assessment is included.
+
+IPIP
+Items, inventories, and scales are public domain under the official statement:
+https://ipip.ori.org/newPermission.htm
+Item/source identity and computational correctness do not certify this app
+or establish empirical equivalence of optional translations.
+
+External assessments
+HBDI and linked binary-style provider assessments are external-only. Their
+items, proprietary scoring, and reports are not distributed in this package.
+Their providers' terms and privacy policies apply to deliberate external use.

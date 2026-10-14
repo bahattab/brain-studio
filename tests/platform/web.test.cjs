@@ -36,7 +36,7 @@ test('PWA operates offline in browser; exports are requested without false save 
     catch{response.writeHead(404);response.end();}
   });
   await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));t.after(()=>server.close());
-  const browser=await chromium.launch({headless:true,channel:process.env.PLATFORM_BROWSER_CHANNEL||undefined});t.after(()=>browser.close());
+  const browser=await chromium.launch({headless:true,channel:process.env.PLATFORM_BROWSER_CHANNEL||(process.platform==='win32'?'msedge':undefined)});t.after(()=>browser.close());
   const context=await browser.newContext({acceptDownloads:true});const page=await context.newPage();
   const errors=[];page.on('pageerror',error=>errors.push(error.message));
   page.on('console',message=>{if(message.type()==='error'||message.type()==='warning')errors.push(message.text());});

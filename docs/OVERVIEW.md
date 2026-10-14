@@ -4,6 +4,7 @@ An offline assessment, reflection, and development workspace with a modern multi
 
 ## Features
 
+- Published English OHBDS-20 with its keyed score formula, visible limitations, original-English default, and optional unvalidated CC BY-NC-SA adaptations.
 - Published English IPIP-50 items and keyed raw sums, with optional explicitly unvalidated translations.
 - Original English O*NET® 60-activity Interest Profiler: explicit binary responses, six interest counts, and separate respondent choices for tied themes.
 - Independently authored working-preference, emotional-reflection, communication-style, and explained skills-practice tools.
@@ -20,7 +21,7 @@ Arabic, Persian, Urdu, and Hebrew use RTL; other interfaces use LTR. The header 
 
 Translations are machine-assisted linguistic drafts checked for coverage, placeholders, encoding, and runtime behavior. They have not received professional native-speaker or psychometric validation. Each answered item records its presentation language. Mixed or unknown administrations are explicitly retained and excluded from pooled comparisons; identical translated-language profiles remain descriptive and do not establish equivalence.
 
-IPIP defaults to published English wording; translated mode displays a visible adaptation limitation. O*NET source activities/instructions remain English under their content license. Verbal skills practice also retains authored English. A translated interface does not imply that every instrument has a validated translation.
+IPIP and OHBDS default to published English wording; translated mode displays a visible adaptation limitation. O*NET source activities/instructions remain English under their content license. Verbal skills practice also retains authored English. A translated interface does not imply that every instrument has a validated translation.
 
 ## Scoring and limits
 
@@ -38,7 +39,7 @@ The Windows installer permits a chosen destination and creates desktop/Start Men
 
 Data remains in local application/browser storage and is not encrypted by the app. Native storage belongs to the current user's Electron application-data directory; browser storage belongs to its origin. Clearing local records leaves previously exported files untouched. The legacy reflection history and professional workspace have separate deliberate clearing controls.
 
-The native renderer is sandboxed, isolated from Node.js, and denies network requests, navigation, popups, and permissions. Explicit fixed-allowlist research links can open the system browser. Assessment answers and private reference data are not transmitted by the application. Public delivery excludes private documents, extracted text, identities, private paths, local audits, and credentials. Small-group suppression does not guarantee anonymity.
+The native renderer is sandboxed, isolated from Node.js, and denies network requests, navigation, popups, and permissions. Explicit fixed-allowlist research links can open the system browser. Assessment data is not automatically transmitted. Optional AI sends only the previewed, approved score summary and the user prompt to the chosen public HTTPS provider; participant names, record IDs, and raw answers are excluded from the generated summary. Users should avoid entering personal information in their own prompt. API keys remain in session memory and are not saved in workspace exports. Real-provider operation remains unverified; mock transport tests do not establish provider availability. Public delivery excludes private documents, extracted text, identities, private paths, local audits, and credentials. Small-group suppression does not guarantee anonymity.
 
 ## Development and checks
 
@@ -59,7 +60,7 @@ Browser tests use Playwright Chromium by default; set `PLATFORM_BROWSER_CHANNEL=
 
 ## Attribution
 
-Application code uses the MIT license in `LICENSE`. IPIP items/scales are public domain under the [IPIP permission statement](https://ipip.ori.org/newPermission.htm).
+Application code uses the MIT license in `LICENSE`. The complete bundled edition is noncommercial because included OHBDS content and its adaptations use CC BY-NC-SA 4.0; see `content-licenses.md` and the installed third-party notices. IPIP items/scales are public domain under the [IPIP permission statement](https://ipip.ori.org/newPermission.htm).
 
 This application includes information from the O*NET Career Exploration Tools by the U.S. Department of Labor, Employment and Training Administration (USDOL/ETA). Used under the [CC BY-ND 4.0 license](https://creativecommons.org/licenses/by-nd/4.0/). O*NET® is a trademark of USDOL/ETA. The unchanged original PDF and source fixtures are in `docs/research/`. This application is not endorsed by USDOL/ETA. [Source/content license](https://www.onetcenter.org/license_tools.html).
 
@@ -68,3 +69,5 @@ This application includes information from the O*NET Career Exploration Tools by
 Brain Studio برنامج مستقل للتأمل الشخصي والتطوير، بواجهة عربية واتجاه من اليمين إلى اليسار، ويدعم 30 لغة. اختر اللغة من أعلى الشاشة ثم افتح مكتبة التقييمات أو التقارير أو خطة التطوير. تبقى بياناتك على جهازك؛ ويمكنك تصدير التقرير المختار أو حذف البيانات المحلية.
 
 الترجمة لا تعني اعتماد المقياس علميًا بالعربية. يحتفظ O*NET بالنص الإنجليزي الأصلي، ويتيح IPIP النص الإنجليزي افتراضيًا وترجمة غير معتمدة اختياريًا. النتائج الخام ليست تشخيصًا أو قياسًا للذكاء أو نسبة ملاءمة وظيفية معتمدة. أدوات التطوير مؤلفة لهذا البرنامج وليست نسخة من المقاييس التجارية.
+
+OHBDS computes X = 66 − A + B (20–100), using eleven A items and nine B items. X/20 is a keyed index, not a response average. The instrument does not establish cerebral hemisphere dominance or clinical validity. HBDI and the legacy proprietary binary questionnaire remain official external-only resources.

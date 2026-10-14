@@ -20,7 +20,12 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
-This code license does not replace embedded content licenses. IPIP items and
-scales are public domain. O*NET Career Exploration Tools content and its
-unchanged original Interest Profiler PDF use CC BY-ND 4.0 with attribution
-in README.md and the app. Their content is not relicensed under MIT.
+This software-code license does not replace third-party content licenses.
+IPIP items and scales are public domain. O*NET Career Exploration Tools
+content and its unchanged original Interest Profiler PDF use CC BY-ND 4.0.
+OHBDS questionnaire content, its source PDF, and content translations or
+adaptations use CC BY-NC-SA 4.0. Those materials are not relicensed under MIT.
+The full edition containing OHBDS is a noncommercial bundled edition; the MIT
+code permission does not authorize commercial use of that included content.
+See app/THIRD-PARTY-NOTICES.txt and docs/content-licenses.md for attribution,
+sources, content conditions, and the distinction between code and content.

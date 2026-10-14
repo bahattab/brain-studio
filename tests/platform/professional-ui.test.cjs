@@ -146,6 +146,7 @@ test('selected-team PDF excludes unselected identities; privacy toggles recalcul
   const pdf=await page.pdf({printBackground:true});
   const parsed=spawnSync('python',['-c',"import fitz,sys;doc=fitz.open(stream=sys.stdin.buffer.read(),filetype='pdf');print('\\n'.join(page.get_text() for page in doc))"],{input:pdf,encoding:'utf8'});
   assert.equal(parsed.status,0,parsed.stderr);assert(!parsed.stdout.includes('PRIVATE_UNSELECTED_FIXTURE'));assert(parsed.stdout.includes('SELECTED_ONE'));assert(parsed.stdout.includes('SELECTED_TWO'));
+  assert(parsed.stdout.includes('Created by Brain Studio, Emad Bahattab, Email: bahattab@yahoo.com'));
   await page.evaluate(()=>window.finishPDF({saved:true}));await page.emulateMedia({media:'screen'});
   await page.locator('[data-route="feedback"]').click();await page.locator('#privacy-mode').uncheck();
   for(let r=0;r<2;r++)for(let c=0;c<12;c++)await page.selectOption(`[data-rater="${r}"][data-competency="c${c}"]`,String(r?1:5));
@@ -153,4 +154,72 @@ test('selected-team PDF excludes unselected identities; privacy toggles recalcul
   const report=await page.evaluate(()=>window.capturedReport);assert.equal(report.privacyMode,true);assert.equal(report.result.rows[0].othersMean,null);assert.deepEqual(report.result.rows[0].groups,[]);
   assert.deepEqual(errors,[]);
 });
+test('creator credit is displayed in RTL and LTR and repeated on every actual PDF page',{timeout:120000},async t=>{
+  const {page,errors}=await setup(t),credit='Created by Brain Studio, Emad Bahattab, Email: bahattab@yahoo.com';
+  for(const language of ['en','ar','ja']){await page.selectOption('#language',language);assert.equal(await page.locator('#creator-credit').innerText(),credit);assert.equal(await page.locator('#creator-credit').getAttribute('dir'),'ltr');}
+  await page.selectOption('#language','en');await page.locator('[data-route="feedback"]').click();
+  for(let r=0;r<2;r++)for(let c=0;c<12;c++)await page.selectOption(`[data-rater="${r}"][data-competency="c${c}"]`,'3');
+  await page.locator('#feedback-calculate').click();await page.locator('#feedback-result details').evaluate(node=>node.open=true);
+  await page.evaluate(()=>{window.desktop={exportPDF:async()=>new Promise(resolve=>window.finishPDF=resolve)};});
+  await page.locator('#report-pdf').click();await page.waitForFunction(()=>document.body.dataset.printScope==='report');
+  const pdf=await page.pdf({printBackground:true,preferCSSPageSize:true});
+  fs.mkdirSync(path.join(root,'dist/platform-evidence'),{recursive:true});fs.writeFileSync(path.join(root,'dist/platform-evidence/creator-multipage.pdf'),pdf);
+  const parsed=spawnSync('python',['-c',"import fitz,sys,json;doc=fitz.open(stream=sys.stdin.buffer.read(),filetype='pdf');print(json.dumps([page.get_text() for page in doc]))"],{input:pdf,encoding:'utf8'});
+  assert.equal(parsed.status,0,parsed.stderr);const pages=JSON.parse(parsed.stdout);assert(pages.length>=2,'Use a genuinely multipage report');for(const [index,text] of pages.entries())assert(text.includes(credit),'Missing credit on PDF page '+(index+1)+'; tail='+text.slice(-250));
+  await page.evaluate(()=>window.finishPDF({saved:true}));assert.deepEqual(errors,[]);
+});
 
+
+test('OHBDS20 user journey retains source wording and independently verified neutral60 result',{timeout:120000},async t=>{
+  const {page,errors}=await setup(t);
+  await page.locator('[data-route="library"]').click();
+  assert.equal(await page.locator('.instrument-card [data-instrument="ohbds-20-v1"]').count(),1);
+  for(const url of ['https://www.thinkherrmann.com/hbdi','https://www.personalitytest.net/questionnaires/braindominance/index.html','https://freudly.ai/tests/is-your-brain-left-or-right/'])assert.equal(await page.locator(`a[href="${url}"]`).count(),1);
+  await page.locator('[data-instrument="ohbds-20-v1"]').click();
+  for(const language of ['ar','ja','he','en']){await page.selectOption('#language',language);assert.equal(await page.locator('#professional-question').innerText(),'I do not need others praise.');assert.equal(await page.locator('#professional-question [lang="en"]').getAttribute('dir'),'ltr');assert.equal(await page.locator('#original-english').isChecked(),true);}
+  for(let i=0;i<20;i++){await page.locator('[data-prof-value="3"]').click();await page.locator('#prof-next').click();}
+  const score=await page.locator('.score-row strong').innerText();assert.equal(score,'60');
+  assert.match(await page.locator('.portfolio-report').innerText(),/66 − A \+ B/);
+  assert.match(await page.locator('.portfolio-report').innerText(),/not a diagnosis of hemisphere dominance/);
+  const record=await page.evaluate(()=>JSON.parse(localStorage.getItem('brain-studio-workspace-v2')).profiles[0]);
+  assert.equal(record.instrumentId,'ohbds-20-v1');assert.equal(Object.keys(record.answers).length,20);assert(Object.values(record.answerLanguages).every(x=>x==='en'));
+  await page.reload();await page.locator('[data-route="portfolio"]').click();assert.equal(await page.locator('.score-row strong').innerText(),'60');assert.deepEqual(errors,[]);
+});
+
+test('AI user flow previews limited data before explicit send and never stores the session key',{timeout:120000},async t=>{
+  const {page,errors}=await setup(t),d=R.instruments.find(x=>x.id==='ipip-50');
+  const profile={id:'PRIVATE_ID_FIXTURE',name:'PRIVATE_NAME_FIXTURE',instrumentId:d.id,instrumentVersion:d.metadata.version,date:Date.now(),answers:Object.fromEntries(d.items.map(item=>[item.id,3])),answerLanguages:Object.fromEntries(d.items.map(item=>[item.id,'en']))};
+  await page.evaluate(profile=>{localStorage.setItem('brain-studio-workspace-v2',JSON.stringify({profiles:[profile]}));},profile);await page.reload();
+  await page.locator('[data-route="ai"]').click();assert.match(await page.locator('#ai-panel').innerText(),/desktop app only/);assert.equal(await page.locator('#ai-key').count(),0);
+  await page.evaluate(()=>{
+    window.aiMockCalls=[];
+    const service=BrainAICore.createService({client:{cancel:()=>({cancelled:false}),send:async(settings,body)=>{window.aiMockCalls.push(body);return {text:'<img src=x onerror="window.aiInjected=true"> Synthetic educational response'};}},randomToken:()=>String(Math.random())});
+    const wrap=method=>async(input)=>{try{return {ok:true,value:await service[method](input)};}catch(error){return {ok:false,error:{message:error.message}};}};
+    window.desktop={...window.desktop,aiConfigure:wrap('configure'),aiStatus:wrap('status'),aiClear:wrap('clear'),aiPreview:wrap('preview'),aiSend:wrap('send'),aiCancel:wrap('cancel')};
+  });
+  await page.locator('[data-route="ai"]').click();assert.equal(await page.locator('#ai-key').getAttribute('type'),'password');
+  await page.locator('#ai-model').fill('synthetic-model');await page.locator('#ai-key').fill('synthetic-session-key');await page.locator('#ai-configure').click();
+  await page.locator('#ai-question').fill('Suggest a small reflection experiment.');await page.locator('#ai-preview').click();await page.waitForFunction(()=>!document.getElementById('ai-send').disabled);
+  const body=await page.locator('#ai-payload').inputValue();assert(!body.includes('PRIVATE_NAME_FIXTURE'));assert(!body.includes('PRIVATE_ID_FIXTURE'));assert(!body.includes('synthetic-session-key'));assert(!body.includes('"answers"'));assert(body.includes('synthetic-model'));assert(body.includes('psychometric'));const sentSummary=JSON.parse(JSON.parse(body).messages[1].content).assessment;assert.equal(sentSummary.administrationLanguage,'en');assert(sentSummary.limitations.length>0);
+  assert.equal(await page.evaluate(()=>window.aiMockCalls.length),0);
+  await page.locator('#ai-question').fill('Another reflection question.');assert.equal(await page.locator('#ai-send').isDisabled(),true);
+  await page.locator('#ai-preview').click();await page.locator('#ai-send').click();await page.waitForFunction(()=>document.getElementById('ai-output').textContent.includes('Synthetic educational response'));
+  assert.equal(await page.evaluate(()=>window.aiMockCalls.length),1);assert.equal(await page.locator('#ai-output img').count(),0);assert.equal(await page.evaluate(()=>window.aiInjected),undefined);
+  const store=await page.evaluate(()=>JSON.stringify(localStorage));assert(!store.includes('synthetic-session-key'));assert.deepEqual(await page.evaluate(()=>JSON.parse(localStorage.getItem('brain-studio-workspace-v2')).profiles[0].answers),profile.answers);
+  await page.locator('#ai-clear').click();assert.equal(await page.locator('#ai-payload').inputValue(),'');assert.deepEqual(errors,[]);
+});
+
+test('all thirty empty workspace and AI routes translate without decorated-caption false positives',{timeout:120000},async t=>{
+  const {page,errors}=await setup(t);
+  await page.evaluate(()=>{window.desktop={...window.desktop,aiConfigure:async()=>({ok:true,value:{}}),aiPreview:async()=>({ok:true,value:{}}),aiSend:async()=>({ok:true,value:{}}),aiStatus:async()=>({ok:true,value:{configured:false,provider:'openai',endpoint:'https://api.openai.com/v1/chat/completions',model:''}}),aiClear:async()=>({ok:true,value:{}}),aiCancel:async()=>({ok:true,value:{}})};});
+  for(const language of await page.evaluate(()=>I18n.languages.map(x=>x.code))){
+    await page.selectOption('#language',language);
+    for(const route of ['library','portfolio','roles','coaching','development','team','feedback','skills','workspace','ai']){
+      await page.evaluate(route=>{I18n.missing.clear();BrainApp.navigate(route);},route);
+      assert.deepEqual(await page.evaluate(()=>[...I18n.missing]),[],language+' '+route);
+      assert(await page.locator('#content').innerText());
+    }
+    assert.equal(await page.locator('#ai-key').getAttribute('type'),'password');assert(await page.locator('#ai-send').isDisabled());
+  }
+  assert.deepEqual(errors,[]);
+});

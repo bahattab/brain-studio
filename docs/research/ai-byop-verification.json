@@ -1,0 +1,24 @@
+{
+  "testCommand": "node --test tests/ai-core.test.js",
+  "passed": 13,
+  "failed": 0,
+  "credentials": "synthetic only",
+  "liveProviderRequests": 0,
+  "actualPersonalRecordsUsed": false,
+  "browserProviderConnections": "disabled; desktop only",
+  "nativeAIAndOHBDSGates": "implemented; manager execution pending localization",
+  "checks": [
+    "publicHTTPSURL/privateIPguard",
+    "DNSalladdressescheckedandconnectionpinned",
+    "TLSverification/authheaderonly",
+    "previewnetworkfreeandexactoneusesnapshot",
+    "scientificsummaryidempotenceandprivatefieldsstripped",
+    "payloadlimitandsecretinclusionguard",
+    "redirectrefusalandfixedprovidererrors",
+    "DNSandHTTPtimeout/cancel",
+    "responsebounds/parser/keyredaction",
+    "passwordfield/noautoSend",
+    "latepreviewrevisionguard",
+    "plaintextoutput/immutabledeterministiccontext"
+  ]
+}

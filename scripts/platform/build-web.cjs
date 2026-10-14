@@ -3,7 +3,7 @@ const fs=require('node:fs');
 const path=require('node:path');
 const crypto=require('node:crypto');
 const {buildIcons}=require('./build-icons.cjs');
-const portable=new Set(['.html','.js','.mjs','.css','.json','.svg','.png','.ico','.jpg','.jpeg','.webp','.avif','.gif','.woff','.woff2','.ttf','.otf','.wasm']);
+const portable=new Set(['.txt','.html','.js','.mjs','.css','.json','.svg','.png','.ico','.jpg','.jpeg','.webp','.avif','.gif','.woff','.woff2','.ttf','.otf','.wasm']);
 const forbidden=/(^|\/)(private|evidence|node_modules|\.git)(\/|$)/i;
 function walk(root,base='') {
   return fs.readdirSync(path.join(root,base),{withFileTypes:true}).sort((a,b)=>a.name.localeCompare(b.name,'en')).flatMap(item=>{

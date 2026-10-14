@@ -21,5 +21,6 @@
     "electron": "44.7.2",
     "electron-builder": "26.15.3"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "author": "Brain Studio contributors"
 }

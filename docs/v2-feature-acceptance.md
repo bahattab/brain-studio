@@ -99,3 +99,10 @@ These corrections are source observations. Native failure, reload, export, and u
 10. Exercise each professional route in LTR and RTL locales, including source-English questionnaires. Scores must remain unchanged; text, numbers, selection controls, warnings, and print output must remain readable.
 
 No completion claim should convert these partial features or pending runtime checks into psychometric validation. Remaining product gaps should be completed or explicitly retained as scope limits before the implementation gate is closed.
+
+
+## Manager verification after the final corrections
+
+The normalized-ID collision check now runs after profile cleaning; restored records are deduplicated. Professional headings no longer inherit the legacy20-question badge. Scoped role reports include the selected participant, scenario and instrument version; feedback reports include their framework and version. Practice coaching now discusses explained tasks and errors. Pair exports retain individual means and signed differences. Numeric ranges and fractions are isolated LTR within RTL report layouts.
+
+Current-source verification:33 unit tests and15 platform/browser tests pass. The30locale browser sweep exercises every professional route, all original custom items, optional IPIP wording, source-language preservation and report creation. The native smoke exercises30 locales, source IPIP50 midpoint scores and custom36 midpoint scores, persistence, PDFs and renderer isolation. Actual selected-team PDF text excludes unselected participant identities; current privacy state suppresses small observer groups in JSON. A final hands-on Windows capture session remains pending because the capture helper times out; automated native results do not claim that manual session completed.

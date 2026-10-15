@@ -49,7 +49,7 @@ test('complete custom assessment through UI; language changes preserve answers a
   for(const language of ['ar','de','ja']){await page.selectOption('#language',language);assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true,language+': mobile overflow');}
   assert.deepEqual(errors,[]);
 });
-test('published source wording stays English across interface languages; all workspace pages render',{timeout:120000},async t=>{
+test('explicit published English wording stays unchanged across interface languages; all workspace pages render',{timeout:120000},async t=>{
   const {page,errors}=await setup(t);
   for(const language of ['ar','ur','fa','he','en','zh']){
     await page.selectOption('#language',language);
@@ -58,11 +58,46 @@ test('published source wording stays English across interface languages; all wor
     assert.equal(await page.locator('#professional-question').innerText(),R.instruments.find(x=>x.id==='onet-short-form-60').items[0].prompt);
     await page.locator('[data-prof-value="0"]').click();assert.equal(await page.locator('#prof-next').isEnabled(),true);
     await page.locator('[data-route="library"]').click();await page.locator('[data-instrument="ipip-50"]').click();
+    await page.locator('#original-english').check();
     assert.equal(await page.locator('#professional-question').innerText(),R.instruments[0].items[0].prompt);
     for(const route of ['portfolio','roles','coaching','development','team','feedback','skills','workspace']){await page.locator(`[data-route="${route}"]`).click();assert(await page.locator('#content h1').count());assert(!/NaN|undefined/.test(await page.locator('#content').innerText()));}
   }
   assert.deepEqual(errors,[]);
 });
+test('new non-English drafts use localized wording; existing source-English answers retain provenance',{timeout:120000},async t=>{
+  const {page,errors}=await setup(t);
+  await page.selectOption('#language','ar');
+  for(const id of ['ipip-50','ohbds-20-v1']){
+    await page.locator('[data-route="library"]').click();await page.locator(`[data-instrument="${id}"]`).click();
+    assert.equal(await page.locator('#original-english').isChecked(),false,id+': new Arabic draft');
+    const source=await page.evaluate(id=>[...ResearchCore.instruments,...ThinkingCore.instruments].find(d=>d.id===id).items[0].prompt,id);
+    assert.notEqual(await page.locator('#professional-question').innerText(),source);
+    await page.locator('[data-prof-value="3"]').click();
+    const before=await page.evaluate(id=>JSON.parse(localStorage.getItem('brain-studio-workspace-v2')).drafts[id],id);
+    assert.deepEqual(Object.values(before.answerLanguages),['ar']);
+    await page.locator('#original-english').check();
+    assert.equal(await page.locator('#professional-question').innerText(),source);
+    const after=await page.evaluate(id=>JSON.parse(localStorage.getItem('brain-studio-workspace-v2')).drafts[id],id);
+    assert.deepEqual(after.answers,before.answers);assert.deepEqual(after.answerLanguages,before.answerLanguages);
+    await page.reload();await page.locator('[data-route="library"]').click();await page.locator(`[data-instrument="${id}"]`).click();
+    assert.equal(await page.locator('#original-english').isChecked(),true,id+': persisted explicit choice');
+    assert.equal(await page.locator('#professional-question').innerText(),source);
+    const restored=await page.evaluate(id=>JSON.parse(localStorage.getItem('brain-studio-workspace-v2')).drafts[id],id);
+    assert.deepEqual(restored.answers,before.answers);assert.deepEqual(restored.answerLanguages,before.answerLanguages);
+  }
+  // Old saved English drafts have no explicit originalEnglish flag. Opening
+  // one after changing the interface must not silently reinterpret its answers.
+  await page.evaluate(()=>localStorage.setItem('brain-studio-workspace-v2',JSON.stringify({drafts:{'ipip-50':{answers:{ipip01:4},answerLanguages:{ipip01:'en'},index:0,name:'Legacy fixture',started:Date.now()}},profiles:[]})));
+  await page.reload();await page.locator('[data-route="library"]').click();await page.locator('[data-instrument="ipip-50"]').click();
+  assert.equal(await page.locator('#original-english').isChecked(),true);
+  assert.equal(await page.locator('#professional-question').innerText(),R.instruments[0].items[0].prompt);
+  assert.equal(await page.locator('[data-prof-value="4"]').getAttribute('aria-pressed'),'true');
+  await page.locator('#professional-name').fill('Legacy fixture retained');
+  const legacy=await page.evaluate(()=>JSON.parse(localStorage.getItem('brain-studio-workspace-v2')).drafts['ipip-50']);
+  assert.deepEqual(legacy.answers,{ipip01:4});assert.deepEqual(legacy.answerLanguages,{ipip01:'en'});
+  assert.deepEqual(errors,[]);
+});
+
 test('mixed wording provenance survives reload and cannot be pooled as source-English data',{timeout:120000},async t=>{
   const {page,errors}=await setup(t);
   await page.selectOption('#language','ar');await page.locator('[data-route="library"]').click();await page.locator('[data-instrument="ipip-50"]').click();
@@ -111,7 +146,7 @@ test('calculated report remains exportable after storage failure; interest choic
   await page.locator('[data-route="workspace"]').click();await page.locator('#workspace-export').click();assert.equal((await page.evaluate(()=>window.capturedReport)).profiles.length,1);
   assert.deepEqual(errors,[]);
 });
-test('all thirty locales cover professional routes, custom prompts, optional IPIP wording and reports',{timeout:120000},async t=>{
+test('all thirty locales cover professional routes, custom prompts, localized published wording and reports',{timeout:120000},async t=>{
   const {page,errors}=await setup(t);
   const fixtures=[...R.instruments,...W.instruments,...W.instruments.filter(d=>d.id==='work-style')].map((d,index)=>({id:'locale-fixture-'+index,name:'Synthetic participant '+index,instrumentId:d.id,instrumentVersion:d.metadata.version,date:Date.now(),answers:Object.fromEntries(d.items.map(item=>[item.id,d.id==='onet-short-form-60'?0:3])),answerLanguages:Object.fromEntries(d.items.map(item=>[item.id,'en']))}));
   await page.evaluate(profiles=>localStorage.setItem('brain-studio-workspace-v2',JSON.stringify({profiles})),fixtures);await page.reload();
@@ -121,11 +156,17 @@ test('all thirty locales cover professional routes, custom prompts, optional IPI
       I18n.setLanguage(language.code);document.querySelector('#language').value=language.code;
       for(const route of ['library','portfolio','roles','coaching','development','team','feedback','skills','workspace'])BrainApp.navigate(route);
       BrainApp.navigate('team');const checkboxes=[...document.querySelectorAll('[data-team-profile]')];checkboxes.filter(e=>['locale-fixture-2','locale-fixture-6'].includes(e.dataset.teamProfile)).forEach(e=>e.checked=true);document.querySelector('#team-calculate').click();
-      for(const id of ['work-style','emotional-reflection','communication-style','ipip-50']){
+      for(const id of ['work-style','emotional-reflection','communication-style','skills-practice','ipip-50','ohbds-20-v1']){
         BrainApp.navigate('library');document.querySelector(`[data-instrument="${id}"]`).click();
-        if(id==='ipip-50'){const checkbox=document.querySelector('#original-english');checkbox.checked=false;checkbox.dispatchEvent(new Event('change'));}
+        if(['ipip-50','ohbds-20-v1'].includes(id)){const checkbox=document.querySelector('#original-english');checkbox.checked=false;checkbox.dispatchEvent(new Event('change'));}
         const count=document.querySelectorAll('[data-prof-question]').length;
-        for(let index=0;index<count;index++)document.querySelector(`[data-prof-question="${index}"]`).click();
+        for(let index=0;index<count;index++){
+          document.querySelector(`[data-prof-question="${index}"]`).click();
+          const instrument=[...ResearchCore.instruments,...WorkspaceCore.instruments,...ThinkingCore.instruments].find(d=>d.id===id),source=instrument.items[index].prompt;
+          const rendered=document.querySelector('#professional-question').textContent;
+          if(rendered!==I18n.t(source))failures.push({language:language.code,id,index,reason:'Prompt is not the selected translation'});
+          if(language.code!=='en'&&rendered===source)failures.push({language:language.code,id,index,reason:'Untranslated question'});
+        }
       }
       if(I18n.missing.size)failures.push({language:language.code,missing:[...I18n.missing]});
     }
@@ -220,6 +261,27 @@ test('all thirty empty workspace and AI routes translate without decorated-capti
       assert(await page.locator('#content').innerText());
     }
     assert.equal(await page.locator('#ai-key').getAttribute('type'),'password');assert(await page.locator('#ai-send').isDisabled());
+  }
+  assert.deepEqual(errors,[]);
+});
+
+
+test('visible validation toast follows the interface language without retaining English',{timeout:120000},async t=>{
+  const {page,errors}=await setup(t),d=W.instruments.find(x=>x.id==='work-style');
+  const profiles=[0,1].map(index=>({id:'toast-fixture-'+index,name:'Synthetic toast profile '+index,instrumentId:d.id,instrumentVersion:d.metadata.version,date:Date.now(),answers:Object.fromEntries(d.items.map(item=>[item.id,3])),answerLanguages:Object.fromEntries(d.items.map(item=>[item.id,'en']))}));
+  await page.evaluate(profiles=>localStorage.setItem('brain-studio-workspace-v2',JSON.stringify({profiles})),profiles);await page.reload();
+  await page.locator('[data-route="team"]').click();
+  const source='Select at least two profiles with the same instrument, version, and questionnaire language.';
+  for(const language of ['ar','ja','fr','he']){
+    await page.selectOption('#language','en');
+    await page.locator('#team-calculate').click();
+    assert.equal(await page.locator('#toast').innerText(),source);
+    assert.equal(await page.locator('#toast').evaluate(node=>node.classList.contains('visible')),true);
+    await page.selectOption('#language',language);
+    const expected=await page.evaluate(source=>I18n.t(source),source);
+    assert.notEqual(expected,source,language+': validation translation is present');
+    assert.equal(await page.locator('#toast').innerText(),expected,language+': existing visible toast changes language');
+    assert.equal(await page.locator('#toast').evaluate(node=>node.classList.contains('visible')),true);
   }
   assert.deepEqual(errors,[]);
 });

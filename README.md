@@ -1,4 +1,4 @@
-# Brain Studio 2.1.0
+# Brain Studio 2.1.1
 
 An assessment, reflection, and development workspace that works offline by default, with a modern multilingual interface. This independent application does not reproduce proprietary questions, commercial scoring, or personal reference reports. Optional desktop bring-your-own-provider AI is implemented; its current verification status is recorded below and in `VERIFICATION.md`.
 
@@ -24,7 +24,7 @@ Arabic, Persian, Urdu, and Hebrew use RTL; other interfaces use LTR. The header 
 
 Translations are machine-assisted linguistic drafts checked for coverage, placeholders, encoding, and runtime behavior. They have not received professional native-speaker or psychometric validation. Each answered item records its presentation language. Mixed or unknown administrations are explicitly retained and excluded from pooled comparisons; identical translated-language profiles remain descriptive and do not establish equivalence.
 
-IPIP and OHBDS default to published English wording; optional translated modes display adaptation limitations. Translated OHBDS passages retain CC BY-NC-SA conditions. O*NET source activities/instructions remain English under their content license. Verbal skills practice also retains authored English. A translated interface does not imply that every instrument has a validated translation.
+New IPIP and OHBDS sessions use the interface language, with an explicit original-English option; existing saved language choices remain intact. Translated modes display adaptation limitations. Translated OHBDS passages retain CC BY-NC-SA conditions. O*NET source activities/instructions remain English under their content license. Authored skills practice questions, choices and explanations follow the interface language. A translated interface does not imply that every instrument has a validated translation.
 
 ## Scoring and limits
 

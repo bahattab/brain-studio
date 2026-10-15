@@ -3,7 +3,7 @@ on:
   pull_request:
   push:
     branches: [main]
-    tags: ['v2.1.0']
+    tags: ['v2.1.1']
   workflow_dispatch:
 permissions:
   contents: read
@@ -13,7 +13,7 @@ concurrency:
 jobs:
   web:
     runs-on: ubuntu-24.04
-    timeout-minutes: 15
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
@@ -30,13 +30,21 @@ jobs:
           /tmp/brain-pdf-verification/bin/pip install PyMuPDF==1.27.2.3
           echo '/tmp/brain-pdf-verification/bin' >> "$GITHUB_PATH"
       - run: node --test tests/*.test.js tests/platform/*.test.cjs
+      - run: node scripts/localization/audit-all-pages.cjs
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: localization-audit
+          path: evidence/all-pages-locales-*/summary.json
+          if-no-files-found: warn
+          retention-days: 14
       - run: node scripts/platform/build-web.cjs
-      - run: zip -r ../Brain-Studio-2.1.0-web.zip .
+      - run: zip -r ../Brain-Studio-2.1.1-web.zip .
         working-directory: dist/web
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: release-web
-          path: dist/Brain-Studio-2.1.0-web.zip
+          path: dist/Brain-Studio-2.1.1-web.zip
           if-no-files-found: error
           retention-days: 14
   native:
@@ -71,7 +79,7 @@ jobs:
       - name: Verify release identity and pinned builder
         shell: bash
         run: |
-          node -e "const p=require('./package.json'); if(p.version!=='2.1.0') throw Error('Expected v2.1.0'); if(require('electron-builder/package.json').version!=='26.15.3') throw Error('Builder version mismatch')"
+          node -e "const p=require('./package.json'); if(p.version!=='2.1.1') throw Error('Expected v2.1.1'); if(require('electron-builder/package.json').version!=='26.15.3') throw Error('Builder version mismatch')"
       - run: node scripts/build-locales.cjs
       - run: node scripts/platform/build-icons.cjs
       - run: node --test tests/*.test.js tests/platform/config.test.cjs
@@ -122,7 +130,7 @@ jobs:
           retention-days: 14
   release:
     needs: [web, native]
-    if: github.event_name == 'push' && github.ref == 'refs/tags/v2.1.0'
+    if: github.event_name == 'push' && github.ref == 'refs/tags/v2.1.1'
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     environment: release
@@ -141,4 +149,4 @@ jobs:
       - name: Create reviewable release with approved assets only
         env:
           GH_TOKEN: ${{ github.token }}
-        run: gh release create v2.1.0 release-assets/* --draft --verify-tag --title 'Brain Studio 2.1.0' --notes-file docs/platform-delivery.md
+        run: gh release create v2.1.1 release-assets/* --draft --verify-tag --title 'Brain Studio 2.1.1' --notes-file docs/platform-delivery.md

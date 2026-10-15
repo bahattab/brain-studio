@@ -1,4 +1,19 @@
-# Brain Studio 2.1.0 verification
+# Brain Studio 2.1.1 localization verification
+
+Verified locally on 2026-10-15:
+
+- 82 unit tests and all 23 platform/browser tests passed.
+- 30 catalogs contain 984 entries; all 758 extracted public captions have translations and valid placeholders.
+- 4,800 rendered question checks cover 160 translatable items in every language.
+- New non-English IPIP/OHBDS sessions use localized wording; explicit original-English choices and historical answer-language provenance remain intact.
+- Skills practice prompts, choices and explanations, license descriptions, selector labels and live validation messages now follow the interface language.
+- Packaged Windows native smoke and the 51-entry packaged-content audit passed.
+- See [the complete page audit](docs/localization-audit-2.1.1.md) for all main/subpage states, language coverage and narrowly reviewed source-English exceptions.
+
+These are automated runtime and visual checks with synthetic data, not native-speaker or psychometric certification. O*NET original questions and source instructions remain English; names, technical identifiers and exact attribution are preserved.
+
+## Historical 2.1.0 verification
+
 
 Current 2.1.0 local evidence (2026-10-15):
 

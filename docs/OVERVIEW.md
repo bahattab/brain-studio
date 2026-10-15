@@ -21,7 +21,7 @@ Arabic, Persian, Urdu, and Hebrew use RTL; other interfaces use LTR. The header 
 
 Translations are machine-assisted linguistic drafts checked for coverage, placeholders, encoding, and runtime behavior. They have not received professional native-speaker or psychometric validation. Each answered item records its presentation language. Mixed or unknown administrations are explicitly retained and excluded from pooled comparisons; identical translated-language profiles remain descriptive and do not establish equivalence.
 
-IPIP and OHBDS default to published English wording; translated mode displays a visible adaptation limitation. O*NET source activities/instructions remain English under their content license. Verbal skills practice also retains authored English. A translated interface does not imply that every instrument has a validated translation.
+New IPIP and OHBDS sessions follow the selected interface language; original English remains an explicit option. Saved language choices are preserved, and translated mode displays a visible adaptation limitation. O*NET source activities/instructions remain English under their content license. Authored skills practice questions, choices and explanations follow the interface language. A translated interface does not imply that every instrument has a validated translation.
 
 ## Scoring and limits
 

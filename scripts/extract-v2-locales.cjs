@@ -60,7 +60,7 @@ function extract(){
     if(text&&!['brain','studio','b.','brainstudio'].includes(text))add(text);
   }
   for(const instrument of [...R.instruments,...W.instruments,...H.instruments]){
-    add(instrument.title);add(instrument.description);add(instrument.metadata.validationStatus);
+    add(instrument.title);add(instrument.description);add(instrument.metadata.validationStatus);add(instrument.metadata.license);
     for(const scale of instrument.scales)add(scale.title);
     for(const item of instrument.items)if(item.difficulty)add(item.difficulty);
     if(['work-style','emotional-reflection','communication-style'].includes(instrument.id)){
@@ -70,6 +70,10 @@ function extract(){
       for(const item of instrument.items){sourceEnglish.add(item.prompt);add(item.prompt);}
       if(instrument.instructions){sourceEnglish.add(instrument.instructions);add(instrument.instructions);}
       for(const option of instrument.responseOptions){sourceEnglish.add(option.label);add(option.label);}
+    } else if(instrument.id==='skills-practice') {
+      for(const item of instrument.items){add(item.prompt);for(const choice of item.choices||[])add(choice);if(item.explanation)add(item.explanation);}
+      if(instrument.instructions)add(instrument.instructions);
+      if(instrument.interpretationInstructions)add(instrument.interpretationInstructions);
     } else {
       for(const item of instrument.items){sourceEnglish.add(item.prompt);for(const choice of item.choices||[])sourceEnglish.add(choice);if(item.explanation)sourceEnglish.add(item.explanation);}
       if(instrument.instructions)sourceEnglish.add(instrument.instructions);
@@ -89,7 +93,7 @@ function extract(){
   for(const value of sourceOnly)keys.delete(value);
   // The instrument's proper name is preserved, while surrounding interface is localized.
   for(const brand of ['Anthropic','Google Gemini','OpenRouter'])add(brand);
-  const preserve=['Anthropic','Google Gemini','OpenRouter','O*NET® Interest Profiler Short Form','Brain Studio','Brain Studio · 2.0','Brain Studio · 2.1','Created by Brain Studio, Emad Bahattab, Email: bahattab@yahoo.com'];
+  const preserve=['Anthropic','Google Gemini','OpenRouter','Brain Studio','Brain Studio · 2.0','Brain Studio · 2.1','Created by Brain Studio, Emad Bahattab, Email: bahattab@yahoo.com'];
   const ipipFirstPerson=Object.fromEntries(R.instruments.find(instrument=>instrument.id==='ipip-50').items.map(item=>[item.prompt,'I '+item.prompt[0].toLowerCase()+item.prompt.slice(1)]));
   Object.assign(ipipFirstPerson,{
     'Am the life of the party.':'I liven up social gatherings.',

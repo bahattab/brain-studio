@@ -33,6 +33,7 @@ const {chromium}=require('playwright');
     let visits=0;
     for(const language of languages){
       await page.selectOption('#language',language);
+      await page.evaluate(()=>localStorage.removeItem('brain-studio-workspace-v2'));await page.reload();
       for(const route of ['library','ai','about']){
         await page.locator(`[data-route="${route}"]`).click();
         const state=await page.evaluate(()=>({missing:[...I18n.missing],lang:document.documentElement.lang,dir:document.documentElement.dir}));
@@ -42,7 +43,11 @@ const {chromium}=require('playwright');
       }
       await page.locator('[data-route="library"]').click();
       await page.locator('[data-instrument="ohbds-20-v1"]').click();
-      const toggle=page.locator('#original-english');if(!await toggle.isChecked())await toggle.check();
+      const toggle=page.locator('#original-english');
+      if(await toggle.isChecked()!==(language==='en'))throw Error('Wrong new-draft language default: '+language);
+      const localized=await page.locator('#professional-question').textContent();
+      if(language!=='en'&&localized==='I do not need others praise.')throw Error('Default OHBDS translation absent: '+language);
+      if(!await toggle.isChecked())await toggle.check();
       const english=await page.locator('#professional-question').textContent();
       if(english!=='I do not need others praise.')throw Error('Source English changed: '+language);
       if(language!=='en'){

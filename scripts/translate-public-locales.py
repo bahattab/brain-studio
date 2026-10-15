@@ -19,7 +19,7 @@ ROOT = Path(__file__).resolve().parent.parent
 LOCALES = ROOT / 'app' / 'locales'
 MANIFEST = ROOT / 'scripts' / 'localization' / 'v2-keys.json'
 IPIP_FIRST_PERSON = json.loads(MANIFEST.read_text(encoding='utf-8')).get('ipipFirstPerson',{})
-REFRESH_IDIOMS={'Am the life of the party.','Seldom feel blue.','Often feel blue.'}
+REFRESH_IDIOMS={'O*NET® Interest Profiler Short Form','Am the life of the party.','Seldom feel blue.','Often feel blue.'}
 LANGUAGES = ['ar','zh','es','hi','fr','pt','ru','bn','ja','de','ur','id','ko','tr','it','fa','he','sw','vi','pa','mr','te','ta','th','gu','pl','uk','ms','ha']
 CONTEXT = {
     'Action':'Development action', 'Dimension':'Assessment dimension',
@@ -65,6 +65,8 @@ def restore_tokens(translated, tokens):
     return translated.strip()
 
 def translate_batch(keys, language):
+    if language == 'ha' and any(re.fullmatch(r'(3|6|12|24) hours', key) for key in keys):
+        return [('Sa’o’i '+key.split()[0]) if re.fullmatch(r'(3|6|12|24) hours',key) else translate_batch([key],language)[0] for key in keys]
     prepared=[protect(IPIP_FIRST_PERSON.get(key,key)) for key in keys]
     result=request('\n'.join(pair[0] for pair in prepared),language).splitlines()
     if len(result)!=len(keys):

@@ -1,6 +1,6 @@
 {
   "name": "brain-studio",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "private": true,
   "description": "Offline multilingual assessment, career exploration and development workspace with research-attributed scoring",
   "main": "app/main.cjs",

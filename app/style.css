@@ -29,3 +29,5 @@ footer{flex-wrap:wrap;gap:10px}#creator-credit{flex-basis:100%;text-align:center
 .sidebar{height:100dvh;}
 .sidebar nav{flex:1;min-height:0;overflow-y:auto;align-content:start;scrollbar-width:thin;}
 .sidebar .brand,.sidebar .workspace-label,.sidebar .sidebar-bottom{flex-shrink:0;}
+
+#ai-saved-settings{margin-block:20px;padding:14px 20px;border:1px solid #dce8e1;border-radius:12px;background:#f6faf8}#ai-saved-settings summary{font-weight:600}#ai-output{unicode-bidi:plaintext;min-height:2em}#ai-endpoint-label[hidden],#ai-local-note[hidden],#ai-saved-settings[hidden]{display:none}@media print{#ai-saved-settings,#ai-provider,#ai-endpoint,#ai-model,#ai-key{display:none!important}}

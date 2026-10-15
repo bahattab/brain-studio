@@ -1,4 +1,4 @@
-# Brain Studio 2.0.0
+# Brain Studio 2.1.0
 
 An assessment, reflection, and development workspace that works offline by default, with a modern multilingual interface. This independent application does not reproduce proprietary questions, commercial scoring, or personal reference reports. Optional desktop bring-your-own-provider AI is implemented; its current verification status is recorded below and in `VERIFICATION.md`.
 
@@ -44,7 +44,7 @@ The Windows installer permits a chosen destination and creates desktop/Start Men
 
 Assessment storage is local and is not encrypted by the app. Native storage belongs to the current user's Electron application-data directory; browser storage belongs to its origin. Clearing local records leaves previously exported files untouched. The legacy reflection history and professional workspace have separate deliberate clearing controls.
 
-The native renderer is sandboxed and isolated from Node.js; ordinary assessment pages do not send data automatically. Fixed-allowlist research links can deliberately open the system browser. Optional desktop AI sends only an approved score summary and the user's prompt to their selected public provider, after an explicit action; participant names, record IDs, and raw answers are excluded by the summary allowlist. Provider handling and any text the user deliberately types into a prompt remain the user's responsibility. Provider keys remain in session memory rather than application storage or exports. Core and browser UI controls passed synthetic/mock tests; packaged integration and real-provider success remain separate pending gates.
+The native renderer is sandboxed and isolated from Node.js; ordinary assessment pages do not send data automatically. Fixed-allowlist research links can deliberately open the system browser. Optional desktop AI sends only an approved score summary and the user's prompt to their selected provider, after an explicit action; participant names, record IDs, and raw answers are excluded by the summary allowlist. Provider handling and any text the user deliberately types into a prompt remain the user's responsibility. Keys remain in session memory by default. Optional saved configurations use OS-backed encryption; saved keys never return to the renderer or enter assessment exports. Real-provider account access remains unverified.
 
 Public delivery excludes private documents, extracted text, participant identities, private paths, local audits, and credentials. Small-group suppression does not guarantee anonymity. The deliberately requested creator credit is the sole explicit public identity exception.
 
@@ -52,7 +52,9 @@ Public delivery excludes private documents, extracted text, participant identiti
 
 Bring your own supported provider, model, and API key. Assessment and reporting functions remain usable without AI or a network connection. No default credentials, embedded provider account, automatic background analysis, or inference of a clinical diagnosis is supplied. Provider billing and network availability apply to deliberately requested analysis.
 
-The integration contract limits requests to a chosen public provider and an explicit summary/prompt. Mock transport checks and a real provider request are different gates: real-provider verification remains pending, and this review makes no external API calls. Desktop supports OpenAI and public HTTPS OpenAI-compatible Chat Completions endpoints with a user-supplied model and bearer API key. Preview shows the exact request and destination before a one-use explicit Send action. Keys remain in main-process session memory. Browser/PWA displays a desktop-only notice and does not implement AI transport. See [AI implementation and verification](docs/research/ai-byop.md).
+Desktop supports OpenAI, native Anthropic Messages, native Google Gemini, OpenRouter, custom public HTTPS OpenAI-compatible endpoints and local Ollama on loopback HTTP/HTTPS. Users supply an exact model ID and their own hosted-provider key; local Ollama may omit a key. Streamed plain-text output supports cancellation. An exact request/destination preview and explicit Send are required. Provider billing applies, with bounded output and no automatic retry.
+
+Session-only use is the default. Optional named configurations use OS-backed encryption and can be activated or deleted without exposing saved keys. Saving is disabled when secure storage is unavailable. This local desktop application has no hosted database or embedded master encryption key. Browser/PWA displays a desktop-only notice. See [AI architecture and verification](docs/research/ai-byop.md).
 
 ## Development and checks
 

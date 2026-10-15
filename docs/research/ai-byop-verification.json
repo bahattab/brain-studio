@@ -1,12 +1,12 @@
 {
-  "testCommand": "node --test tests/ai-core.test.js",
-  "passed": 13,
+  "testCommand": "node --test tests/ai-core.test.js tests/ai-providers.test.js tests/ai-store.test.js tests/ai-ui.test.js",
+  "passed": 37,
   "failed": 0,
   "credentials": "synthetic only",
   "liveProviderRequests": 0,
   "actualPersonalRecordsUsed": false,
   "browserProviderConnections": "disabled; desktop only",
-  "nativeAIAndOHBDSGates": "implemented; manager execution pending localization",
+  "nativeAIAndOHBDSGates": "passed actual Windows Electron UI with synthetic loopback HTTP SSE; OHBDS60 and unchanged records",
   "checks": [
     "publicHTTPSURL/privateIPguard",
     "DNSalladdressescheckedandconnectionpinned",
@@ -19,6 +19,16 @@
     "responsebounds/parser/keyredaction",
     "passwordfield/noautoSend",
     "latepreviewrevisionguard",
-    "plaintextoutput/immutabledeterministiccontext"
-  ]
+    "plaintextoutput/immutabledeterministiccontext",
+    "sixProviderNativeAdapters",
+    "SSEsplitUTF8andEchoedCredentialRedaction",
+    "filteredUnsupportedTerminalReasonsFailClosed",
+    "outputTokenTruncationVisible",
+    "loopbackHTTPstreamAndCancel",
+    "OSencryptedNamedProviderCRUD",
+    "unavailableKeychainFailClosed",
+    "staleActivationCannotRestoreClearedKey"
+  ],
+  "version": "2.1.0",
+  "nativeStorage": "passed actual Windows OS encryption restart, activation, deletion, activation races and trusted IPC"
 }

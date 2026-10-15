@@ -54,9 +54,9 @@ Browser checks run Chromium against the generated app under a subdirectory, wait
 
 For a development host with Edge already installed, set `PLATFORM_BROWSER_CHANNEL=msedge` to run the same browser checks there without downloading another browser. CI explicitly installs and uses Chromium.
 
-`.github/workflows/platform-delivery.yml` defines five matching native host jobs and a browser job. A release cannot stage until every job passes. Build jobs have read-only repository permission and never auto-publish through electron-builder. Only the exact `v2.0.0` tag enables the release job. Actions are pinned to commits. The release job has write permission only in the `release` environment and creates a draft for review. Repository maintainers should protect that environment and the release tag before enabling publication.
+`.github/workflows/platform-delivery.yml` defines five matching native host jobs and a browser job. A release cannot stage until every job passes. Build jobs have read-only repository permission and never auto-publish through electron-builder. Only the exact `v2.1.0` tag enables the release job. Actions are pinned to commits. The release job has write permission only in the `release` environment and creates a draft for review. Repository maintainers should protect that environment and the release tag before enabling publication.
 
-Staging permits exactly 10 named version-2.0.0 assets: Windows setup, four macOS files, four Linux files and the offline web ZIP. Evidence, private files, blockmaps, dependency archives and unrelated files are rejected. `SHA256SUMS.txt` is generated over the staged files. Review the draft and unresolved native gates before publishing. No workflow run or release creation is implied merely by adding this configuration.
+Staging permits exactly 10 named version-2.1.0 assets: Windows setup, four macOS files, four Linux files and the offline web ZIP. Evidence, private files, blockmaps, dependency archives and unrelated files are rejected. `SHA256SUMS.txt` is generated over the staged files. Review the draft and unresolved native gates before publishing. No workflow run or release creation is implied merely by adding this configuration.
 
 Evidence status on 2026-10-14: all eight structural/browser tests passed locally using Edge, including offline reload and a real downloaded JSON file; JavaScript and PowerShell syntax checks also passed. Windows installed runtime/uninstall needs the isolated CI host; macOS and Linux build/runtime checks need their matching CI hosts. At initial implementation those host gates are **not run**. Preserve that state until real jobs or recorded manual sessions pass.
 
@@ -71,3 +71,7 @@ Selected-report PDFs use a reserved creator margin in Chromium 131 and later. In
 ## 2.0.0 build evidence
 
 The application source294be8ac02a368fb78905815bb940367817d6b1e passed all six Platform delivery jobs in run38557145358 on2026-10-14. Verification covers the30-language offline UI, OHBDS/IPIP/O*NET arithmetic,21 platform/browser groups, source/privacy/content-license audits, native runtime and Windows setup lifecycle. Optional AI is covered by13 mocked security/transport checks and explicit UI preview/send tests; no live provider credentials or private records were used. Source code is MIT; the full OHBDS-containing bundle includes noncommercial CC BY-NC-SA content. See the README and content-license notices before commercial reuse.
+
+## 2.1.0 expanded AI delivery
+
+Adds Anthropic, Gemini, OpenRouter, loopback Ollama, streaming and optional OS-encrypted named provider configurations. New runtime checks are required; historical 2.0.0 results do not certify changed code. Live vendor-account calls, signing and notarization remain unverified.

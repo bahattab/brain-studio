@@ -37,7 +37,7 @@ CONTEXT = {
 
 def protect(text):
     tokens = {}
-    pattern = r'\{\w+\}|Brain Studio|Brain Works|O\*NET(?:®)?|IPIP(?:-50)?|\bOHBDS\b|\bHBDI(?:®)?|\bHerrmann\b|\bFreudly\b|Personality Test Center|\bOpenAI\b|\bAPI\b|\bHTTPS\b|66\s*−\s*A\s*\+\s*B|\bPDF\b|\bJSON\b|\bIQ\b'
+    pattern = r'\{\w+\}|Brain Studio|Brain Works|O\*NET(?:®)?|IPIP(?:-50)?|\bOHBDS\b|\bHBDI(?:®)?|\bHerrmann\b|\bFreudly\b|Personality Test Center|\bOpenAI\b|\bAnthropic\b|Google Gemini|\bOpenRouter\b|\bOllama\b|\bAPI\b|\bHTTPS\b|66\s*−\s*A\s*\+\s*B|\bPDF\b|\bJSON\b|\bIQ\b'
     def replace(match):
         token = 'BSTOKEN' + str(len(tokens)) + 'X'
         tokens[token] = match[0]

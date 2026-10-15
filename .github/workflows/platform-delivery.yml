@@ -3,7 +3,7 @@ on:
   pull_request:
   push:
     branches: [main]
-    tags: ['v2.0.0']
+    tags: ['v2.1.0']
   workflow_dispatch:
 permissions:
   contents: read
@@ -31,12 +31,12 @@ jobs:
           echo '/tmp/brain-pdf-verification/bin' >> "$GITHUB_PATH"
       - run: node --test tests/*.test.js tests/platform/*.test.cjs
       - run: node scripts/platform/build-web.cjs
-      - run: zip -r ../Brain-Studio-2.0.0-web.zip .
+      - run: zip -r ../Brain-Studio-2.1.0-web.zip .
         working-directory: dist/web
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: release-web
-          path: dist/Brain-Studio-2.0.0-web.zip
+          path: dist/Brain-Studio-2.1.0-web.zip
           if-no-files-found: error
           retention-days: 14
   native:
@@ -71,7 +71,7 @@ jobs:
       - name: Verify release identity and pinned builder
         shell: bash
         run: |
-          node -e "const p=require('./package.json'); if(p.version!=='2.0.0') throw Error('Expected v2.0.0'); if(require('electron-builder/package.json').version!=='26.15.3') throw Error('Builder version mismatch')"
+          node -e "const p=require('./package.json'); if(p.version!=='2.1.0') throw Error('Expected v2.1.0'); if(require('electron-builder/package.json').version!=='26.15.3') throw Error('Builder version mismatch')"
       - run: node scripts/build-locales.cjs
       - run: node scripts/platform/build-icons.cjs
       - run: node --test tests/*.test.js tests/platform/config.test.cjs
@@ -86,6 +86,14 @@ jobs:
       - run: node scripts/platform/normalize-assets.cjs
       - run: node scripts/platform/audit-package.cjs
       - run: node scripts/platform/native-smoke.cjs
+      - name: Verify native encrypted provider storage and IPC
+        shell: bash
+        run: |
+          if [ "${{ matrix.os }}" = "linux" ]; then xvfb-run -a node tests/user-journeys/ai-storage-native.cjs; else node tests/user-journeys/ai-storage-native.cjs; fi
+      - name: Verify native AI user journey with local test server
+        shell: bash
+        run: |
+          if [ "${{ matrix.os }}" = "linux" ]; then xvfb-run -a node tests/user-journeys/ai-analysis-native.cjs; else node tests/user-journeys/ai-analysis-native.cjs; fi
       - name: Install, run and uninstall Windows setup
         if: matrix.os == 'win'
         shell: pwsh
@@ -114,7 +122,7 @@ jobs:
           retention-days: 14
   release:
     needs: [web, native]
-    if: github.event_name == 'push' && github.ref == 'refs/tags/v2.0.0'
+    if: github.event_name == 'push' && github.ref == 'refs/tags/v2.1.0'
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     environment: release
@@ -133,4 +141,4 @@ jobs:
       - name: Create reviewable release with approved assets only
         env:
           GH_TOKEN: ${{ github.token }}
-        run: gh release create v2.0.0 release-assets/* --draft --verify-tag --title 'Brain Studio 2.0.0' --notes-file docs/platform-delivery.md
+        run: gh release create v2.1.0 release-assets/* --draft --verify-tag --title 'Brain Studio 2.1.0' --notes-file docs/platform-delivery.md

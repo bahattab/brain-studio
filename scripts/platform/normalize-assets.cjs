@@ -4,10 +4,10 @@ function normalize(directory=path.resolve('dist/native')){
   const root=path.resolve(directory),renamed=[];
   for(const entry of fs.readdirSync(root,{withFileTypes:true})){
     if(!entry.isFile())continue;
-    const match=entry.name.match(/^Brain-Studio-2\.0\.0-linux-(amd64|x86_64|aarch64)\.(deb|AppImage)$/);
+    const match=entry.name.match(/^Brain-Studio-2\.1\.0-linux-(amd64|x86_64|aarch64)\.(deb|AppImage)$/);
     if(!match)continue;
     const arch=match[1]==='aarch64'?'arm64':'x64';
-    const name=`Brain-Studio-2.0.0-linux-${arch}.${match[2]}`;
+    const name=`Brain-Studio-2.1.0-linux-${arch}.${match[2]}`;
     const source=path.resolve(root,entry.name),target=path.resolve(root,name);
     if(path.dirname(source)!==root||path.dirname(target)!==root)throw new Error('Asset escaped the build directory');
     if(fs.existsSync(target))throw new Error('Normalized asset already exists: '+name);

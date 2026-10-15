@@ -1,4 +1,18 @@
-# Brain Studio 2.0.0 verification
+# Brain Studio 2.1.0 verification
+
+Current 2.1.0 local evidence (2026-10-15):
+
+- 77 unit groups passed, including 25 provider/core groups, six secure-store groups and six expanded UI groups.
+- All21 platform/browser groups passed, including offline operation, assessment scoring, RTL/LTR, privacy and actual multipage PDF geometry.
+- All30 locale catalogs contain897 keys;671 extracted public captions have no missing translations or placeholder mismatches. The independent150-route sweep reports no missing strings or page errors.
+- Full source Electron smoke passed30 locales and assessment/report routes with synthetic data.
+- Native Windows secure storage passed actual encrypted save, restart, list, activation and deletion. Renderer key readback and other-window IPC were rejected. Concurrent activation cannot undo Clear or override a newer configuration.
+- Native Electron AI user journey completed20OHBDS answers (neutral score60), configured a key-free loopback test endpoint, proved configuration/preview made zero requests, received incremental Arabic SSE text, cancelled a second actual HTTP socket and retained identical assessment records.
+- Tests use synthetic credentials and a controlled local server. No live cloud account or actual Ollama model inference is claimed. Physical Windows input, publisher signing/notarization and professional translation/psychometric certification remain unverified.
+
+Version2.1.0 release-host builds and Drive/publication receipts are separate delivery gates. The following2.0.0 records remain historical baseline evidence.
+
+## 2.0.0 baseline verification
 
 Current evidence date: 2026-10-14. This ledger distinguishes completed software checks from pending delivery and psychometric evidence.
 

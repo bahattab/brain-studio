@@ -1,12 +1,14 @@
-const { app, BrowserWindow, ipcMain, dialog, session, shell } = require('electron');
+const { app, BrowserWindow, ipcMain, dialog, session, shell, safeStorage } = require('electron');
 const path = require('node:path');
 const fs = require('node:fs/promises');
 const { pathToFileURL } = require('node:url');
 const smoke = process.argv.includes('--smoke-test');
 const userSessionTest = process.argv.includes('--user-session-test');
-const smokeDir = process.argv.find(x=>x.startsWith('--evidence-dir='))?.slice('--evidence-dir='.length) || path.resolve(__dirname,'../evidence');
+const smokeDir = path.resolve(process.argv.find(x=>x.startsWith('--evidence-dir='))?.slice('--evidence-dir='.length) || path.resolve(__dirname,'../evidence'));
 if(smoke||userSessionTest) app.setPath('userData', path.join(smokeDir,smoke?'smoke-user-data':'user-session-data'));
 let win;
+let aiNavigationGeneration=0;
+let aiConfigurationGeneration=0;
 function trusted(event) { if (!win || event.sender !== win.webContents || event.senderFrame?.url !== pathToFileURL(path.join(__dirname,'index.html')).href) throw new Error('Untrusted export request'); }
 const thinkingSources=require('./thinking-core.js');
 const permittedSources=new Set([
@@ -15,13 +17,35 @@ const permittedSources=new Set([
   'https://www.thinkherrmann.com/hbdi','https://herrmann.com.au/hbdi'
 ]);
 const aiService=require('./ai-core.js').createService();
-async function aiResult(operation){try{return {ok:true,value:await operation()};}catch(error){const supported=['CONTEXT','SETTINGS','ENDPOINT','MODEL','KEY','PROMPT','PAYLOAD','SECRETS','BUSY','TIMEOUT','CANCELLED','ADDRESS','REDIRECT','PROVIDER','NETWORK','RESPONSE','FORMAT','PREVIEW'];return {ok:false,error:{code:supported.includes(error?.code)?error.code:'AI',message:supported.includes(error?.code)?error.message:'The provider operation could not be completed.'}};}}
+let providerStore;
+const savedProviders=()=>providerStore||(providerStore=require('./ai-store.cjs').createStore({directory:app.getPath('userData'),safeStorage}));
+async function aiResult(operation){try{return {ok:true,value:await operation()};}catch(error){const supported=['CONTEXT','SETTINGS','ENDPOINT','MODEL','KEY','PROMPT','PAYLOAD','SECRETS','BUSY','TIMEOUT','CANCELLED','ADDRESS','REDIRECT','PROVIDER','NETWORK','RESPONSE','FORMAT','PREVIEW','STORAGE'];return {ok:false,error:{code:supported.includes(error?.code)?error.code:'AI',message:supported.includes(error?.code)?error.message:'The provider operation could not be completed.'}};}}
 ipcMain.handle('ai-status',event=>{trusted(event);return aiResult(()=>aiService.status());});
-ipcMain.handle('ai-configure',(event,settings)=>{trusted(event);return aiResult(()=>aiService.configure(settings));});
+ipcMain.handle('ai-configure',(event,settings)=>{trusted(event);aiConfigurationGeneration++;return aiResult(()=>aiService.configure(settings));});
 ipcMain.handle('ai-preview',(event,input)=>{trusted(event);return aiResult(()=>aiService.preview(input));});
-ipcMain.handle('ai-send',(event,input)=>{trusted(event);return aiResult(()=>aiService.send(input));});
+ipcMain.handle('ai-send',(event,input)=>{trusted(event);return aiResult(()=>{
+  const requestId=input?.requestId;
+  if(requestId!==undefined&&(typeof requestId!=='string'||!/^[a-zA-Z0-9_-]{1,80}$/.test(requestId)))throw new Error('Invalid AI request identifier');
+  const sender=event.sender,frame=event.senderFrame,generation=aiNavigationGeneration;
+  return aiService.send(input,delta=>{
+    if(generation!==aiNavigationGeneration||!requestId||typeof delta!=='string'||delta.length>40000||sender.isDestroyed()||sender!==win?.webContents||frame!==sender.mainFrame||frame.url!==pathToFileURL(path.join(__dirname,'index.html')).href)return;
+    frame.send('ai-stream',{requestId,delta});
+  });
+});});
+ipcMain.handle('ai-providers-list',event=>{trusted(event);return aiResult(()=>savedProviders().list());});
+ipcMain.handle('ai-providers-save',(event,input)=>{trusted(event);return aiResult(()=>savedProviders().save(input));});
+ipcMain.handle('ai-providers-activate',(event,id)=>{
+  trusted(event);const generation=++aiConfigurationGeneration;
+  return aiResult(()=>savedProviders().activate(id,settings=>{
+    if(generation!==aiConfigurationGeneration||!win||win.isDestroyed()||event.sender.isDestroyed()){
+      const error=new Error('The provider activation was superseded by a newer settings action.');error.code='SETTINGS';throw error;
+    }
+    trusted(event);return aiService.configure(settings);
+  }));
+});
+ipcMain.handle('ai-providers-delete',(event,id)=>{trusted(event);return aiResult(()=>savedProviders().delete(id));});
 ipcMain.handle('ai-cancel',event=>{trusted(event);return aiResult(()=>aiService.cancel());});
-ipcMain.handle('ai-clear',event=>{trusted(event);return aiResult(()=>aiService.clear());});
+ipcMain.handle('ai-clear',event=>{trusted(event);aiConfigurationGeneration++;return aiResult(()=>aiService.clear());});
 ipcMain.handle('open-source',async(event,url)=>{trusted(event);if(typeof url!=='string'||!permittedSources.has(url)||!url.startsWith('https://'))throw new Error('Unsupported source page');await shell.openExternal(url);return {opened:true};});
 function localeText(language,text){if(!['ar','zh','es','hi','fr','pt','ru','bn','ja','de','ur','id','ko','tr','it','fa','he','sw','vi','pa','mr','te','ta','th','gu','pl','uk','ms','ha'].includes(language))return text;try{return require('./locales/'+language+'.json')[text]||text;}catch{return text;}}
 ipcMain.handle('export-pdf',async(event,language)=>{trusted(event);const result=await dialog.showSaveDialog(win,{title:localeText(language,'Save your profile report'),defaultPath:'Brain Studio Profile.pdf',filters:[{name:localeText(language,'PDF report'),extensions:['pdf']}]});if(result.canceled)return {saved:false};await fs.writeFile(result.filePath,await win.webContents.printToPDF({printBackground:true,pageSize:'A4',preferCSSPageSize:true}));return {saved:true};});
@@ -34,13 +58,15 @@ app.whenReady().then(async()=>{
   win.removeMenu();
   win.webContents.setWindowOpenHandler(()=>({action:'deny'}));
   win.webContents.on('will-navigate',event=>event.preventDefault());
+  win.webContents.on('did-start-navigation',(_event,_url,_inPlace,isMainFrame)=>{if(isMainFrame){aiNavigationGeneration++;aiConfigurationGeneration++;aiService.clear();}});
+  win.webContents.on('destroyed',()=>{aiConfigurationGeneration++;aiService.clear();});
   const errors=[];
   win.webContents.on('console-message',(details)=>{if(details.level==='error')errors.push(String(details.message));});
   await win.loadFile(path.join(__dirname,'index.html'));
   if(userSessionTest)win.show();
   if(smoke){try{await runSmoke(errors);app.exit(0);}catch(error){await fs.mkdir(smokeDir,{recursive:true});await fs.writeFile(path.join(smokeDir,'smoke-failure.txt'),error.stack);console.error(error);app.exit(1);}}
 });
-app.on('window-all-closed',()=>{aiService.clear();app.quit();});
+app.on('window-all-closed',()=>{aiConfigurationGeneration++;aiService.clear();app.quit();});
 async function runSmoke(errors){
   await fs.mkdir(smokeDir,{recursive:true});
   await fs.rm(path.join(smokeDir,'smoke-failure.txt'),{force:true});

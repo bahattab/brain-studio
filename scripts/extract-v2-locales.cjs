@@ -39,7 +39,7 @@ function extract(){
   // Includes both arms of conditional captions and validation errors shown in toasts.
   for(const value of literals(professional))if(/^[A-Z]/.test(value)&&(/\s/.test(value)||value.length>7)&&!/[<>]/.test(value)&&!['TEXTAREA','ProfessionalUI'].includes(value))add(value);
   for(const match of professional.matchAll(/(?:h|tr|toast|confirm)\(\s*('(?:\\.|[^'\\])*'|"(?:\\.|[^"\\])*")/g))add(literals(match[1])[0]);
-  add('Assessments run offline and answers stay on this device. Optional AI analysis sends only the data you preview and approve to your chosen API provider. Provider privacy and billing terms apply. API keys stay in memory for the current session.');
+  add('Assessments run offline and answers stay on this device. Optional AI analysis sends only the data you preview and approve to your chosen API provider. Provider privacy and billing terms apply. API keys stay in memory by default. You can optionally save a provider with operating-system protected encryption.');
   add('Offline assessments. Optional AI, your choice.');
   const aiFile=path.join(root,'app/ai-ui.js');
   if(fs.existsSync(aiFile)){
@@ -48,6 +48,7 @@ function extract(){
     for(const value of literals(aiUI))if(/^[A-Z]/.test(value)&&/\s/.test(value)&&!/[<>]/.test(value))add(value);
     for(const functionName of ['label','t','status'])for(const body of namedCallBodies(aiUI,functionName))for(const value of literals(body))if(/^[A-Z]/.test(value)&&/\s/.test(value))add(value);
     const aiCore=fs.readFileSync(path.join(root,'app/ai-core.js'),'utf8');
+    add('Saved providers are unavailable. Check operating-system secure storage and the provider settings.');
     // Only user-facing error messages inside fail(...); never scan system prompts,
     // provider IDs, protocol properties, API settings or actual runtime values.
     for(const body of namedCallBodies(aiCore,'fail'))for(const value of literals(body))if(/^[A-Z]/.test(value)&&/\s/.test(value)&&/[.!?]$/.test(value))add(value);
@@ -87,7 +88,8 @@ function extract(){
   for(const value of literals(fs.readFileSync(path.join(root,'app/workspace-core.js'),'utf8')))if(/^[A-Z]/.test(value)&&/\s/.test(value)&&!sourceEnglish.has(value)&&!/[<>]/.test(value))add(value);
   for(const value of sourceOnly)keys.delete(value);
   // The instrument's proper name is preserved, while surrounding interface is localized.
-  const preserve=['O*NET® Interest Profiler Short Form','Brain Studio','Brain Studio · 2.0','Created by Brain Studio, Emad Bahattab, Email: bahattab@yahoo.com'];
+  for(const brand of ['Anthropic','Google Gemini','OpenRouter'])add(brand);
+  const preserve=['Anthropic','Google Gemini','OpenRouter','O*NET® Interest Profiler Short Form','Brain Studio','Brain Studio · 2.0','Brain Studio · 2.1','Created by Brain Studio, Emad Bahattab, Email: bahattab@yahoo.com'];
   const ipipFirstPerson=Object.fromEntries(R.instruments.find(instrument=>instrument.id==='ipip-50').items.map(item=>[item.prompt,'I '+item.prompt[0].toLowerCase()+item.prompt.slice(1)]));
   Object.assign(ipipFirstPerson,{
     'Am the life of the party.':'I liven up social gatherings.',

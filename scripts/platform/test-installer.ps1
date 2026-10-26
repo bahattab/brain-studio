@@ -32,15 +32,23 @@ foreach ($appName in @('brain-studio','Brain Studio')) {
   Set-Content -LiteralPath $sentinel -Value 'synthetic retention fixture' -Encoding UTF8
   $sentinels += $sentinel
 }
+# The per-user uninstall entry is deleted near the end of the uninstall, so its removal marks completion.
+$uninstallKeys = @(Get-ChildItem -Path 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Uninstall' | Where-Object { (Get-ItemProperty -LiteralPath $_.PSPath -ErrorAction SilentlyContinue).DisplayName -like 'Brain Studio*' })
+if ($uninstallKeys.Count -ne 1) { throw "Expected one per-user uninstall entry, found $($uninstallKeys.Count)." }
+$uninstallKey = $uninstallKeys[0].PSPath
 $uninstaller = Join-Path $installDirectory 'Uninstall Brain Studio.exe'
 if (-not (Test-Path -LiteralPath $uninstaller)) { throw 'Uninstaller missing.' }
 $process = Start-Process -FilePath $uninstaller -ArgumentList '/S' -WindowStyle Hidden -PassThru
 if (-not $process.WaitForExit(180000)) { throw 'Uninstaller timed out.' }
 if ($process.ExitCode -ne 0) { throw 'Uninstaller returned failure.' }
-$deadline = (Get-Date).AddSeconds(30)
-while ((Test-Path -LiteralPath $executable) -and (Get-Date) -lt $deadline) { Start-Sleep -Milliseconds 500 }
+# The NSIS uninstaller relaunches itself from a temporary copy and returns early,
+# so wait for the app, both shortcuts and the uninstall entry to be removed before asserting.
+$removedPaths = @($executable,$desktopShortcut,$startShortcut,$uninstallKey)
+$deadline = (Get-Date).AddSeconds(90)
+while ((@($removedPaths | Where-Object { Test-Path -LiteralPath $_ }).Count -gt 0) -and (Get-Date) -lt $deadline) { Start-Sleep -Milliseconds 500 }
 if (Test-Path -LiteralPath $executable) { throw 'Application remained after uninstall.' }
-foreach ($shortcut in @($desktopShortcut,$startShortcut)) { if (Test-Path -LiteralPath $shortcut) { throw 'Shortcut remained after uninstall.' } }
+foreach ($shortcut in @($desktopShortcut,$startShortcut)) { if (Test-Path -LiteralPath $shortcut) { throw "Shortcut remained after uninstall: $shortcut" } }
+if (Test-Path -LiteralPath $uninstallKey) { throw "Uninstall entry remained after uninstall: $uninstallKey" }
 foreach ($sentinel in $sentinels) {
   if (-not (Test-Path -LiteralPath $sentinel)) { throw 'Uninstall deleted user data.' }
   Remove-Item -LiteralPath $sentinel

@@ -27,8 +27,9 @@
       <button data-route="assessment"><span class="nav-symbol">◎</span> Your assessment</button>
       <button data-route="history"><span class="nav-symbol">▤</span> Saved profiles <span id="history-count" class="count">0</span></button>
       <button data-route="about"><span class="nav-symbol">ⓘ</span> How it works</button>
+      <button data-route="imported"><span>▤</span> Imported questionnaires</button>
     </nav>
-    <div class="sidebar-bottom"><span class="status-dot"></span> Offline assessments<p>Optional AI sends only the data you approve.</p><small>Brain Studio · 2.1</small></div>
+    <div class="sidebar-bottom"><span class="status-dot"></span> Offline assessments<p>Optional AI sends only the data you approve.</p><small>Brain Studio · 2.2</small></div>
   </aside>
   <div class="main-shell">
     <header><div><span class="breadcrumb">PERSONAL INSIGHTS</span><span id="page-label"> / Overview</span></div><div class="header-end"><label class="language-control"><span id="language-label">Language</span><select data-i18n-skip id="language" aria-labelledby="language-label"></select></label><span class="offline-pill">● On your device</span><span class="avatar">YOU</span></div></header>
@@ -46,6 +47,9 @@
   <script src="ai-core.js"></script>
   <script src="ai-ui.js"></script>
   <script src="professional-ui.js"></script>
+  <script src="imported-core.js"></script>
+  <script src="imported-store.js"></script>
+  <script src="imported-ui.js"></script>
   <script src="print-layout.js"></script>
 </body>
 </html>

@@ -11,7 +11,7 @@
     },
     async exportJSON(report) {
       const text=JSON.stringify(report,null,2);
-      if(typeof text!=='string'||text.length>3000000)throw new Error('Invalid or oversized report');
+      if(typeof text!=='string'||text.length>(report?.type==='imported-questionnaire'?4000000:3000000))throw new Error('Invalid or oversized report');
       const url=URL.createObjectURL(new Blob([text],{type:'application/json;charset=utf-8'}));
       const anchor=document.createElement('a');
       anchor.href=url;anchor.download='Brain-Studio-Answers.json';anchor.hidden=true;

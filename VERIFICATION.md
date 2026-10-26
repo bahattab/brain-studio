@@ -1,4 +1,32 @@
-# Brain Studio 2.1.1 localization verification
+# Brain Studio 2.2.1 verification
+
+Verified locally on 2026-10-26:
+
+- 104 unit tests passed, including imported schema, store migration, conflict, failed-write and stale-session checks.
+- All 29 platform/browser groups passed in a serial run; an additional large-export regression passed separately (30 groups in the final suite). The seven imported groups cover all four reproduced issues, legacy attribution, and real browser downloads/restoration.
+- All 30 interface catalogs contain 1,025 entries, with 798 extracted public captions and no missing translations or placeholder failures. New translated captions remain linguistic drafts.
+- The final Windows package passed its 54-entry payload audit and a native lifecycle journey across three restarts: actual renderer/preload/main JSON file writes, confirmed deletion, exact identity/answer restoration, independent respondent sessions, and a real export above 3 MB restored successfully. The save destination chooser was automated; export IPC and filesystem writes were real.
+- Production dependency audit reports zero known vulnerabilities at this check. Private questionnaires and personal source documents remain outside the public repository and packages.
+
+The v2.2.1 release workflow requires the final full suite, populated-page locale audit, five native builds, packaged questionnaire lifecycle, existing native AI/storage checks, and platform installer/runtime checks before staging release assets. Release-host outcomes are available in the repository Actions records and release checksums. This is software verification; it does not validate experimental questionnaire interpretation scientifically.
+
+## Historical 2.2.0 verification
+
+Verified locally on 2026-10-15:
+
+- 93 unit tests passed, including 11 imported-package validation and scoring tests.
+- All 26 platform/browser checks passed in a sequential local run. An earlier parallel run was stopped because of host memory pressure; it is not counted as a pass.
+- 30 catalogs contain 1,003 entries; 778 extracted public captions have translations and valid placeholders.
+- Imported home, questionnaire, report and navigation were exercised in every interface language with zero missing captions or JavaScript errors.
+- Three imported browser groups cover real downloads, persisted answers, conflicting/invalid package rejection, multiple-selection completion, explicit zero, reverse keys and exclusion explanations.
+- Private package acceptance exercised all 284 questions and 1,060 choices, source text/direction, full synthetic responses, report arithmetic, real JSON downloads and identical reloads. Private originals and fixtures remain outside public source and installers.
+- Independent private arithmetic verification passed 204 response cases. Keys are explicitly experimental; correctness of software and arithmetic does not establish psychometric validity or recover proprietary norms.
+- RTL question/report progress fractions use isolated LTR ordering; a fresh browser build verified the correction.
+- Final Windows 2.2.0 installer built successfully. The 53-entry packaged-content audit and native smoke passed; questionnaire modules and translations in the package match final source bytes. Installer and ten private delivery files were copied to the mounted Drive and independently hash-checked. This verifies mounted-file delivery, not remote cloud synchronization.
+
+Release-host delivery and installer lifecycle evidence for 2.2.0 remain separate from these local source checks. Older release evidence below is historical.
+
+## Historical 2.1.1 localization verification
 
 Verified locally on 2026-10-15:
 

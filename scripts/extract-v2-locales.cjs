@@ -35,12 +35,17 @@ function namedCallBodies(source,name){
 function extract(){
   const keys=new Set();const sourceEnglish=new Set();const sourceOnly=new Set();
   const add=text=>{if(typeof text==='string'&&text.trim()&&/[A-Za-z]/.test(text))keys.add(text);};
+  // Explicit public captions also used by main-process workspace actions.
+  for(const text of ["New respondent", "Saved respondent sessions", "Delete questionnaire", "Delete respondent session", "Confirm respondent attribution", "Legacy answers need attribution review. Verify whose answers these are before using or exporting this report.", "Confirm that these answers belong to the displayed respondent?", "Delete this questionnaire and all its respondent sessions? Export copies first.", "Delete this respondent session? Export a copy first.", "Twelve questionnaires are already stored. Delete one before importing another.", "One hundred respondent sessions are already stored. Delete one before starting another.", "These imported answers conflict with an existing session. Nothing was overwritten.", "Questionnaire answers restored and scores recalculated.", "The local data changed in another window. Reopen the respondent session.", "The imported questionnaire data could not be read. Export any available copy before clearing it.", "Clear imported questionnaires and respondent sessions", "Clear all professional and imported workspace data? Export copies first. Existing exported files, legacy reflection profiles, and saved AI providers are not removed.", "Professional and imported workspace data cleared. Existing exports, legacy reflection profiles, and saved AI providers are unchanged.", "Confirm attribution before exporting or interpreting this report.", "Respondent confirmed.", "Questionnaire deleted.", "Respondent session deleted."])add(text);
   const professional=fs.readFileSync(path.join(root,'app/professional-ui.js'),'utf8');
   // Includes both arms of conditional captions and validation errors shown in toasts.
   for(const value of literals(professional))if(/^[A-Z]/.test(value)&&(/\s/.test(value)||value.length>7)&&!/[<>]/.test(value)&&!['TEXTAREA','ProfessionalUI'].includes(value))add(value);
   for(const match of professional.matchAll(/(?:h|tr|toast|confirm)\(\s*('(?:\\.|[^'\\])*'|"(?:\\.|[^"\\])*")/g))add(literals(match[1])[0]);
   add('Assessments run offline and answers stay on this device. Optional AI analysis sends only the data you preview and approve to your chosen API provider. Provider privacy and billing terms apply. API keys stay in memory by default. You can optionally save a provider with operating-system protected encryption.');
   add('Offline assessments. Optional AI, your choice.');
+  const importedFile=path.join(root,'app/imported-ui.js');
+  if(fs.existsSync(importedFile))for(const body of namedCallBodies(fs.readFileSync(importedFile,'utf8'),'h'))for(const value of literals(body))if(/^[A-Z]/.test(value))add(value);
+  add('The questionnaire package is invalid or conflicts with an existing version.');
   const aiFile=path.join(root,'app/ai-ui.js');
   if(fs.existsSync(aiFile)){
     const aiUI=fs.readFileSync(aiFile,'utf8');
@@ -93,7 +98,7 @@ function extract(){
   for(const value of sourceOnly)keys.delete(value);
   // The instrument's proper name is preserved, while surrounding interface is localized.
   for(const brand of ['Anthropic','Google Gemini','OpenRouter'])add(brand);
-  const preserve=['Anthropic','Google Gemini','OpenRouter','Brain Studio','Brain Studio · 2.0','Brain Studio · 2.1','Created by Brain Studio, Emad Bahattab, Email: bahattab@yahoo.com'];
+  const preserve=['Anthropic','Google Gemini','OpenRouter','Brain Studio','Brain Studio · 2.0','Brain Studio · 2.2','Created by Brain Studio, Emad Bahattab, Email: bahattab@yahoo.com'];
   const ipipFirstPerson=Object.fromEntries(R.instruments.find(instrument=>instrument.id==='ipip-50').items.map(item=>[item.prompt,'I '+item.prompt[0].toLowerCase()+item.prompt.slice(1)]));
   Object.assign(ipipFirstPerson,{
     'Am the life of the party.':'I liven up social gatherings.',

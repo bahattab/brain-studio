@@ -1,11 +1,18 @@
-# Brain Studio 2.1.1
+# Brain Studio 2.2.1
 
 An assessment, reflection, and development workspace that works offline by default, with a modern multilingual interface. This independent application does not reproduce proprietary questions, commercial scoring, or personal reference reports. Optional desktop bring-your-own-provider AI is implemented; its current verification status is recorded below and in `VERIFICATION.md`.
 
 **License boundary:** application code is MIT-licensed, but this full edition includes OHBDS questionnaire content under CC BY-NC-SA 4.0. The full bundled edition is for noncommercial use. The MIT code grant does not relicense included assessment content. See `docs/content-licenses.md` and the packaged `THIRD-PARTY-NOTICES.txt`.
 
+## 2.2.1 remediation
+
+Imported questionnaires now keep reusable packages separate from respondent sessions, allow a fresh session without overwriting earlier answers, and identify saved administrations explicitly. Legacy sessions whose respondent attribution is unverified are marked `legacy-unverified` and require explicit confirmation before continuing. Imported answer exports can be restored as sessions; results are recomputed from the validated package and answers rather than trusted from an exported score.
+
+The workspace clear action covers the professional workspace and imported packages/sessions and labels that scope explicitly. Legacy v1 reflection history and saved AI provider credentials have their own controls. Deleting local records does not delete previously exported files. See [imported questionnaires](docs/imported-questionnaires.md) and [verification status](VERIFICATION.md).
+
 ## Features
 
+- Import private questionnaire JSON packages, preserve their source language, save answers, inspect transparent experimental keys and exclusion reasons, and export the resulting PDF/JSON report. Private source documents and keys are supplied separately and never bundled. See [imported questionnaires](docs/imported-questionnaires.md).
 - Published English IPIP-50 items and keyed raw sums, with optional explicitly unvalidated translations.
 - Original English O*NET® 60-activity Interest Profiler: explicit binary responses, six interest counts, and separate respondent choices for tied themes.
 - OHBDS 1.0's verified 20-item source form, published `X = 66 - A + B` arithmetic, source attribution, noncommercial content license, and an explicit boundary against literal hemisphere diagnosis. Optional translated wording is an unvalidated CC BY-NC-SA adaptation.

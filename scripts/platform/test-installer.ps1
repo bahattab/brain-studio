@@ -38,7 +38,7 @@ $process = Start-Process -FilePath $uninstaller -ArgumentList '/S' -WindowStyle 
 if (-not $process.WaitForExit(180000)) { throw 'Uninstaller timed out.' }
 if ($process.ExitCode -ne 0) { throw 'Uninstaller returned failure.' }
 $deadline = (Get-Date).AddSeconds(30)
-while ((Test-Path -LiteralPath $executable) -and (Get-Date) -lt $deadline) { Start-Sleep -Milliseconds 500 }
+while (((Test-Path -LiteralPath $executable) -or (Test-Path -LiteralPath $desktopShortcut) -or (Test-Path -LiteralPath $startShortcut)) -and (Get-Date) -lt $deadline) { Start-Sleep -Milliseconds 500 }
 if (Test-Path -LiteralPath $executable) { throw 'Application remained after uninstall.' }
 foreach ($shortcut in @($desktopShortcut,$startShortcut)) { if (Test-Path -LiteralPath $shortcut) { throw 'Shortcut remained after uninstall.' } }
 foreach ($sentinel in $sentinels) {

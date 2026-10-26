@@ -1023,5 +1023,15 @@
   "← Previous": "← ก่อนหน้า",
   "◎ 20 thoughtful questions": "◎ 20 คำถามที่น่าคิด",
   "● On your device": "● บนอุปกรณ์ของคุณ",
-  "◷ Around 5 minutes": "◷ ประมาณ 5 นาที"
+  "◷ Around 5 minutes": "◷ ประมาณ 5 นาที",
+  "Before you begin": "ก่อนที่คุณจะเริ่ม",
+  "Choose distinct respondent profile identities.": "เลือกข้อมูลประจำตัวโปรไฟล์ของผู้ตอบที่ชัดเจน",
+  "Choose distinct respondent profiles.": "เลือกโปรไฟล์ของผู้ตอบแบบสอบถามที่แตกต่างกัน",
+  "Scenarios describe discussion targets, not suitability for a job.": "สถานการณ์จำลองอธิบายเป้าหมายการสนทนา ไม่ใช่ความเหมาะสมกับงาน",
+  "Agreeableness describes your reported tendency toward cooperation and consideration.": "ความยินยอมอธิบายถึงแนวโน้มที่คุณรายงานต่อความร่วมมือและการพิจารณา",
+  "Conscientiousness describes your reported planning, organization and follow-through.": "ความมีสติอธิบายถึงการวางแผน การจัดองค์กร และการติดตามผลที่คุณรายงาน",
+  "Emotional stability describes your reported calmness and emotional reactivity; it is not a diagnosis.": "ความมั่นคงทางอารมณ์อธิบายถึงความสงบและปฏิกิริยาทางอารมณ์ที่คุณรายงาน มันไม่ใช่การวินิจฉัย",
+  "Extraversion describes your reported preference for social interaction.": "การแสดงออกต่อสิ่งภายนอกอธิบายถึงการตั้งค่าที่คุณรายงานสำหรับการมีปฏิสัมพันธ์ทางสังคม",
+  "Intellect and imagination describe curiosity and openness to ideas, not an IQ score.": "สติปัญญาและจินตนาการอธิบายถึงความอยากรู้อยากเห็นและความเปิดกว้างต่อความคิด ไม่ใช่คะแนน IQ",
+  "No activities were selected. These answers do not identify a preferred interest area.": "ไม่มีการเลือกกิจกรรม คำตอบเหล่านี้ไม่ได้ระบุถึงความสนใจที่ต้องการ"
 }

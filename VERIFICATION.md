@@ -1,14 +1,16 @@
-# Brain Studio 2.2.2 verification
+# Brain Studio 2.2.3 verification
 
 Verified locally on 2026-10-26:
 
-- 104 unit tests passed, including imported schema, store migration, conflict, failed-write and stale-session checks.
-- All 29 platform/browser groups passed in a serial run; an additional large-export regression passed separately (30 groups in the final suite). The seven imported groups cover all four reproduced issues, legacy attribution, and real browser downloads/restoration.
-- All 30 interface catalogs contain 1,025 entries, with 798 extracted public captions and no missing translations or placeholder failures. New translated captions remain linguistic drafts.
-- The Windows 2.2.1 candidate (same application logic before the 2.2.2 version update and CI-test synchronization fix) passed its 54-entry payload audit and a native lifecycle journey across three restarts: actual renderer/preload/main JSON file writes, confirmed deletion, exact identity/answer restoration, independent respondent sessions, and a real export above 3 MB restored successfully. The save destination chooser was automated; export IPC and filesystem writes were real.
-- Production dependency audit reports zero known vulnerabilities at this check. Private questionnaires and personal source documents remain outside the public repository and packages.
+- 111 unit tests passed, including complementary privacy suppression, duplicate respondent protection, topic grouping, imported storage migration, conflict, failed-write and stale-session checks.
+- New browser checks cover safe JSON/PDF feedback exports with raw-mode negative controls, small-team extrema, scenario presentation, reproducible option ordering, preparation, all-zero O*NET responses and IPIP explanations. Imported-questionnaire checks include actual large downloads and fresh restoration. The full final suite is enforced in CI.
+- All 30 catalogs contain 1,035 entries, with 807 extracted public captions and no missing translations or placeholder failures. A source comparison confirmed153 improved existing Arabic values; coverage checks do not certify linguistic or psychometric equivalence.
+- Windows2.2.3 passed its54-entry payload audit and a native lifecycle across three restarts: actual renderer/preload/main JSON file writes, confirmed deletion, exact identity/answer restoration, independent sessions and a native export above3MB restored successfully. The destination chooser was automated; export IPC and file writes were real.
+- A clean npm ci succeeded. Electron is pinned to44.9.3, and the complete npm dependency audit (including development dependencies) reports zero known vulnerabilities at verification time.
 
-The v2.2.2 release workflow requires the final full suite, populated-page locale audit, five native builds, packaged questionnaire lifecycle, existing native AI/storage checks, and platform installer/runtime checks before staging release assets. Release-host outcomes are available in the repository Actions records and release checksums. This is software verification; it does not validate experimental questionnaire interpretation scientifically.
+The v2.2.3 workflow requires the final full suite, populated-page locale audit, five native builds, packaged questionnaire lifecycle, existing native AI/storage checks and platform installer/runtime acceptance before staging release assets. See repository Actions records and release checksums for release-host outcomes. Earlier2.2.1 and2.2.2 tags were unpublished candidates; their failed gates were retained rather than rewriting tags.
+
+Private questionnaire packages and personal reference documents remain outside public source and installers. Software correctness, source fidelity and editorial improvements do not establish questionnaire validity, reliability, norms or understanding by actual users.
 
 ## Historical 2.2.0 verification
 

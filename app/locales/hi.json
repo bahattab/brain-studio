@@ -1023,5 +1023,15 @@
   "← Previous": "← पिछला",
   "◎ 20 thoughtful questions": "◎ 20 विचारपूर्ण प्रश्न",
   "● On your device": "● आपके डिवाइस पर",
-  "◷ Around 5 minutes": "◷ लगभग 5 मिनट"
+  "◷ Around 5 minutes": "◷ लगभग 5 मिनट",
+  "Before you begin": "शुरू करने से पहले",
+  "Choose distinct respondent profile identities.": "विशिष्ट प्रतिवादी प्रोफ़ाइल पहचान चुनें।",
+  "Choose distinct respondent profiles.": "विशिष्ट प्रतिवादी प्रोफ़ाइल चुनें.",
+  "Scenarios describe discussion targets, not suitability for a job.": "परिदृश्य चर्चा लक्ष्यों का वर्णन करते हैं, नौकरी के लिए उपयुक्तता का नहीं।",
+  "Agreeableness describes your reported tendency toward cooperation and consideration.": "सहमति सहयोग और विचार के प्रति आपकी सूचित प्रवृत्ति का वर्णन करती है।",
+  "Conscientiousness describes your reported planning, organization and follow-through.": "कर्तव्यनिष्ठा आपकी रिपोर्ट की गई योजना, संगठन और उसके अनुसरण का वर्णन करती है।",
+  "Emotional stability describes your reported calmness and emotional reactivity; it is not a diagnosis.": "भावनात्मक स्थिरता आपकी रिपोर्ट की गई शांति और भावनात्मक प्रतिक्रिया का वर्णन करती है; यह कोई निदान नहीं है.",
+  "Extraversion describes your reported preference for social interaction.": "एक्सट्रोवर्सन सामाजिक संपर्क के लिए आपकी रिपोर्ट की गई प्राथमिकता का वर्णन करता है।",
+  "Intellect and imagination describe curiosity and openness to ideas, not an IQ score.": "बुद्धि और कल्पना विचारों के प्रति जिज्ञासा और खुलेपन का वर्णन करती है, IQ स्कोर का नहीं।",
+  "No activities were selected. These answers do not identify a preferred interest area.": "कोई गतिविधि चयनित नहीं की गई. ये उत्तर किसी पसंदीदा रुचि क्षेत्र की पहचान नहीं करते हैं।"
 }

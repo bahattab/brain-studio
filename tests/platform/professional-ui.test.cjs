@@ -136,13 +136,13 @@ test('feedback privacy suppresses small subgroups, sessions reopen and grading r
 test('calculated report remains exportable after storage failure; interest choices do not change raw scores',{timeout:120000},async t=>{
   const {page,errors}=await setup(t);
   await page.locator('[data-route="library"]').click();await page.locator('[data-instrument="onet-short-form-60"]').click();
-  for(let i=0;i<60;i++){await page.locator('[data-prof-value="0"]').click();if(i===59)await page.evaluate(()=>{Storage.prototype.setItem=()=>{throw new Error('Synthetic full-storage condition');};});await page.locator('#prof-next').click();}
+  for(let i=0;i<60;i++){await page.locator('[data-prof-value="1"]').click();if(i===59)await page.evaluate(()=>{Storage.prototype.setItem=()=>{throw new Error('Synthetic full-storage condition');};});await page.locator('#prof-next').click();}
   assert.equal(await page.locator('.portfolio-report').count(),1);assert.equal(await page.locator('.storage-warning').count(),1);
   await page.evaluate(()=>{window.desktop={exportJSON:async report=>{window.capturedReport=report;return {downloadRequested:true};}};});await page.locator('#report-json').click();
   assert.equal((await page.evaluate(()=>window.capturedReport)).profile.language,'en');
   for(const [index,theme] of ['realistic','investigative','artistic'].entries())await page.selectOption(`[name="interest${index}"]`,theme);
   await page.locator('#interest-order-form button').click();await page.locator('#report-json').click();
-  const report=await page.evaluate(()=>window.capturedReport);assert.deepEqual(report.profile.interestOrder,['realistic','investigative','artistic']);assert.deepEqual(report.result.scales.map(s=>s.sum),[0,0,0,0,0,0]);
+  const report=await page.evaluate(()=>window.capturedReport);assert.deepEqual(report.profile.interestOrder,['realistic','investigative','artistic']);assert.deepEqual(report.result.scales.map(s=>s.sum),[10,10,10,10,10,10]);
   await page.locator('[data-route="workspace"]').click();await page.locator('#workspace-export').click();assert.equal((await page.evaluate(()=>window.capturedReport)).profiles.length,1);
   assert.deepEqual(errors,[]);
 });

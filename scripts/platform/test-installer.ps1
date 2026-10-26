@@ -37,10 +37,13 @@ if (-not (Test-Path -LiteralPath $uninstaller)) { throw 'Uninstaller missing.' }
 $process = Start-Process -FilePath $uninstaller -ArgumentList '/S' -WindowStyle Hidden -PassThru
 if (-not $process.WaitForExit(180000)) { throw 'Uninstaller timed out.' }
 if ($process.ExitCode -ne 0) { throw 'Uninstaller returned failure.' }
-$deadline = (Get-Date).AddSeconds(30)
-while ((Test-Path -LiteralPath $executable) -and (Get-Date) -lt $deadline) { Start-Sleep -Milliseconds 500 }
+# The NSIS uninstaller relaunches itself from a temporary copy and returns early,
+# so wait for the app and both shortcuts to be removed before asserting.
+$removedPaths = @($executable,$desktopShortcut,$startShortcut)
+$deadline = (Get-Date).AddSeconds(90)
+while ((@($removedPaths | Where-Object { Test-Path -LiteralPath $_ }).Count -gt 0) -and (Get-Date) -lt $deadline) { Start-Sleep -Milliseconds 500 }
 if (Test-Path -LiteralPath $executable) { throw 'Application remained after uninstall.' }
-foreach ($shortcut in @($desktopShortcut,$startShortcut)) { if (Test-Path -LiteralPath $shortcut) { throw 'Shortcut remained after uninstall.' } }
+foreach ($shortcut in @($desktopShortcut,$startShortcut)) { if (Test-Path -LiteralPath $shortcut) { throw "Shortcut remained after uninstall: $shortcut" } }
 foreach ($sentinel in $sentinels) {
   if (-not (Test-Path -LiteralPath $sentinel)) { throw 'Uninstall deleted user data.' }
   Remove-Item -LiteralPath $sentinel

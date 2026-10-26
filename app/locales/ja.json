@@ -1033,5 +1033,10 @@
   "Emotional stability describes your reported calmness and emotional reactivity; it is not a diagnosis.": "感情の安定性は、あなたの報告された落ち着きと感情の反応性を表します。それは診断ではありません。",
   "Extraversion describes your reported preference for social interaction.": "外向性は、社会的交流に対するあなたの報告された好みを表します。",
   "Intellect and imagination describe curiosity and openness to ideas, not an IQ score.": "知性と想像力は、IQ スコアではなく、好奇心とアイデアに対する寛容さを表します。",
-  "No activities were selected. These answers do not identify a preferred interest area.": "アクティビティが選択されていません。これらの回答は、希望する関心分野を特定するものではありません。"
+  "No activities were selected. These answers do not identify a preferred interest area.": "アクティビティが選択されていません。これらの回答は、希望する関心分野を特定するものではありません。",
+  "I would like this activity": "このアクティビティを希望します",
+  "I would not like this activity": "この活動は望ましくない",
+  "These activities remain in original English. Understanding English is required.": "これらのアクティビティはオリジナルの英語のままです。英語の理解が必要です。",
+  "Translated wording is not available for this language. Original English is shown.": "この言語では翻訳された文言は利用できません。オリジナルの英語が表示されます。",
+  "Would you like to do this activity?": "このアクティビティをやってみませんか?"
 }

@@ -1033,5 +1033,10 @@
   "Emotional stability describes your reported calmness and emotional reactivity; it is not a diagnosis.": "Duygusal istikrar, bildirdiğiniz sakinliğinizi ve duygusal tepkiselliğinizi tanımlar; bu bir teşhis değil.",
   "Extraversion describes your reported preference for social interaction.": "Dışadönüklük, sosyal etkileşim için bildirdiğiniz tercihinizi açıklar.",
   "Intellect and imagination describe curiosity and openness to ideas, not an IQ score.": "Zeka ve hayal gücü, IQ puanını değil, merakı ve fikirlere açıklığı tanımlar.",
-  "No activities were selected. These answers do not identify a preferred interest area.": "Hiçbir etkinlik seçilmedi. Bu cevaplar tercih edilen bir ilgi alanını tanımlamamaktadır."
+  "No activities were selected. These answers do not identify a preferred interest area.": "Hiçbir etkinlik seçilmedi. Bu cevaplar tercih edilen bir ilgi alanını tanımlamamaktadır.",
+  "I would like this activity": "Bu aktiviteyi isterim",
+  "I would not like this activity": "Bu aktiviteden hoşlanmam",
+  "These activities remain in original English. Understanding English is required.": "Bu aktiviteler orijinal İngilizce olarak kalır. İngilizceyi anlamak gereklidir.",
+  "Translated wording is not available for this language. Original English is shown.": "Bu dilde tercüme edilmiş ifadeler mevcut değil. Orijinal İngilizce gösterilir.",
+  "Would you like to do this activity?": "Bu aktiviteyi yapmak ister misiniz?"
 }

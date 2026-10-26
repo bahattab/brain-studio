@@ -27,3 +27,7 @@ User-provided questionnaires and reports are not included in the public source o
 افتح «الاستبانات المستوردة» من مكتبة التقييمات أو القائمة الجانبية، ثم استورد ملف الاستبانة بصيغة JSON. تُحفظ الحزمة منفصلة عن جلسات المشاركين؛ يمكنك بدء جلسة جديدة مع الاحتفاظ بالإجابات السابقة، أو استعادة ملف إجاباتك وإعادة حساب نتائجه. الجلسات القديمة التي لم يتم تأكيد صاحب إجاباتها تحمل وسم legacy-unverified وتتطلب تأكيدًا صريحًا قبل المتابعة. تبقى أسئلة المستند بلغتها الأصلية، وتتغير لغة أزرار الواجهة بحسب اختيارك.
 
 التحليل التجريبي مستقل عن التصحيح الرسمي لأي اختبار تجاري. يعرض التقرير الأعداد الخام وأسباب الاحتساب والبنود المستبعدة، ولا ينتج درجة ذكاء أو نسبة ملاءمة وظيفية أو حكمًا تشخيصيًا. احتفظ بحزمة الاستبانة ومفتاحها مع التقرير حتى يمكن مراجعة طريقة الحساب لاحقًا.
+
+## Interface language and instrument wording
+
+A translated interface does not certify questionnaire wording. Public IPIP/OHBDS sessions default to original English; optional Arabic wording is a reviewed semantic draft, not a validated language adaptation. Other translated public wording is unavailable pending review. Private imported packages always retain their source language and experimental scoring disclosures.

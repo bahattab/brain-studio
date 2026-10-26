@@ -3,8 +3,10 @@
 Verified locally on 2026-10-26:
 
 - 111 unit tests passed, including complementary privacy suppression, duplicate respondent protection, topic grouping, imported storage migration, conflict, failed-write and stale-session checks.
+- Source-first published wording is the default in every interface language. Explicit Arabic translation opt-in remains an unvalidated semantic draft; other published-language translations are unavailable for new presentation. Exports derive original, unvalidated, unreviewed or mixed/unknown status from recorded answer languages.
+- Mobile overflow was reproduced at390px and corrected;48 English/Arabic route/width states passed at390,820 and1280px.
 - New browser checks cover safe JSON/PDF feedback exports with raw-mode negative controls, small-team extrema, scenario presentation, reproducible option ordering, preparation, all-zero O*NET responses and IPIP explanations. Imported-questionnaire checks include actual large downloads and fresh restoration. The full final suite is enforced in CI.
-- All 30 catalogs contain 1,035 entries, with 807 extracted public captions and no missing translations or placeholder failures. A source comparison confirmed153 improved existing Arabic values; coverage checks do not certify linguistic or psychometric equivalence.
+- All 30 catalogs contain 1,040 entries, with 812 extracted public captions and no missing translations or placeholder failures. A source comparison confirmed165 improved existing Arabic values; coverage checks do not certify linguistic or psychometric equivalence.
 - Windows2.2.3 passed its54-entry payload audit and a native lifecycle across three restarts: actual renderer/preload/main JSON file writes, confirmed deletion, exact identity/answer restoration, independent sessions and a native export above3MB restored successfully. The destination chooser was automated; export IPC and file writes were real.
 - A clean npm ci succeeded. Electron is pinned to44.9.3, and the complete npm dependency audit (including development dependencies) reports zero known vulnerabilities at verification time.
 

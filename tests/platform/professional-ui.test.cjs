@@ -64,12 +64,12 @@ test('explicit published English wording stays unchanged across interface langua
   }
   assert.deepEqual(errors,[]);
 });
-test('new non-English drafts use localized wording; existing source-English answers retain provenance',{timeout:120000},async t=>{
+test('new drafts preserve source English; explicit Arabic wording and existing answers retain provenance',{timeout:120000},async t=>{
   const {page,errors}=await setup(t);
   await page.selectOption('#language','ar');
   for(const id of ['ipip-50','ohbds-20-v1']){
     await page.locator('[data-route="library"]').click();await page.locator(`[data-instrument="${id}"]`).click();
-    assert.equal(await page.locator('#original-english').isChecked(),false,id+': new Arabic draft');
+    assert.equal(await page.locator('#original-english').isChecked(),true,id+': new Arabic draft starts with source English');await page.locator('#original-english').uncheck();
     const source=await page.evaluate(id=>[...ResearchCore.instruments,...ThinkingCore.instruments].find(d=>d.id===id).items[0].prompt,id);
     assert.notEqual(await page.locator('#professional-question').innerText(),source);
     await page.locator('[data-prof-value="3"]').click();
@@ -102,7 +102,7 @@ test('mixed wording provenance survives reload and cannot be pooled as source-En
   const {page,errors}=await setup(t);
   await page.selectOption('#language','ar');await page.locator('[data-route="library"]').click();await page.locator('[data-instrument="ipip-50"]').click();
   await page.locator('#original-english').uncheck();
-  assert(await page.locator('.method-note').isVisible());
+  assert(await page.locator('.method-note:not(.assessment-preparation)').isVisible());
   assert(!/Extraversion|Agreeableness|Conscientiousness/.test(await page.locator('.question-panel .eyebrow').innerText()));
   await page.locator('[data-prof-value="3"]').click();await page.locator('#prof-next').click();
   await page.selectOption('#language','en');await page.locator('#original-english').check();
@@ -123,7 +123,7 @@ test('feedback privacy suppresses small subgroups, sessions reopen and grading r
   await page.locator('#feedback-calculate').click();
   await page.evaluate(()=>{window.desktop={exportJSON:async report=>{window.capturedReport=report;return {downloadRequested:true};}};});
   await page.locator('#feedback-export').click();const exported=await page.evaluate(()=>window.capturedReport);
-  assert.equal(exported.result.rows[0].othersMean,3);assert.deepEqual(exported.result.rows[0].groups,[]);assert.equal(exported.privacyMode,true);
+  assert.equal(exported.result.rows[0].othersMean,3);assert.deepEqual(exported.result.rows[0].groups,['manager','peer','direct-report'].map(role=>({role,count:1,mean:null,suppressed:true})));assert.equal(exported.privacyMode,true);assert.equal(exported.result.priorities,null);assert.equal(Object.hasOwn(exported.result,'raters'),false);assert.equal(Object.hasOwn(exported,'raters'),false);
   await page.locator('#feedback-save').click();await page.locator('[data-route="skills"]').click();
   await page.locator('#rubric-add').click();
   for(let i=0;i<4;i++){await page.locator(`[name="topic${i}"]`).fill(i<2?'Reasoning':'Numerical');await page.locator(`[name="earned${i}"]`).fill(String(i+0.5));await page.locator(`[name="possible${i}"]`).fill('5');}
@@ -146,7 +146,7 @@ test('calculated report remains exportable after storage failure; interest choic
   await page.locator('[data-route="workspace"]').click();await page.locator('#workspace-export').click();assert.equal((await page.evaluate(()=>window.capturedReport)).profiles.length,1);
   assert.deepEqual(errors,[]);
 });
-test('all thirty locales cover professional routes, custom prompts, localized published wording and reports',{timeout:120000},async t=>{
+test('all thirty locales cover professional routes, custom prompts, source-first published wording and reports',{timeout:120000},async t=>{
   const {page,errors}=await setup(t);
   const fixtures=[...R.instruments,...W.instruments,...W.instruments.filter(d=>d.id==='work-style')].map((d,index)=>({id:'locale-fixture-'+index,name:'Synthetic participant '+index,instrumentId:d.id,instrumentVersion:d.metadata.version,date:Date.now(),answers:Object.fromEntries(d.items.map(item=>[item.id,d.id==='onet-short-form-60'?0:3])),answerLanguages:Object.fromEntries(d.items.map(item=>[item.id,'en']))}));
   await page.evaluate(profiles=>localStorage.setItem('brain-studio-workspace-v2',JSON.stringify({profiles})),fixtures);await page.reload();
@@ -158,14 +158,16 @@ test('all thirty locales cover professional routes, custom prompts, localized pu
       BrainApp.navigate('team');const checkboxes=[...document.querySelectorAll('[data-team-profile]')];checkboxes.filter(e=>['locale-fixture-2','locale-fixture-6'].includes(e.dataset.teamProfile)).forEach(e=>e.checked=true);document.querySelector('#team-calculate').click();
       for(const id of ['work-style','emotional-reflection','communication-style','skills-practice','ipip-50','ohbds-20-v1']){
         BrainApp.navigate('library');document.querySelector(`[data-instrument="${id}"]`).click();
-        if(['ipip-50','ohbds-20-v1'].includes(id)){const checkbox=document.querySelector('#original-english');checkbox.checked=false;checkbox.dispatchEvent(new Event('change'));}
+        if(['ipip-50','ohbds-20-v1'].includes(id)&&language.code==='ar'){const checkbox=document.querySelector('#original-english');checkbox.checked=false;checkbox.dispatchEvent(new Event('change'));}
         const count=document.querySelectorAll('[data-prof-question]').length;
         for(let index=0;index<count;index++){
           document.querySelector(`[data-prof-question="${index}"]`).click();
           const instrument=[...ResearchCore.instruments,...WorkspaceCore.instruments,...ThinkingCore.instruments].find(d=>d.id===id),source=instrument.items[index].prompt;
           const rendered=document.querySelector('#professional-question').textContent;
-          if(rendered!==I18n.t(source))failures.push({language:language.code,id,index,reason:'Prompt is not the selected translation'});
-          if(language.code!=='en'&&rendered===source)failures.push({language:language.code,id,index,reason:'Untranslated question'});
+          const sourceOnly=['ipip-50','ohbds-20-v1'].includes(id)&&language.code!=='ar';
+          if(rendered!==(sourceOnly?source:I18n.t(source)))failures.push({language:language.code,id,index,reason:'Prompt does not match source-first language policy'});
+          if(!sourceOnly&&language.code!=='en'&&rendered===source)failures.push({language:language.code,id,index,reason:'Untranslated authored or opted-in Arabic question'});
+          if(sourceOnly&&language.code!=='en'&&!document.querySelector('#original-english').disabled)failures.push({language:language.code,id,index,reason:'Unreviewed wording must remain disabled'});
         }
       }
       if(I18n.missing.size)failures.push({language:language.code,missing:[...I18n.missing]});
@@ -181,6 +183,7 @@ test('selected-team PDF excludes unselected identities; privacy toggles recalcul
   await page.evaluate(profiles=>localStorage.setItem('brain-studio-workspace-v2',JSON.stringify({profiles})),profiles);await page.reload();
   await page.locator('[data-route="team"]').click();await page.locator('[data-team-profile="print-0"]').check();await page.locator('[data-team-profile="print-1"]').check();await page.locator('#team-calculate').click();
   await page.evaluate(()=>{window.desktop={exportPDF:async()=>new Promise(resolve=>window.finishPDF=resolve),exportJSON:async report=>{window.capturedReport=report;return {downloadRequested:true};}};});
+  await page.locator('#team-export').click();const pair=await page.evaluate(()=>window.capturedReport);assert.equal(pair.participants.length,2);assert.equal(pair.individualRows.length,d.scales.length);assert(pair.rows.every(row=>row.min===3&&row.max===3));
   await page.locator('#report-pdf').click();await page.waitForFunction(()=>document.body.dataset.printScope==='report');
   assert.equal(await page.evaluate(()=>getComputedStyle(document.querySelector('.profile-checks')).display),'grid');
   await page.emulateMedia({media:'print'});assert.equal(await page.locator('.profile-checks').isVisible(),false);
@@ -191,8 +194,8 @@ test('selected-team PDF excludes unselected identities; privacy toggles recalcul
   await page.evaluate(()=>window.finishPDF({saved:true}));await page.emulateMedia({media:'screen'});
   await page.locator('[data-route="feedback"]').click();await page.locator('#privacy-mode').uncheck();
   for(let r=0;r<2;r++)for(let c=0;c<12;c++)await page.selectOption(`[data-rater="${r}"][data-competency="c${c}"]`,String(r?1:5));
-  await page.locator('#feedback-calculate').click();await page.locator('#privacy-mode').check();await page.locator('#feedback-export').click();
-  const report=await page.evaluate(()=>window.capturedReport);assert.equal(report.privacyMode,true);assert.equal(report.result.rows[0].othersMean,null);assert.deepEqual(report.result.rows[0].groups,[]);
+  await page.locator('#feedback-calculate').click();await page.locator('#feedback-export').click();const rawFeedback=await page.evaluate(()=>window.capturedReport);assert.equal(rawFeedback.privacyMode,false);assert.equal(rawFeedback.result.rows[0].othersMean,1);assert.equal(rawFeedback.result.rows[0].groups[0].mean,1);await page.locator('#privacy-mode').check();await page.locator('#feedback-export').click();
+  const report=await page.evaluate(()=>window.capturedReport);assert.equal(report.privacyMode,true);assert.equal(report.result.rows[0].othersMean,null);assert.deepEqual(report.result.rows[0].groups,[{role:'manager',count:1,mean:null,suppressed:true}]);assert.equal(report.result.priorities,null);assert.equal(report.result.rows[0].gap,null);assert.equal(report.result.rows[0].dispersion,null);
   assert.deepEqual(errors,[]);
 });
 test('creator credit is displayed in RTL and LTR and repeated on every actual PDF page',{timeout:120000},async t=>{

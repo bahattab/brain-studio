@@ -1033,5 +1033,10 @@
   "Emotional stability describes your reported calmness and emotional reactivity; it is not a diagnosis.": "உணர்ச்சி நிலைத்தன்மை என்பது உங்கள் அறிக்கையிடப்பட்ட அமைதி மற்றும் உணர்ச்சி வினைத்திறனை விவரிக்கிறது; இது ஒரு நோயறிதல் அல்ல.",
   "Extraversion describes your reported preference for social interaction.": "எக்ஸ்ட்ராவர்ஷன் என்பது சமூக தொடர்புக்கான உங்கள் புகாரளிக்கப்பட்ட விருப்பத்தை விவரிக்கிறது.",
   "Intellect and imagination describe curiosity and openness to ideas, not an IQ score.": "அறிவுத்திறனும் கற்பனையும் ஆர்வத்தையும் யோசனைகளுக்கான திறந்த தன்மையையும் விவரிக்கின்றன, IQ மதிப்பெண் அல்ல.",
-  "No activities were selected. These answers do not identify a preferred interest area.": "செயல்பாடுகள் எதுவும் தேர்ந்தெடுக்கப்படவில்லை. இந்த பதில்கள் விருப்பமான ஆர்வத்தை அடையாளம் காணவில்லை."
+  "No activities were selected. These answers do not identify a preferred interest area.": "செயல்பாடுகள் எதுவும் தேர்ந்தெடுக்கப்படவில்லை. இந்த பதில்கள் விருப்பமான ஆர்வத்தை அடையாளம் காணவில்லை.",
+  "I would like this activity": "நான் இந்த செயல்பாட்டை விரும்புகிறேன்",
+  "I would not like this activity": "இந்தச் செயலை நான் விரும்பவில்லை",
+  "These activities remain in original English. Understanding English is required.": "இந்த நடவடிக்கைகள் அசல் ஆங்கிலத்தில் இருக்கும். ஆங்கிலத்தைப் புரிந்துகொள்வது அவசியம்.",
+  "Translated wording is not available for this language. Original English is shown.": "இந்த மொழிக்கு மொழிபெயர்க்கப்பட்ட வார்த்தைகள் கிடைக்கவில்லை. அசல் ஆங்கிலம் காட்டப்பட்டுள்ளது.",
+  "Would you like to do this activity?": "இந்தச் செயலைச் செய்ய விரும்புகிறீர்களா?"
 }

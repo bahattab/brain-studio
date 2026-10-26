@@ -1033,5 +1033,10 @@
   "Emotional stability describes your reported calmness and emotional reactivity; it is not a diagnosis.": "भावनात्मक स्थिरता आपकी रिपोर्ट की गई शांति और भावनात्मक प्रतिक्रिया का वर्णन करती है; यह कोई निदान नहीं है.",
   "Extraversion describes your reported preference for social interaction.": "एक्सट्रोवर्सन सामाजिक संपर्क के लिए आपकी रिपोर्ट की गई प्राथमिकता का वर्णन करता है।",
   "Intellect and imagination describe curiosity and openness to ideas, not an IQ score.": "बुद्धि और कल्पना विचारों के प्रति जिज्ञासा और खुलेपन का वर्णन करती है, IQ स्कोर का नहीं।",
-  "No activities were selected. These answers do not identify a preferred interest area.": "कोई गतिविधि चयनित नहीं की गई. ये उत्तर किसी पसंदीदा रुचि क्षेत्र की पहचान नहीं करते हैं।"
+  "No activities were selected. These answers do not identify a preferred interest area.": "कोई गतिविधि चयनित नहीं की गई. ये उत्तर किसी पसंदीदा रुचि क्षेत्र की पहचान नहीं करते हैं।",
+  "I would like this activity": "मुझे यह गतिविधि पसंद आएगी",
+  "I would not like this activity": "मुझे यह गतिविधि पसंद नहीं आएगी",
+  "These activities remain in original English. Understanding English is required.": "ये गतिविधियां मूल अंग्रेजी में रहती हैं। अंग्रेजी समझना आवश्यक है.",
+  "Translated wording is not available for this language. Original English is shown.": "इस भाषा के लिए अनुवादित शब्द उपलब्ध नहीं हैं. मूल अंग्रेजी दिखाई गई है.",
+  "Would you like to do this activity?": "क्या आप यह गतिविधि करना चाहेंगे?"
 }

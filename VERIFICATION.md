@@ -2,9 +2,11 @@
 
 Verified locally on 2026-10-26:
 
-- 111 unit tests passed, including complementary privacy suppression, duplicate respondent protection, topic grouping, imported storage migration, conflict, failed-write and stale-session checks.
+- 115 unit tests passed, including complementary privacy suppression, duplicate respondent protection, topic grouping, imported storage migration, conflict, failed-write and stale-session checks.
 - Source-first published wording is the default in every interface language. Explicit Arabic translation opt-in remains an unvalidated semantic draft; other published-language translations are unavailable for new presentation. Exports derive original, unvalidated, unreviewed or mixed/unknown status from recorded answer languages.
 - Mobile overflow was reproduced at390px and corrected;48 English/Arabic route/width states passed at390,820 and1280px.
+- The40 platform/browser checks passed in GitHub CI on the same frozen application code; four new reviewer regression tests also pass locally.
+- The populated-page audit passes30 languages and9,750 states with0unresolved candidates after a narrowly tested reviewer-order correction; no source-English allowlists or coverage gates were expanded.
 - New browser checks cover safe JSON/PDF feedback exports with raw-mode negative controls, small-team extrema, scenario presentation, reproducible option ordering, preparation, all-zero O*NET responses and IPIP explanations. Imported-questionnaire checks include actual large downloads and fresh restoration. The full final suite is enforced in CI.
 - All 30 catalogs contain 1,040 entries, with 812 extracted public captions and no missing translations or placeholder failures. A source comparison confirmed165 improved existing Arabic values; coverage checks do not certify linguistic or psychometric equivalence.
 - Windows2.2.3 passed its54-entry payload audit and a native lifecycle across three restarts: actual renderer/preload/main JSON file writes, confirmed deletion, exact identity/answer restoration, independent sessions and a native export above3MB restored successfully. The destination chooser was automated; export IPC and file writes were real.

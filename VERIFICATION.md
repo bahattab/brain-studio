@@ -1,14 +1,14 @@
-# Brain Studio 2.2.1 verification
+# Brain Studio 2.2.2 verification
 
 Verified locally on 2026-10-26:
 
 - 104 unit tests passed, including imported schema, store migration, conflict, failed-write and stale-session checks.
 - All 29 platform/browser groups passed in a serial run; an additional large-export regression passed separately (30 groups in the final suite). The seven imported groups cover all four reproduced issues, legacy attribution, and real browser downloads/restoration.
 - All 30 interface catalogs contain 1,025 entries, with 798 extracted public captions and no missing translations or placeholder failures. New translated captions remain linguistic drafts.
-- The final Windows package passed its 54-entry payload audit and a native lifecycle journey across three restarts: actual renderer/preload/main JSON file writes, confirmed deletion, exact identity/answer restoration, independent respondent sessions, and a real export above 3 MB restored successfully. The save destination chooser was automated; export IPC and filesystem writes were real.
+- The Windows 2.2.1 candidate (same application logic before the 2.2.2 version update and CI-test synchronization fix) passed its 54-entry payload audit and a native lifecycle journey across three restarts: actual renderer/preload/main JSON file writes, confirmed deletion, exact identity/answer restoration, independent respondent sessions, and a real export above 3 MB restored successfully. The save destination chooser was automated; export IPC and filesystem writes were real.
 - Production dependency audit reports zero known vulnerabilities at this check. Private questionnaires and personal source documents remain outside the public repository and packages.
 
-The v2.2.1 release workflow requires the final full suite, populated-page locale audit, five native builds, packaged questionnaire lifecycle, existing native AI/storage checks, and platform installer/runtime checks before staging release assets. Release-host outcomes are available in the repository Actions records and release checksums. This is software verification; it does not validate experimental questionnaire interpretation scientifically.
+The v2.2.2 release workflow requires the final full suite, populated-page locale audit, five native builds, packaged questionnaire lifecycle, existing native AI/storage checks, and platform installer/runtime checks before staging release assets. Release-host outcomes are available in the repository Actions records and release checksums. This is software verification; it does not validate experimental questionnaire interpretation scientifically.
 
 ## Historical 2.2.0 verification
 

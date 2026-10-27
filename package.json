@@ -17,7 +17,7 @@
     "build:linux": "node scripts/build-locales.cjs && electron-builder --linux --publish never"
   },
   "devDependencies": {
-    "@playwright/test": "1.64.0",
+    "@playwright/test": "1.64.1",
     "electron": "44.9.3",
     "electron-builder": "26.15.3"
   },

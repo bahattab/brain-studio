@@ -1,8 +1,12 @@
-# Brain Studio 2.2.5
+# Brain Studio 2.2.6
 
 An assessment, reflection, and development workspace that works offline by default, with a modern multilingual interface. This independent application does not reproduce proprietary questions, commercial scoring, or personal reference reports. Optional desktop bring-your-own-provider AI is implemented; its current verification status is recorded below and in `VERIFICATION.md`.
 
 **License boundary:** application code is MIT-licensed, but this full edition includes OHBDS questionnaire content under CC BY-NC-SA 4.0. The full bundled edition is for noncommercial use. The MIT code grant does not relicense included assessment content. See `docs/content-licenses.md` and the packaged `THIRD-PARTY-NOTICES.txt`.
+
+## 2.2.6 localization verification
+
+Separate localized introduction paragraphs so translation diagnostics recognize each sentence in every language. The release gates exercise all 30 languages across empty and populated pages, individual questions, reports and settings, with document language, direction and overflow checks.
 
 ## 2.2.5 navigation and assessment introductions
 

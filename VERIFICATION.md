@@ -1,4 +1,16 @@
-# Brain Studio 2.2.5 verification
+# Brain Studio 2.2.6 verification
+
+Verified locally on 2026-10-27:
+
+- The exhaustive browser audit passed 9,750 states across all 30 interface languages: empty and populated routes, legacy and professional questions, reports, coaching, role scenarios, team/feedback, grading and AI settings/actions. Missing translation, residual catalog English, desktop overflow, document language/direction, source mutation and renderer-error checks were clear. All 2,108 unique language/text review candidates matched catalog fragments or bounded source/technical exceptions.
+- An additional 900-state mobile/desktop matrix covers all 15 menu pages in all 30 languages at 390px and 1280px. Its first run found narrow skill cards overflowing in 13 languages. The correction stacks cards at narrow widths and wraps long translated headings; the final 900-state run passed with no failures.
+- The imported experimental questionnaire home, question and report workflow passed all 30 interface languages, preserving source-language content separately from interface translations.
+- The packaged Windows 2.2.6 application passed its full native smoke, including all 30 languages, legacy questions/results/help, professional routes, raw scoring, actual PDFs and isolated user storage. This native smoke preceded the final responsive CSS-only correction; the rebuilt final package separately passed the Arabic menu, introduction, all 50 IPIP questions and real JSON export journey. Its 54-entry payload audit also passed.
+- All 30 catalogs contain 1,055 keys. Editorial coverage does not establish native-speaker comprehension or psychometric validation. Arabic IPIP remains an unvalidated adaptation. Historical answers and source-language provenance remain preserved.
+
+The v2.2.6 tag workflow additionally requires the complete regression suite, final-source 9,750-state audit and all five native platform/architecture checks before producing a draft release. Failed candidate v2.2.5 remains tagged, with no public release.
+
+## Retained 2.2.5 local evidence
 
 Verified locally on 2026-10-27:
 

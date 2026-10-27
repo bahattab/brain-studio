@@ -39,3 +39,7 @@ main [data-source-link]{overflow-wrap:anywhere}
 @media(max-width:850px){.sidebar .nav-group summary{padding:8px 3px;font-size:9px;line-height:1.6;gap:2px;text-align:center;overflow-wrap:anywhere}.sidebar .nav-group summary::after{width:4px;height:4px;margin-inline:0}.sidebar .nav-group button{font-size:0;padding:8px;justify-content:center}.sidebar .nav-group .nav-symbol{font-size:20px}.sidebar nav{gap:9px;margin-block-start:20px}.nav-group-title{min-width:0}}
 
 .assessment-preparation{margin-block:0 22px;padding:20px 24px}.assessment-preparation h2{margin-block:0 14px}.assessment-preparation h3{font-size:14px;margin-block:16px 5px}.assessment-preparation p{line-height:1.85;max-width:82ch}.question-wording-control{margin-block:0 20px;padding:16px;background:#f1f7f3;border:1px solid #d4e5dc;border-radius:12px}.question-wording-control p{font-size:12px;line-height:1.8;margin-block:10px 0}
+
+/* Long translated skill-card titles must fit narrow viewports. */
+.info-card h2{overflow-wrap:anywhere}
+@media(max-width:680px){.cards{grid-template-columns:minmax(0,1fr)}}

@@ -42,8 +42,8 @@ test('CI matches native architectures and isolates release permission',()=>{
   const workflow=yaml.load(fs.readFileSync(path.join(root,'.github/workflows/platform-delivery.yml'),'utf8'));
   assert.equal(workflow.permissions.contents,'read');assert.equal(workflow.jobs.release.permissions.contents,'write');
   assert.equal(workflow.jobs.release.environment,'release');assert.deepEqual(workflow.jobs.release.needs,['web','native']);
-  assert.deepEqual(workflow.on.push.tags,['v2.2.5']);
-  assert.match(workflow.jobs.release.if,/refs\/tags\/v2\.2\.5/);
+  assert.deepEqual(workflow.on.push.tags,['v2.2.6']);
+  assert.match(workflow.jobs.release.if,/refs\/tags\/v2\.2\.6/);
   const browserSuite=workflow.jobs.web.steps.find(step=>step.run&&step.run.includes('tests/platform/*.test.cjs'));
   assert.match(browserSuite.run,/--test-concurrency=1/);
   assert.match(require('../../package.json').scripts['test:platform'],/--test-concurrency=1/);
@@ -62,7 +62,7 @@ test('release stage permits precisely the complete target set and checksums',()=
   const input=fs.mkdtempSync(path.join(os.tmpdir(),'brain-release-in-'));
   const output=fs.mkdtempSync(path.join(os.tmpdir(),'brain-release-out-'));
   const suffixes=['win-x64.exe','web.zip',...['x64','arm64'].flatMap(arch=>[`mac-${arch}.dmg`,`mac-${arch}.zip`,`linux-${arch}.AppImage`,`linux-${arch}.deb`])];
-  for(const suffix of suffixes)fs.writeFileSync(path.join(input,'Brain-Studio-2.2.5-'+suffix),'synthetic build fixture '+suffix);
+  for(const suffix of suffixes)fs.writeFileSync(path.join(input,'Brain-Studio-2.2.6-'+suffix),'synthetic build fixture '+suffix);
   const assets=stage(input,output);assert.equal(assets.length,10);
   assert.equal(fs.readdirSync(output).length,11);
   for(const asset of assets)assert.match(asset.sha256,/^[a-f0-9]{64}$/);
@@ -72,12 +72,12 @@ test('actual Linux target aliases become strict release names without changing b
   const {normalize}=require('../../scripts/platform/normalize-assets.cjs');
   const directory=fs.mkdtempSync(path.join(os.tmpdir(),'brain-native-names-'));
   const pairs=[['amd64.deb','x64.deb'],['x86_64.AppImage','x64.AppImage'],['aarch64.AppImage','arm64.AppImage']];
-  for(const [from] of pairs)fs.writeFileSync(path.join(directory,'Brain-Studio-2.2.5-linux-'+from),'native fixture '+from);
+  for(const [from] of pairs)fs.writeFileSync(path.join(directory,'Brain-Studio-2.2.6-linux-'+from),'native fixture '+from);
   fs.writeFileSync(path.join(directory,'unrelated.deb'),'untouched');
   assert.equal(normalize(directory).length,3);
-  for(const [from,to] of pairs)assert.equal(fs.readFileSync(path.join(directory,'Brain-Studio-2.2.5-linux-'+to),'utf8'),'native fixture '+from);
+  for(const [from,to] of pairs)assert.equal(fs.readFileSync(path.join(directory,'Brain-Studio-2.2.6-linux-'+to),'utf8'),'native fixture '+from);
   assert.equal(fs.readFileSync(path.join(directory,'unrelated.deb'),'utf8'),'untouched');
-  fs.writeFileSync(path.join(directory,'Brain-Studio-2.2.5-linux-amd64.deb'),'collision');
+  fs.writeFileSync(path.join(directory,'Brain-Studio-2.2.6-linux-amd64.deb'),'collision');
   assert.throws(()=>normalize(directory),/already exists/);
-  assert.equal(fs.readFileSync(path.join(directory,'Brain-Studio-2.2.5-linux-x64.deb'),'utf8'),'native fixture amd64.deb');
+  assert.equal(fs.readFileSync(path.join(directory,'Brain-Studio-2.2.6-linux-x64.deb'),'utf8'),'native fixture amd64.deb');
 });

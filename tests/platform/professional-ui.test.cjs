@@ -295,7 +295,7 @@ test('menu categories put questionnaires and reports first and retain keyboard-a
  assert.deepEqual(await page.locator('[data-nav-group]').evaluateAll(groups=>groups.map(g=>g.dataset.navGroup)),['questionnaires','reports','analysis','development','general']);
  assert.deepEqual(await page.locator('[data-nav-group="questionnaires"] [data-route]').evaluateAll(buttons=>buttons.map(b=>b.dataset.route)),['imported','library','assessment']);
  assert.deepEqual(await page.locator('[data-nav-group="reports"] [data-route]').evaluateAll(buttons=>buttons.map(b=>b.dataset.route)),['portfolio','workspace','history']);
- const summary=page.locator('[data-nav-group="analysis"] summary');await summary.click();await page.waitForFunction(()=>JSON.parse(localStorage.getItem('brain-studio-menu-groups-v1')).analysis===false);await page.reload();assert.equal(await page.locator('[data-nav-group="analysis"]').getAttribute('open'),null);await summary.focus();await summary.press('Enter');assert.equal(await page.locator('[data-route="ai"]').isVisible(),true);
+ const summary=page.locator('[data-nav-group="analysis"] summary');await summary.click();await page.waitForFunction(()=>JSON.parse(localStorage.getItem('brain-studio-menu-groups-v1')||'{}').analysis===false);await page.reload();assert.equal(await page.locator('[data-nav-group="analysis"]').getAttribute('open'),null);await summary.focus();await summary.press('Enter');assert.equal(await page.locator('[data-route="ai"]').isVisible(),true);
  await summary.click();await page.evaluate(()=>BrainApp.navigate('ai'));assert.equal(await page.locator('[data-route="ai"]').getAttribute('aria-current'),'page');assert.equal(await page.locator('[data-route="ai"]').isVisible(),true);
  const keys=['Questionnaires','Reports and results','Analysis and comparison','Development and skills','General and help'];
  for(const language of await page.evaluate(()=>I18n.languages.map(l=>l.code))){await page.selectOption('#language',language);assert.deepEqual(await page.locator('.nav-group-title').allTextContents(),await page.evaluate(keys=>keys.map(k=>I18n.t(k)),keys));assert.deepEqual(await page.evaluate(()=>[...I18n.missing]),[]);}
@@ -313,4 +313,39 @@ test('all fifty IPIP questions and options appear in Arabic by default and the v
  const {page,errors}=await setup(t);await page.selectOption('#language','ar');await page.locator('[data-route="library"]').click();await page.locator('[data-instrument="ipip-50"]').click();
  for(let index=0;index<50;index++){await page.locator(`[data-prof-question="${index}"]`).click();const expected=await page.evaluate(index=>{const d=ResearchCore.instruments.find(d=>d.id==='ipip-50');return {prompt:I18n.t(d.items[index].prompt),labels:d.responseOptions.map(o=>I18n.t(o.label))}},index);assert.equal(await page.locator('#professional-question').innerText(),expected.prompt);assert.deepEqual(await page.locator('.pro-option span:last-child').allTextContents(),expected.labels);}
  await page.locator('[data-prof-question="0"]').click();await page.locator('#ipip-wording-switch').click();assert.equal(await page.locator('#professional-question').innerText(),R.instruments[0].items[0].prompt);await page.reload();await page.locator('[data-route="library"]').click();await page.locator('[data-instrument="ipip-50"]').click();assert.equal(await page.locator('#professional-question').innerText(),R.instruments[0].items[0].prompt);await page.locator('#ipip-wording-switch').click();await page.locator('[data-prof-value="3"]').click();const draft=await page.evaluate(()=>JSON.parse(localStorage.getItem('brain-studio-workspace-v2')).drafts['ipip-50']);assert.deepEqual(Object.values(draft.answerLanguages),['ar']);assert.deepEqual(errors,[]);
+});
+
+
+test('legacy first-question introduction has separate translated paragraphs in all thirty languages',{timeout:90000},async t=>{
+ const {page,errors}=await setup(t);
+ for(const language of await page.evaluate(()=>I18n.languages.map(l=>l.code))){
+  await page.selectOption('#language',language);await page.evaluate(()=>{I18n.missing.clear();BrainApp.navigate('assessment');document.querySelector('[data-question="0"]').click();});
+  for(const key of ['Explore your balance of structure, analysis, intuition, and imagination.','Reflect on your preference for visual examples and spoken explanations.'])assert((await page.locator('.assessment-preparation p').allTextContents()).includes(await page.evaluate(k=>I18n.t(k),key)),language+': '+key);
+  assert.deepEqual(await page.evaluate(()=>[...I18n.missing]),[],language);
+ }
+ assert.deepEqual(errors,[]);
+});
+
+
+test('every menu page follows selected language and direction on mobile and desktop across thirty locales',{timeout:180000},async t=>{
+ const {page,errors}=await setup(t),states=[];
+ for(const width of [390,1280]){
+  await page.setViewportSize({width,height:900});
+  const batch=await page.evaluate(async()=>{
+   const rows=[],routes=[...document.querySelectorAll('.sidebar [data-route]')].map(e=>e.dataset.route);
+   for(const {code,dir} of I18n.languages){
+    document.querySelector('#language').value=code;document.querySelector('#language').dispatchEvent(new Event('change'));
+    for(const route of routes){
+     I18n.missing.clear();BrainApp.navigate(route);document.querySelectorAll('details').forEach(d=>d.open=true);await new Promise(r=>setTimeout(r,0));
+     const english=[],walker=document.createTreeWalker(document.getElementById('content'),NodeFilter.SHOW_TEXT);let n;
+     while(n=walker.nextNode()){const text=n.textContent.trim();if(code!=='en'&&n.parentElement.getClientRects().length&&!n.parentElement.closest('[data-i18n-skip]')&&Object.hasOwn(BRAIN_TRANSLATIONS.en,text)&&BRAIN_TRANSLATIONS[code][text]!==text)english.push(text);}
+     rows.push({width:innerWidth,language:code,route,lang:document.documentElement.lang,dir:document.documentElement.dir,expectedDir:dir,missing:[...I18n.missing],english,overflow:document.documentElement.scrollWidth>innerWidth+1,hasContent:!!document.getElementById('content').innerText.trim()});
+    }
+   }
+   return rows;
+  });states.push(...batch);
+ }
+ const failures=states.filter(s=>s.lang!==s.language||s.dir!==s.expectedDir||s.missing.length||s.english.length||s.overflow||!s.hasContent);
+ fs.mkdirSync(path.join(root,'dist/platform-evidence'),{recursive:true});fs.writeFileSync(path.join(root,'dist/platform-evidence/menu-page-language-matrix.json'),JSON.stringify({passed:!failures.length,states:states.length,languages:30,widths:[390,1280],failures},null,2));
+ assert.equal(states.length,900);assert.deepEqual(failures,[]);assert.deepEqual(errors,[]);
 });

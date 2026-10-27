@@ -146,7 +146,7 @@ async function runSmoke(errors){
     await assert(`document.documentElement.scrollWidth<=innerWidth`,'Compact language overflow: '+language);
     if(language==='ar')await shot('06-arabic-overview.png');
     win.setSize(1280,880);
-    await assert(`I18n.missing.size===0`,'Missing translations: '+language);
+    await assert(`I18n.missing.size===0`,'Missing translations: '+language+' '+await js('JSON.stringify([...I18n.missing])'));
     localeChecks.push({language,dir:['ar','ur','fa','he'].includes(language)?'rtl':'ltr',questions:20,home:true,results:true,help:true,compact:true});
     await js(`document.querySelector('[data-route="assessment"]').click();document.querySelector('[data-question="19"]').click();document.querySelector('#next').click();`);
   }

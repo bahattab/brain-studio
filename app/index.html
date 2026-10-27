@@ -13,21 +13,46 @@
     <a class="brand" href="#home"><span class="brand-icon">b.</span><span>brain<span class="brand-light">studio</span></span></a>
     <div class="workspace-label">YOUR PERSONAL SPACE</div>
     <nav aria-label="Overview">
-      <button data-route="library"><span class="nav-symbol">◉</span> Assessment library</button>
-      <button data-route="portfolio"><span class="nav-symbol">▥</span> Individual report</button>
-      <button data-route="roles"><span class="nav-symbol">◇</span> Role scenarios</button>
-      <button data-route="coaching"><span class="nav-symbol">◌</span> Coaching and interview</button>
-      <button data-route="development"><span class="nav-symbol">✓</span> Development plan</button>
-      <button data-route="team"><span class="nav-symbol">⋈</span> Team comparison</button>
-      <button data-route="feedback"><span class="nav-symbol">◐</span> Multi-rater feedback</button>
-      <button data-route="skills"><span class="nav-symbol">▧</span> Skills and topics</button>
-      <button data-route="ai"><span class="nav-symbol">✧</span> AI analysis</button>
-      <button data-route="workspace"><span class="nav-symbol">▤</span> Report collection</button>
-      <button data-route="home"><span class="nav-symbol">◈</span> Overview</button>
-      <button data-route="assessment"><span class="nav-symbol">◎</span> Your assessment</button>
-      <button data-route="history"><span class="nav-symbol">▤</span> Saved profiles <span id="history-count" class="count">0</span></button>
-      <button data-route="about"><span class="nav-symbol">ⓘ</span> How it works</button>
-      <button data-route="imported"><span>▤</span> Imported questionnaires</button>
+      <details class="nav-group" data-nav-group="questionnaires" open>
+        <summary title="Questionnaires"><span class="nav-group-title">Questionnaires</span></summary>
+        <div class="nav-group-links">
+          <button data-route="imported"><span class="nav-symbol">▤</span> Imported questionnaires</button>
+          <button data-route="library"><span class="nav-symbol">◉</span> Assessment library</button>
+          <button data-route="assessment"><span class="nav-symbol">◎</span> Your assessment</button>
+        </div>
+      </details>
+      <details class="nav-group" data-nav-group="reports" open>
+        <summary title="Reports and results"><span class="nav-group-title">Reports and results</span></summary>
+        <div class="nav-group-links">
+          <button data-route="portfolio"><span class="nav-symbol">▥</span> Individual report</button>
+          <button data-route="workspace"><span class="nav-symbol">▤</span> Report collection</button>
+          <button data-route="history"><span class="nav-symbol">▤</span> Saved profiles <span id="history-count" class="count">0</span></button>
+        </div>
+      </details>
+      <details class="nav-group" data-nav-group="analysis" open>
+        <summary title="Analysis and comparison"><span class="nav-group-title">Analysis and comparison</span></summary>
+        <div class="nav-group-links">
+          <button data-route="ai"><span class="nav-symbol">✧</span> AI analysis</button>
+          <button data-route="team"><span class="nav-symbol">⋈</span> Team comparison</button>
+          <button data-route="feedback"><span class="nav-symbol">◐</span> Multi-rater feedback</button>
+          <button data-route="roles"><span class="nav-symbol">◇</span> Role scenarios</button>
+        </div>
+      </details>
+      <details class="nav-group" data-nav-group="development" open>
+        <summary title="Development and skills"><span class="nav-group-title">Development and skills</span></summary>
+        <div class="nav-group-links">
+          <button data-route="development"><span class="nav-symbol">✓</span> Development plan</button>
+          <button data-route="coaching"><span class="nav-symbol">◌</span> Coaching and interview</button>
+          <button data-route="skills"><span class="nav-symbol">▧</span> Skills and topics</button>
+        </div>
+      </details>
+      <details class="nav-group" data-nav-group="general" open>
+        <summary title="General and help"><span class="nav-group-title">General and help</span></summary>
+        <div class="nav-group-links">
+          <button data-route="home"><span class="nav-symbol">◈</span> Overview</button>
+          <button data-route="about"><span class="nav-symbol">ⓘ</span> How it works</button>
+        </div>
+      </details>
     </nav>
     <div class="sidebar-bottom"><span class="status-dot"></span> Offline assessments<p>Optional AI sends only the data you approve.</p><small>Brain Studio · 2.2</small></div>
   </aside>

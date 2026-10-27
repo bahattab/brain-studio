@@ -1038,5 +1038,20 @@
   "I would not like this activity": "ฉันไม่ชอบกิจกรรมนี้",
   "These activities remain in original English. Understanding English is required.": "กิจกรรมเหล่านี้ยังคงเป็นภาษาอังกฤษต้นฉบับ จำเป็นต้องมีความเข้าใจภาษาอังกฤษ",
   "Translated wording is not available for this language. Original English is shown.": "ไม่มีข้อความที่แปลแล้วสำหรับภาษานี้ มีการแสดงภาษาอังกฤษต้นฉบับ",
-  "Would you like to do this activity?": "คุณต้องการทำกิจกรรมนี้หรือไม่?"
+  "Would you like to do this activity?": "คุณต้องการทำกิจกรรมนี้หรือไม่?",
+  "Questionnaires": "แบบสอบถาม",
+  "Reports and results": "รายงานและผลลัพธ์",
+  "Analysis and comparison": "การวิเคราะห์และเปรียบเทียบ",
+  "Development and skills": "การพัฒนาและทักษะ",
+  "General and help": "ทั่วไปและความช่วยเหลือ",
+  "What you will explore": "คุณจะสำรวจอะไร",
+  "How it can help you": "สิ่งนี้ช่วยคุณได้อย่างไร",
+  "Your report": "รายงานของคุณ",
+  "How to answer": "วิธีตอบ",
+  "Use your result to reflect on these topics and choose one practical step to try.": "ใช้ผลลัพธ์ของคุณทบทวนหัวข้อเหล่านี้และเลือกขั้นตอนที่ทำได้จริงหนึ่งอย่างเพื่อลองทำ",
+  "Use your interests to choose activities to explore; this is not a job recommendation.": "ใช้ความสนใจของคุณเลือกกิจกรรมที่อยากสำรวจ นี่ไม่ใช่คำแนะนำให้เลือกงานใดงานหนึ่ง",
+  "Review the answers and explanations to choose what to practice next.": "ทบทวนคำตอบและคำอธิบายเพื่อเลือกสิ่งที่จะฝึกต่อไป",
+  "Choose the correct answer.": "เลือกคำตอบที่ถูกต้อง",
+  "Show questions in Arabic": "แสดงคำถามเป็นภาษาอาหรับ",
+  "Review your recorded answers alongside the scoring method supplied with this questionnaire.": "ทบทวนคำตอบที่บันทึกไว้ควบคู่กับวิธีคำนวณคะแนนที่มาพร้อมแบบสอบถามนี้"
 }

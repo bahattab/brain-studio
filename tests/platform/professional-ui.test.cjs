@@ -64,12 +64,12 @@ test('explicit published English wording stays unchanged across interface langua
   }
   assert.deepEqual(errors,[]);
 });
-test('new drafts preserve source English; explicit Arabic wording and existing answers retain provenance',{timeout:120000},async t=>{
+test('new Arabic IPIP drafts use Arabic while explicit source wording and existing answers retain provenance',{timeout:120000},async t=>{
   const {page,errors}=await setup(t);
   await page.selectOption('#language','ar');
   for(const id of ['ipip-50','ohbds-20-v1']){
     await page.locator('[data-route="library"]').click();await page.locator(`[data-instrument="${id}"]`).click();
-    assert.equal(await page.locator('#original-english').isChecked(),true,id+': new Arabic draft starts with source English');await page.locator('#original-english').uncheck();
+    assert.equal(await page.locator('#original-english').isChecked(),id!=='ipip-50',id+': language default');await page.locator('#original-english').uncheck();
     const source=await page.evaluate(id=>[...ResearchCore.instruments,...ThinkingCore.instruments].find(d=>d.id===id).items[0].prompt,id);
     assert.notEqual(await page.locator('#professional-question').innerText(),source);
     await page.locator('[data-prof-value="3"]').click();
@@ -287,4 +287,30 @@ test('visible validation toast follows the interface language without retaining 
     assert.equal(await page.locator('#toast').evaluate(node=>node.classList.contains('visible')),true);
   }
   assert.deepEqual(errors,[]);
+});
+
+
+test('menu categories put questionnaires and reports first and retain keyboard-accessible collapse choices',{timeout:90000},async t=>{
+ const {page,errors}=await setup(t);
+ assert.deepEqual(await page.locator('[data-nav-group]').evaluateAll(groups=>groups.map(g=>g.dataset.navGroup)),['questionnaires','reports','analysis','development','general']);
+ assert.deepEqual(await page.locator('[data-nav-group="questionnaires"] [data-route]').evaluateAll(buttons=>buttons.map(b=>b.dataset.route)),['imported','library','assessment']);
+ assert.deepEqual(await page.locator('[data-nav-group="reports"] [data-route]').evaluateAll(buttons=>buttons.map(b=>b.dataset.route)),['portfolio','workspace','history']);
+ const summary=page.locator('[data-nav-group="analysis"] summary');await summary.click();await page.waitForFunction(()=>JSON.parse(localStorage.getItem('brain-studio-menu-groups-v1')).analysis===false);await page.reload();assert.equal(await page.locator('[data-nav-group="analysis"]').getAttribute('open'),null);await summary.focus();await summary.press('Enter');assert.equal(await page.locator('[data-route="ai"]').isVisible(),true);
+ await summary.click();await page.evaluate(()=>BrainApp.navigate('ai'));assert.equal(await page.locator('[data-route="ai"]').getAttribute('aria-current'),'page');assert.equal(await page.locator('[data-route="ai"]').isVisible(),true);
+ const keys=['Questionnaires','Reports and results','Analysis and comparison','Development and skills','General and help'];
+ for(const language of await page.evaluate(()=>I18n.languages.map(l=>l.code))){await page.selectOption('#language',language);assert.deepEqual(await page.locator('.nav-group-title').allTextContents(),await page.evaluate(keys=>keys.map(k=>I18n.t(k)),keys));assert.deepEqual(await page.evaluate(()=>[...I18n.missing]),[]);}
+ for(const width of [390,1280]){await page.setViewportSize({width,height:900});for(const language of ['ar','en']){await page.selectOption('#language',language);assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1),false);}}
+ assert.deepEqual(errors,[]);
+});
+
+test('every library questionnaire begins with its purpose, benefit, answer guidance and report topics',{timeout:120000},async t=>{
+ const {page,errors}=await setup(t);await page.selectOption('#language','ar');const ids=await page.evaluate(()=>[...ResearchCore.instruments,...WorkspaceCore.instruments,...ThinkingCore.instruments].map(d=>d.id));
+ for(const id of ids){await page.locator('[data-route="library"]').click();await page.locator(`[data-instrument="${id}"]`).click();const text=await page.locator('.assessment-preparation').innerText();for(const key of ['What you will explore','How it can help you','How to answer','Your report'])assert(text.includes(await page.evaluate(k=>I18n.t(k),key)),id+': '+key);const expected=await page.evaluate(id=>{const d=[...ResearchCore.instruments,...WorkspaceCore.instruments,...ThinkingCore.instruments].find(d=>d.id===id);return {description:I18n.t(d.description),scales:d.scales.map(s=>I18n.t(s.title))}},id);assert(text.includes(expected.description));for(const name of expected.scales)assert(text.includes(name));}
+ await page.locator('[data-route="assessment"]').click();assert.equal(await page.locator('.assessment-preparation').isVisible(),true);assert.deepEqual(errors,[]);
+});
+
+test('all fifty IPIP questions and options appear in Arabic by default and the visible source switch persists',{timeout:120000},async t=>{
+ const {page,errors}=await setup(t);await page.selectOption('#language','ar');await page.locator('[data-route="library"]').click();await page.locator('[data-instrument="ipip-50"]').click();
+ for(let index=0;index<50;index++){await page.locator(`[data-prof-question="${index}"]`).click();const expected=await page.evaluate(index=>{const d=ResearchCore.instruments.find(d=>d.id==='ipip-50');return {prompt:I18n.t(d.items[index].prompt),labels:d.responseOptions.map(o=>I18n.t(o.label))}},index);assert.equal(await page.locator('#professional-question').innerText(),expected.prompt);assert.deepEqual(await page.locator('.pro-option span:last-child').allTextContents(),expected.labels);}
+ await page.locator('[data-prof-question="0"]').click();await page.locator('#ipip-wording-switch').click();assert.equal(await page.locator('#professional-question').innerText(),R.instruments[0].items[0].prompt);await page.reload();await page.locator('[data-route="library"]').click();await page.locator('[data-instrument="ipip-50"]').click();assert.equal(await page.locator('#professional-question').innerText(),R.instruments[0].items[0].prompt);await page.locator('#ipip-wording-switch').click();await page.locator('[data-prof-value="3"]').click();const draft=await page.evaluate(()=>JSON.parse(localStorage.getItem('brain-studio-workspace-v2')).drafts['ipip-50']);assert.deepEqual(Object.values(draft.answerLanguages),['ar']);assert.deepEqual(errors,[]);
 });

@@ -1038,5 +1038,20 @@
   "I would not like this activity": "لا أرغب في هذا النشاط",
   "These activities remain in original English. Understanding English is required.": "تبقى هذه الأنشطة بالإنجليزية الأصلية، وتتطلب فهم اللغة الإنجليزية.",
   "Translated wording is not available for this language. Original English is shown.": "صياغة الأسئلة المترجمة غير متاحة لهذه اللغة؛ تُعرض الصياغة الإنجليزية الأصلية.",
-  "Would you like to do this activity?": "هل ترغب في ممارسة هذا النشاط؟"
+  "Would you like to do this activity?": "هل ترغب في ممارسة هذا النشاط؟",
+  "Questionnaires": "الاستبانات والاختبارات",
+  "Reports and results": "التقارير والنتائج",
+  "Analysis and comparison": "التحليل والمقارنة",
+  "Development and skills": "التطوير والمهارات",
+  "General and help": "عام ومساعدة",
+  "What you will explore": "ما الذي تستكشفه؟",
+  "How it can help you": "كيف تفيدك هذه الاستبانة؟",
+  "Your report": "تقريرك",
+  "How to answer": "طريقة الإجابة",
+  "Use your result to reflect on these topics and choose one practical step to try.": "استعن بالنتيجة للتفكير في هذه الجوانب، ثم اختر خطوة عملية واحدة لتجربتها.",
+  "Use your interests to choose activities to explore; this is not a job recommendation.": "استعن باهتماماتك لاختيار أنشطة تود استكشافها؛ هذه ليست توصية بوظيفة معينة.",
+  "Review the answers and explanations to choose what to practice next.": "راجع الإجابات وشروحها لتختار ما تتدرّب عليه لاحقًا.",
+  "Choose the correct answer.": "اختر الإجابة الصحيحة.",
+  "Show questions in Arabic": "عرض الأسئلة بالعربية",
+  "Review your recorded answers alongside the scoring method supplied with this questionnaire.": "راجع إجاباتك المسجّلة إلى جانب طريقة احتساب النتائج المرفقة بهذه الاستبانة."
 }

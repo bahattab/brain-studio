@@ -1,4 +1,16 @@
-# Brain Studio 2.2.4 verification
+# Brain Studio 2.2.5 verification
+
+Verified locally on 2026-10-27:
+
+- Five focused browser checks cover ordered collapsible menu categories, keyboard access, persistence, responsive English/Arabic navigation, explanatory beginnings for all seven library instruments and the legacy reflection, all50ArabicIPIPquestions/options, explicit source switching, and historical answer-language preservation.
+- The imported experimental multiple-choice journey passes its content-scoped scoring-key review and all30interface languages. The report selector is scoped to main content because navigation categories also use native details elements.
+- The packaged Windows application passed the Arabic menu/introduction/IPIP journey across50questions and a real renderer-to-main-process JSON export. Recorded answer languages are Arabic, raw scores are unchanged, and the export declares unvalidated translation status. Test respondents were synthetic; only the save destination chooser was automated.
+- All30catalogs include1055keys. Interface editorial coverage is not native-speaker or psychometric certification. Original published instructions and scoring keys remain unchanged; only new unanswered Arabic IPIP drafts follow Arabic by default, while explicit choices and answered historical drafts retain their provenance.
+
+The complete regression suite and populated-page audit remain required in the v2.2.5 CI workflow, together with all five native builds and runtime gates. Consult completed Actions records for final release-host outcomes.
+
+## Retained 2.2.4 evidence
+
 
 Verified locally on 2026-10-27:
 

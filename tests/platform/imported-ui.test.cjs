@@ -70,7 +70,7 @@ test('experimental multiple responses require three selections, retain zero scor
  for(const choice of [1,2,3])assert.equal(await page.locator(`[data-imported-choice="${choice}"]`).getAttribute('aria-pressed'),'true');
  await page.locator('#imported-next').click();await page.locator('[data-imported-choice="1"]').click();await page.locator('#imported-result').click();
  const complete=await captureExport(page);assert.equal(complete.result.experimental,true);assert.equal(complete.result.complete,true);assert.equal(complete.result.groups[0].sum,0);assert.equal(complete.result.groups[0].mean,0);assert.equal(complete.result.groups[0].count,2);assert.equal(complete.result.reviews.length,2);assert(complete.result.reviews.every(r=>r.value===0));assert.deepEqual(complete.answers,{'multi-item':['v1','v2','v3'],'item-1':'no'});
- await page.locator('details').first().evaluate(node=>node.open=true);assert((await page.locator('details').first().innerText()).includes(pkg.scoring.keys[0].rationale));assert((await page.locator('details').first().innerText()).includes(pkg.scoring.keys[1].rationale));
+ await page.locator('#content details').first().evaluate(node=>node.open=true);assert((await page.locator('#content details').first().innerText()).includes(pkg.scoring.keys[0].rationale));assert((await page.locator('#content details').first().innerText()).includes(pkg.scoring.keys[1].rationale));
  for(const language of await page.evaluate(()=>I18n.languages.map(l=>l.code))){
    await page.evaluate(()=>I18n.missing.clear());await page.selectOption('#language',language);
    assert.equal(await page.locator('html').getAttribute('dir'),['ar','fa','he','ur'].includes(language)?'rtl':'ltr');

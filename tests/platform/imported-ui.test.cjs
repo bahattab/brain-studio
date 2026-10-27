@@ -126,3 +126,20 @@ test('large accepted experimental package exports above two megabytes and restor
  await page.evaluate(()=>{localStorage.removeItem(ImportedStore.KEY);localStorage.removeItem(ImportedStore.LEGACY_KEY);});await page.reload();await page.locator('[data-route="imported"]').click();await page.locator('#questionnaire-file').setInputFiles({name:'synthetic-large-answers.json',mimeType:'application/json',buffer:bytes});await page.locator('#imported-export').waitFor();
  const restored=await captureExport(page);assert.deepEqual(restored.session,payload.session);assert.deepEqual(restored.answers,{'item-0':'yes'});assert.deepEqual(restored.result,C.score(pkg,restored.answers));assert.equal(restored.result.reviews.length,160);assert.deepEqual(errors,[]);
 });
+
+// Imported questionnaires have four navigation actions, unlike the short standard quiz.
+test('imported question navigation wraps within narrow Arabic and English layouts',{timeout:90000},async t=>{
+ const {page,errors}=await setup(t),pkg=fixture();
+ await page.locator('[data-route="imported"]').click();await upload(page,pkg);
+ for(const width of [320,390,600]){
+  await page.setViewportSize({width,height:844});
+  for(const language of ['ar','en']){
+   await page.selectOption('#language',language);
+   assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>document.documentElement.clientWidth+1),false,language+': '+width+'px overflow');
+   const bounds=await page.locator('.quiz-actions').evaluate(row=>({left:row.getBoundingClientRect().left,right:row.getBoundingClientRect().right,children:[...row.children].map(c=>({left:c.getBoundingClientRect().left,right:c.getBoundingClientRect().right}))}));
+   assert(bounds.children.every(c=>c.left>=bounds.left-1&&c.right<=bounds.right+1),language+': actions remain inside their panel');
+   await page.locator('#imported-next').click();assert.equal(await page.locator('#imported-prompt').innerText(),pkg.sections[0].items[1].prompt);await page.locator('#imported-prev').click();
+  }
+ }
+ assert.deepEqual(errors,[]);
+});

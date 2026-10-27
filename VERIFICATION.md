@@ -1,4 +1,15 @@
-# Brain Studio 2.2.3 verification
+# Brain Studio 2.2.4 verification
+
+Verified locally on 2026-10-27:
+
+- All156 unit and platform/browser tests passed with zero failures or skipped tests. This includes the new narrow imported-questionnaire regression in Arabic and English at320,390 and600px, checking every navigation button remains inside its panel.
+- The Windows package was rebuilt and its54-entry payload audit passed. Separately supplied private draft packages were exercised across147 actual question screens, JSON export and restoration through renderer/preload/main/filesystem, independent respondent sessions, distinct original/adapted identities and actual PDF creation. Test respondents were synthetic, and only the save destination chooser was automated.
+- The application change is navigation flex wrapping. Private wording adaptations and experimental keys are outside the public repository, installer and release payload. Content review and functional tests do not establish ordinary-user comprehension or psychometric validation.
+
+The v2.2.4 tag workflow requires the full suite, populated-page audit, all five native builds and their existing runtime/install/AI/storage gates before drafting release assets. Consult its completed Actions run for release-host results; local checks alone are not a claim that every release host passed.
+
+## Retained 2.2.3 evidence
+
 
 Verified locally on 2026-10-26:
 

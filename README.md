@@ -1,8 +1,12 @@
-# Brain Studio 2.2.3
+# Brain Studio 2.2.4
 
 An assessment, reflection, and development workspace that works offline by default, with a modern multilingual interface. This independent application does not reproduce proprietary questions, commercial scoring, or personal reference reports. Optional desktop bring-your-own-provider AI is implemented; its current verification status is recorded below and in `VERIFICATION.md`.
 
 **License boundary:** application code is MIT-licensed, but this full edition includes OHBDS questionnaire content under CC BY-NC-SA 4.0. The full bundled edition is for noncommercial use. The MIT code grant does not relicense included assessment content. See `docs/content-licenses.md` and the packaged `THIRD-PARTY-NOTICES.txt`.
+
+## 2.2.4 mobile questionnaire navigation
+
+Imported-questionnaire navigation wraps within narrow screens, including Arabic and English controls. Private questionnaire content adaptations are delivered separately and retain draft status pending actual participant comprehension testing and psychometric research.
 
 ## 2.2.3 remediation
 

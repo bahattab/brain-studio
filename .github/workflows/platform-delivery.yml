@@ -3,7 +3,7 @@ on:
   pull_request:
   push:
     branches: [main]
-    tags: ['v2.2.3']
+    tags: ['v2.2.4']
   workflow_dispatch:
 permissions:
   contents: read
@@ -39,12 +39,12 @@ jobs:
           if-no-files-found: warn
           retention-days: 14
       - run: node scripts/platform/build-web.cjs
-      - run: zip -r ../Brain-Studio-2.2.3-web.zip .
+      - run: zip -r ../Brain-Studio-2.2.4-web.zip .
         working-directory: dist/web
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: release-web
-          path: dist/Brain-Studio-2.2.3-web.zip
+          path: dist/Brain-Studio-2.2.4-web.zip
           if-no-files-found: error
           retention-days: 14
   native:
@@ -79,7 +79,7 @@ jobs:
       - name: Verify release identity and pinned builder
         shell: bash
         run: |
-          node -e "const p=require('./package.json'); if(p.version!=='2.2.3') throw Error('Expected v2.2.3'); if(require('electron-builder/package.json').version!=='26.15.3') throw Error('Builder version mismatch')"
+          node -e "const p=require('./package.json'); if(p.version!=='2.2.4') throw Error('Expected v2.2.4'); if(require('electron-builder/package.json').version!=='26.15.3') throw Error('Builder version mismatch')"
       - run: node scripts/build-locales.cjs
       - run: node scripts/platform/build-icons.cjs
       - run: node --test --test-concurrency=1 tests/*.test.js tests/platform/config.test.cjs
@@ -134,7 +134,7 @@ jobs:
           retention-days: 14
   release:
     needs: [web, native]
-    if: github.event_name == 'push' && github.ref == 'refs/tags/v2.2.3'
+    if: github.event_name == 'push' && github.ref == 'refs/tags/v2.2.4'
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     environment: release
@@ -153,4 +153,4 @@ jobs:
       - name: Create reviewable release with approved assets only
         env:
           GH_TOKEN: ${{ github.token }}
-        run: gh release create v2.2.3 release-assets/* --draft --verify-tag --title 'Brain Studio 2.2.3' --notes-file docs/platform-delivery.md
+        run: gh release create v2.2.4 release-assets/* --draft --verify-tag --title 'Brain Studio 2.2.4' --notes-file docs/platform-delivery.md

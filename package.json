@@ -19,7 +19,7 @@
   "devDependencies": {
     "@playwright/test": "1.64.0",
     "electron": "44.9.3",
-    "electron-builder": "26.15.3"
+    "electron-builder": "26.18.0"
   },
   "license": "MIT",
   "author": "Brain Studio contributors"
